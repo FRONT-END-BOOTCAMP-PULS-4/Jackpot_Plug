@@ -1,0 +1,84 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.edit_item_container {
+  padding: 20px;
+  padding-bottom: 0;
+  border-radius: 10px;
+  transition: all 0.3s;
+  &:hover {
+    background: rgba($color: #fff, $alpha: 0.1);
+  }
+  .inner_container {
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include border-bottom;
+    .container_leftside {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      .album_img {
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .desc_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+
+        .title {
+          font-size: rem(20);
+        }
+
+        .artist {
+          font-size: rem(14);
+          color: #bcbcbc;
+        }
+      }
+    }
+
+    .container_rightside {
+      .expand_button {
+        padding: 4px;
+        @include icon(
+          $width: 24,
+          $height: 24,
+          $url: "/assets/icons/expand-icon.svg",
+          $size: cover
+        );
+      }
+      .collapse_button {
+        padding: 4px;
+        @include icon(
+          $width: 24,
+          $height: 24,
+          $url: "/assets/icons/collapse-icon.svg",
+          $size: cover
+        );
+      }
+    }
+  }
+}
+
+.extract_item_container {
+  @extend .edit_item_container;
+  .desc_container {
+    .artist {
+      display: none;
+    }
+  }
+  .album_img {
+    display: none;
+  }
+}
+
+.songs_item_container {
+  @extend .edit_item_container;
+  .container_rightside {
+    display: none;
+  }
+}

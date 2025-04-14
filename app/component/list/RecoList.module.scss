@@ -1,0 +1,6 @@
+.reco_list_container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 40px;
+  row-gap: 0;
+}

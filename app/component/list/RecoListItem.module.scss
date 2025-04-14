@@ -1,0 +1,68 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.reco_item_container {
+  padding: 20px;
+  padding-bottom: 0;
+  border-radius: 10px;
+  transition: all 0.3s;
+  &:hover {
+    background: rgba($color: #fff, $alpha: 0.1);
+  }
+
+  &:nth-child(1) .inner_container {
+    @include border-bottom;
+  }
+  
+  &:nth-child(2) .inner_container {
+    @include border-bottom;
+  }
+
+  .inner_container {
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .container_leftside {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+
+      .search_button {
+        @include icon(
+          $width: 30,
+          $height: 30,
+          $url: "/assets/icons/reco-search-icon.svg",
+          $size: cover
+        );
+      }
+
+      .album_img {
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .desc_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+
+        .title {
+          text-overflow: ellipsis;
+          font-size: rem(16);
+        }
+
+        .artist {
+          font-size: rem(12);
+          color: #bcbcbc;
+        }
+      }
+    }
+
+    .container_rightside {
+      font-size: rem(14);
+    }
+  }
+}
