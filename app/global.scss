@@ -43,3 +43,19 @@ button {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
 }
+
+.root_layout {
+  display: flex;
+}
+
+.not_found_layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 100vh;
+  padding: 57px;
+  background-image: url("../public/assets/images/not-found.svg");
+  background-size: contain;
+  background-position: left 35% top 0;
+  background-repeat: no-repeat;
+}
