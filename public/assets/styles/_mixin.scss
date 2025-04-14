@@ -1,0 +1,44 @@
+// mixin
+@mixin border-style($weight: 1px, $type: solid, $color: #f00) {
+  border: $weight $type $color;
+}
+
+@mixin border-bottom($weight: 1px, $type: solid, $color: $color-o-w3) {
+  border-bottom: $weight $type $color;
+}
+
+@mixin flex($justify: center, $align: center, $gap: 0, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+  flex-direction: $direction;
+}
+
+@mixin icon($width: 40px, $height: 40px, $url, $size: 28px) {
+  width: $width;
+  height: $height;
+  background: {
+    image: url($url);
+    size: $size;
+    repeat: no-repeat;
+    position: center;
+  }
+}
+
+@mixin before {
+  content: "";
+  @include icon;
+}
+
+@mixin position($top: 50%, $left: 50%, $transform: translate(-50%, -50%)) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  transform: $transform;
+}
+
+@mixin hover-filter {
+  filter: brightness(0.7);
+  transition: filter ease-in 0.3s;
+}

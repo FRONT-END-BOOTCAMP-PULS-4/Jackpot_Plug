@@ -1,0 +1,26 @@
+// font functions
+@function rem($px) {
+  @return ($px / 16) * 1rem;
+}
+
+// colors
+$color-black: #222222;
+$color-white: #ffffff;
+$color-lightgray: #aaaaaa;
+$color-darkgray: #87879f;
+$color-primary: linear-gradient(115deg, #231b4a, #060614);
+$color-accent: linear-gradient(90deg, #8307ff, #5500df);
+$color-purple: #8006fd;
+$color-red: #ff2121;
+
+$color-o-w1: rgba(255, 255, 255, 0.1);
+$color-o-w3: rgba(255, 255, 255, 0.3);
+$color-o-w5: rgba(255, 255, 255, 0.5);
+$color-o-w7: rgba(255, 255, 255, 0.7);
+
+// font weights
+$font-light: 300;
+$font-regular: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
