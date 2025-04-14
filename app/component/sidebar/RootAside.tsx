@@ -29,7 +29,7 @@ const RootAside: React.FC = () => {
           </li>
           <li>
             <Link
-              href="/user"
+              href="/mypage"
               className={`${styles.icon} ${styles.user}`}
             ></Link>
           </li>
