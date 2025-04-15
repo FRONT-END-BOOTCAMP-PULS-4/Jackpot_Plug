@@ -10,6 +10,7 @@ export default function Home() {
       </div>
       <div>
         <ProfileImgBtn />
+        <ProfileImgBtn image="/assets/icons/user.svg" />
       </div>
       <div>
         <RoundBtn text="로그인" size="lg" color="accent" />

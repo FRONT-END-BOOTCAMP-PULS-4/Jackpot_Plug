@@ -84,6 +84,17 @@
     @include before(40px, 40px, "/assets/icons/profile.svg", 40px 40px);
     @include position();
   }
+
+  /* 이미지가 제공된 경우 */
+  &.profileImgBtn_withImage {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &:before {
+      content: none;
+    }
+  }
 }
 
 /* IconBtn */

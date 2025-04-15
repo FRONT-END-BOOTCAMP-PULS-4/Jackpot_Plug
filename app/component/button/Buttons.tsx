@@ -23,15 +23,21 @@ export function RoundBtn({ text, size, color, onClick }: RoundBtnProps) {
 
 /* ProfileImgBtn 컴포넌트 */
 interface ProfileImgBtnProps {
+  image?: string;
   onClick?: () => void;
 }
 
-export function ProfileImgBtn({ onClick }: ProfileImgBtnProps) {
+export function ProfileImgBtn({ image, onClick }: ProfileImgBtnProps) {
+  const className = `${styles.profileImgBtn} ${
+    image ? styles.profileImgBtn_withImage : ""
+  }`;
+
   return (
     <button
       type="button"
-      className={styles.profileImgBtn}
+      className={className}
       onClick={onClick}
+      style={image ? { backgroundImage: `url(${image})` } : undefined}
     ></button>
   );
 }
