@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import styles from "./RootAside.module.scss";
 
-const RootAside: React.FC = () => {
+export default function RootAside() {
   return (
     <aside className={styles.root_aside}>
       <h1>
@@ -37,6 +37,4 @@ const RootAside: React.FC = () => {
       </nav>
     </aside>
   );
-};
-
-export default RootAside;
+}
