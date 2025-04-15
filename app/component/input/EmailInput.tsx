@@ -26,7 +26,11 @@ export default function EmailInput({
   };
 
   const handleAuthCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAuthCode(e.target.value);
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value) && value.length <= 6) {
+      setAuthCode(value);
+    }
   };
 
   const handleAuthCodeClick = () => {
