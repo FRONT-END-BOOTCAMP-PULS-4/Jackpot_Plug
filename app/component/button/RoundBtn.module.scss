@@ -1,0 +1,79 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.round_btn {
+  position: relative;
+  border: none;
+}
+
+.login_round_btn {
+  @extend .round_btn;
+
+  border-radius: 50px;
+  background: $color-accent;
+  font-weight: $font-regular;
+  font-size: rem(18);
+
+  &:hover {
+    @include hover-filter();
+  }
+}
+
+.delete_round_btn {
+  @extend .round_btn;
+
+  border-radius: 50px;
+  background: $color-accent;
+  font-weight: $font-regular;
+  font-size: rem(16);
+
+  &:hover {
+    @include hover-filter();
+  }
+}
+
+.list_round_btn {
+  @extend .round_btn;
+
+  border-radius: 50px;
+  background: $color-accent;
+  font-weight: $font-regular;
+  font-size: rem(16);
+
+  &:hover {
+    @include hover-filter();
+  }
+}
+
+.home_round_btn {
+  @extend .round_btn;
+
+  border-radius: 50px;
+  background: rgba(217, 217, 217, 0.3);
+  font-weight: $font-medium;
+  font-size: rem(20);
+
+  &:hover {
+    @include hover-filter();
+  }
+}
+
+.auth_active_round_btn {
+  @extend .round_btn;
+
+  border-radius: 10px;
+  background: $color-o-w3;
+  font-weight: $font-regular;
+  font-size: rem(14);
+}
+
+.auth_disabled_round_btn {
+  @extend .round_btn;
+  
+  border-radius: 10px;
+  background: $color-o-w3;
+  color: $color-o-w5;
+  font-weight: $font-regular;
+  font-size: rem(14);
+  filter: brightness(1.3);
+}
