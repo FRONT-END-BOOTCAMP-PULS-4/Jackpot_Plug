@@ -23,6 +23,10 @@
       @include border-bottom($color: $color-purple);
     }
 
+    &::placeholder {
+      color: $color-o-w5;
+    }
+
     &:focus::placeholder {
       opacity: 0;
     }

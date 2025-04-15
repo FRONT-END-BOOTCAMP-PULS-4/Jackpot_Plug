@@ -62,7 +62,7 @@ export default function EmailInput({
           name="authCode"
           type="text"
           value={authCode}
-          placeholder="인증번호를 입력해주세요."
+          placeholder="인증번호 6자리를 입력해주세요."
           label="인증번호"
           onChangeAction={handleAuthCodeChange}
           showButton={showButton}

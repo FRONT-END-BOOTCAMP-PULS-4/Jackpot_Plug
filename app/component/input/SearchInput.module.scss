@@ -1,0 +1,35 @@
+@use "./../../../public/styles/mixin.scss" as *;
+@use "./../../../public/styles/variable.scss" as *;
+
+.search_field {
+  max-width: 1150px;
+  border-radius: 50px;
+  background-color: $color-o-w3;
+  @include flex;
+  gap: 30px;
+
+  &.default {
+    padding: 30px 48px;
+
+    .search_input {
+      font-size: rem(22);
+    }
+  }
+
+  &.small {
+    max-width: 548px;
+    padding: 24px 38px;
+  }
+
+  .search_input {
+    flex: 1;
+
+    &::placeholder {
+      color: $color-o-w7;
+    }
+
+    &:focus::placeholder {
+      opacity: 0;
+    }
+  }
+}

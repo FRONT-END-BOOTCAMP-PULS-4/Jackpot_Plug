@@ -43,3 +43,9 @@ export interface InputFieldProps
     ButtonProps,
     PlaceholderProps,
     LabelProps {}
+
+export interface SearchInputProps {
+  placeholder?: string;
+  buttonIcon?: ReactNode;
+  size?: "default" | "small";
+}
