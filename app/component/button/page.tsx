@@ -1,8 +1,6 @@
 "use client";
 
-import ProfileImgBtn from "./ProfileImgBtn";
-import { RoundBtn } from "./RoundBtn";
-import { IconBtn } from "./IconBtn";
+import { RoundBtn, ProfileImgBtn, IconBtn } from "./Buttons";
 
 export default function Home() {
   return (
@@ -14,35 +12,22 @@ export default function Home() {
         <ProfileImgBtn />
       </div>
       <div>
-        <RoundBtn
-          text="로그인"
-          type="login"
-          padding="20px 187.7px"
-          onClick={() => console.log("로그인 클릭")}
-        />
-        <RoundBtn
-          text="네, 삭제할게요."
-          type="delete"
-          padding="12.8px 23.6px"
-          onClick={() => console.log("삭제 클릭")}
-        />
-        <RoundBtn
-          text="플레이리스트 만들기"
-          type="list"
-          padding="17.3px 22px"
-        />
-        <RoundBtn text="GO BACK HOME →" type="home" padding="9.3px 25.6px" />
-        <RoundBtn text="인증" type="auth_active" padding="3px 15.1px" />
-        <RoundBtn text="인증" type="auth_disabled" padding="3px 15.1px" />
+        <RoundBtn text="로그인" size="lg" color="accent" />
+        <RoundBtn text="네, 삭제할게요." size="sm" color="accent" />
+        <RoundBtn text="플레이리스트 만들기" size="md" color="accent" />
+        <RoundBtn text="GO BACK HOME →" size="md" color="gray" />
+        <RoundBtn text="인증" size="xs" color="enabled" />
+        <RoundBtn text="인증" size="xs" color="disabled" />
       </div>
       <div>
-        <IconBtn type="plug" />
-        <IconBtn type="plug_small" />
-        <IconBtn type="add" />
-        <IconBtn type="minus" />
-        <IconBtn type="eye_open" />
-        <IconBtn type="eye_close" />
-        <IconBtn type="edit" />
+        <IconBtn icon="close" size="lg" />
+        <IconBtn icon="plug" size="xl" />
+        <IconBtn icon="plug" size="md" />
+        <IconBtn icon="add" size="sm" />
+        <IconBtn icon="minus" size="sm" />
+        <IconBtn icon="eye" size="xs" />
+        <IconBtn icon="eye-close" size="xs" />
+        <IconBtn icon="edit" size="xs" />
       </div>
     </div>
   );
