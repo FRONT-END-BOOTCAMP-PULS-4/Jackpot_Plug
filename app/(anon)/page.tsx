@@ -1,5 +1,13 @@
 "use client";
 
+import EmailInput from "../component/input/EmailInput";
+import PasswordInput from "../component/input/PasswordInput";
+
 export default function Home() {
-  return <div>default main</div>;
+  return (
+    <>
+      <EmailInput />
+      <PasswordInput />
+    </>
+  );
 }
