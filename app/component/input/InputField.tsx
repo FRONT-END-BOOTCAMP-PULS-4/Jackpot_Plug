@@ -1,25 +1,6 @@
 "use client";
-import { ChangeEvent, ReactNode } from "react";
+import { InputFieldProps } from "./types";
 import styles from "./InputField.module.scss";
-
-interface InputFieldProps {
-  id: string;
-  name: string;
-  type: string;
-  value: string;
-  placeholder?: string;
-  className?: string;
-  label: string;
-  labeHidden?: boolean;
-  onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
-  showButton?: boolean;
-  buttonContent?: ReactNode;
-  onButtonClick?: () => void;
-  errorMessage?: string;
-  successMessage?: string;
-  showErrorMessage?: boolean;
-  showSuccessMessage?: boolean;
-}
 
 export default function InputField({
   id,
@@ -39,6 +20,26 @@ export default function InputField({
   showErrorMessage,
   showSuccessMessage,
 }: InputFieldProps) {
+  const getErrorMessage = () => {
+    if (!errorMessage) return null;
+
+    if (typeof errorMessage === "object") {
+      return errorMessage[name as keyof typeof errorMessage];
+    }
+
+    return errorMessage;
+  };
+
+  const getSuccessMessage = () => {
+    if (!successMessage) return null;
+
+    if (typeof successMessage === "object") {
+      return successMessage[name as keyof typeof successMessage];
+    }
+
+    return successMessage;
+  };
+
   return (
     <div className={styles.input_container}>
       <div className={`${styles.input_field} ${className}`}>
@@ -69,12 +70,12 @@ export default function InputField({
         )}
       </div>
 
-      {showErrorMessage && errorMessage && (
-        <p className={styles.error_message}>* {errorMessage}</p>
+      {showErrorMessage && getErrorMessage && (
+        <p className={styles.error_message}>* {getErrorMessage()}</p>
       )}
 
-      {showSuccessMessage && successMessage && (
-        <p className={styles.success_message}>* {successMessage}</p>
+      {showSuccessMessage && getSuccessMessage && (
+        <p className={styles.success_message}>* {getSuccessMessage()}</p>
       )}
     </div>
   );

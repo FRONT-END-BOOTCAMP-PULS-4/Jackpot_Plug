@@ -1,26 +1,20 @@
 "use client";
 import { ChangeEvent, useState } from "react";
 import InputField from "./InputField";
+import { MessageProps, ButtonProps } from "./types";
 
-interface EailInputProps {
-  errorMessage?: {
-    email?: string;
-    authCode?: string;
-  };
-  successMessage?: {
-    authCode?: string;
-  };
-}
+interface EmailInputProps extends MessageProps, ButtonProps {}
 
 export default function EmailInput({
   errorMessage = {
-    email: "이메일이 일치하지 않아요.",
-    authCode: "코드가 잘못되었습니다. 다시 한번 인증해주세요.",
+    email: "이미 등록된 이메일이예요.",
+    authCode: "코드가 잘못되었습니다. 다시 한번 인증해 주세요.",
   },
   successMessage = {
     authCode: "인증이 완료되었습니다.",
   },
-}: EailInputProps) {
+  showButton = true,
+}: EmailInputProps) {
   const [email, setEmail] = useState("");
   const [authCode, setAuthCode] = useState("");
   const [showAuthCode, setShowAuthCode] = useState(false);
@@ -55,10 +49,10 @@ export default function EmailInput({
         placeholder="이메일을 입력해주세요."
         label="이메일"
         onChangeAction={handleEmailChange}
-        showButton={true}
+        showButton={showButton}
         buttonContent="인증"
         onButtonClick={handleAuthCodeClick}
-        errorMessage={errorMessage.email}
+        errorMessage={errorMessage}
         showErrorMessage={isError && !showAuthCode}
       />
 
@@ -71,11 +65,11 @@ export default function EmailInput({
           placeholder="인증번호를 입력해주세요."
           label="인증번호"
           onChangeAction={handleAuthCodeChange}
-          showButton={true}
+          showButton={showButton}
           buttonContent="확인"
           onButtonClick={handleConfirmClick}
-          errorMessage={errorMessage.authCode}
-          successMessage={successMessage.authCode}
+          errorMessage={errorMessage}
+          successMessage={successMessage}
           showErrorMessage={isError}
           showSuccessMessage={isSuccess}
         />
