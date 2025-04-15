@@ -8,6 +8,7 @@ export default function List() {
   return (
     <ul className={styles.playlist_container}>
       {/* map 함수 돌리기 */}
+      {/* mode를 바꾸셔서 기타 형태의 리스트 아이템으로 변환할 수 있습니다. */}
       <ListItem mode="edit" />
       <ListItem mode="edit" />
       <ListItem mode="edit" />

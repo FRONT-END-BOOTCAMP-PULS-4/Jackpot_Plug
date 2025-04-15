@@ -29,6 +29,7 @@ export default function ListItem({ title, artist, mode }: IListItemProps) {
             height={72}
           />
           <p className={styles.desc_container}>
+            {/* title없다면 기본값 설정하시면 됩니다. */}
             <span className={styles.title}>{title ?? "Meaning of you"}</span>
             <span className={styles.artist}>{artist ?? "아이유 IU"}</span>
           </p>
