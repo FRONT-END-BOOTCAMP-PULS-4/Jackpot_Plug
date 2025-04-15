@@ -8,7 +8,8 @@ $color-black: #222222;
 $color-white: #ffffff;
 $color-lightgray: #aaaaaa;
 $color-darkgray: #87879f;
-$color-primary: linear-gradient(115deg, #231b4a, #060614);
+$color-primary: linear-gradient(115deg, #34296e, #09091e);
+$color-dark-primary: linear-gradient(115deg, #060614, #231b4a);
 $color-accent: linear-gradient(90deg, #8307ff, #5500df);
 $color-purple: #8006fd;
 $color-red: #ff2121;
@@ -17,6 +18,7 @@ $color-o-w1: rgba(255, 255, 255, 0.1);
 $color-o-w3: rgba(255, 255, 255, 0.3);
 $color-o-w5: rgba(255, 255, 255, 0.5);
 $color-o-w7: rgba(255, 255, 255, 0.7);
+$color-o-b6: rgba(0, 0, 0, 0.6);
 
 // font weights
 $font-light: 300;
