@@ -10,7 +10,6 @@
   max-width: 400px;
 
   .visible_label {
-    font-size: rem(14);
     padding-left: 8px;
   }
 
@@ -22,6 +21,10 @@
 
     &.filled {
       @include border-bottom($color: $color-purple);
+    }
+
+    &:focus::placeholder {
+      opacity: 0;
     }
   }
 
@@ -44,4 +47,10 @@
 
 .error_message {
   color: $color-red;
+}
+
+.text_input {
+  input {
+    text-align: center;
+  }
 }
