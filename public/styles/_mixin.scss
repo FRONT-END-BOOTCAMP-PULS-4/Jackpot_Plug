@@ -30,9 +30,10 @@
   }
 }
 
-@mixin before {
+@mixin before($width: 40px, $height: 40px, $url, $size: 28px) {
   content: "";
-  @include icon;
+  
+  @include icon($width, $height, $url, $size);
 }
 
 @mixin position($top: 50%, $left: 50%, $transform: translate(-50%, -50%)) {

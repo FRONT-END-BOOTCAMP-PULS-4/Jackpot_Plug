@@ -1,0 +1,28 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.root_aside {
+  width: 132px;
+  height: 100vh;
+  border-right: 1px solid $color-o-w3;
+  padding-top: 50px;
+  @include flex($justify: flex-start, $gap: 132px, $direction: column);
+
+  .nav > ul {
+    @include flex($gap: 50px, $direction: column);
+  }
+
+  .icon {
+    display: block;
+    &:hover {
+      background-color: $color-o-w3;
+      border-radius: 50%;
+    }
+
+    @each $icon-name in (home, search, playlist, user) {
+      &.#{$icon-name} {
+        @include icon(60px, 60px, "../assets/icons/#{$icon-name}.svg");
+      }
+    }
+  }
+}
