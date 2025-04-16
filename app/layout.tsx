@@ -1,5 +1,6 @@
 import React from "react";
 import "./global.scss";
+import Toast from "./component/toast/Toast";
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -16,6 +17,8 @@ export default function RootLayout({ children }: LayoutProps) {
       <body>
         {children}
         <div id="modal-root" />
+        <Toast />
+        <div id="toast-root" />
       </body>
     </html>
   );
