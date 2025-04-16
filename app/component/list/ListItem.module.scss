@@ -2,8 +2,6 @@
 @use "../../../public/styles/variable" as *;
 
 .edit_item_container {
-  padding: 20px;
-  padding-bottom: 0;
   border-radius: 10px;
   transition: all 0.3s;
   &:has(+ &:hover) {
@@ -18,7 +16,7 @@
     }
   }
   .inner_container {
-    padding-bottom: 20px;
+    padding: 20px;
     @include flex($justify: space-between, $align: center);
     @include border-bottom;
     transition: border-bottom 0.3s;
