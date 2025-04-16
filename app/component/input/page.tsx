@@ -11,10 +11,14 @@ export default function Home() {
     <div>
       {/* 검색 폼 */}
       <form>
-        <SearchInput placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요." />
+        <SearchInput
+          placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
+          buttonIcon={<IconBtn icon="plug" size="xl" />}
+        />
         {/* <SearchInput
           placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
           size="small"
+          buttonIcon={<IconBtn icon="plug" size="md" />}
         /> */}
       </form>
 
@@ -26,10 +30,7 @@ export default function Home() {
 
       {/* 비밀번호 변경 폼 */}
       <form>
-        {/* <PasswordInput
-          label="현재 비밀번호"
-          labeHidden={false}
-        /> */}
+        {/* <PasswordInput label="현재 비밀번호" labeHidden={false} /> */}
         <PasswordInput
           label="새 비밀번호"
           labeHidden={false}

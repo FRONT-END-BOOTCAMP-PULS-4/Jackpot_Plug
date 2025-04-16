@@ -2,6 +2,7 @@
 import { ChangeEvent, useState } from "react";
 import InputField from "./InputField";
 import { MessageProps, ButtonProps } from "./types";
+import { RoundBtn } from "../button/Buttons";
 
 interface EmailInputProps extends MessageProps, ButtonProps {}
 
@@ -54,7 +55,15 @@ export default function EmailInput({
         label="이메일"
         onChangeAction={handleEmailChange}
         showButton={showButton}
-        buttonContent="인증"
+        buttonContent={
+          <RoundBtn
+            text="인증"
+            size="xs"
+            color="enabled"
+            customClassName="verify"
+            onClick={handleAuthCodeClick}
+          />
+        }
         onButtonClick={handleAuthCodeClick}
         errorMessage={errorMessage}
         showErrorMessage={isError && !showAuthCode}
@@ -70,7 +79,15 @@ export default function EmailInput({
           label="인증번호"
           onChangeAction={handleAuthCodeChange}
           showButton={showButton}
-          buttonContent="확인"
+          buttonContent={
+            <RoundBtn
+              text="확인"
+              size="xs"
+              color="enabled"
+              customClassName="verify"
+              onClick={handleConfirmClick}
+            />
+          }
           onButtonClick={handleConfirmClick}
           errorMessage={errorMessage}
           successMessage={successMessage}

@@ -2,6 +2,7 @@
 import { ChangeEvent, useState } from "react";
 import InputField from "./InputField";
 import { MessageProps, ButtonProps, LabelProps } from "./types";
+import { IconBtn } from "../button/Buttons";
 
 interface PasswordInputProps extends MessageProps, ButtonProps, LabelProps {}
 
@@ -14,9 +15,14 @@ export default function PasswordInput({
 }: PasswordInputProps) {
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
+  const [pwVisible, setPwVisible] = useState(false);
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const togglePwVisibility = () => {
+    setPwVisible(!pwVisible);
   };
 
   return (
@@ -30,6 +36,10 @@ export default function PasswordInput({
       labeHidden={labeHidden}
       onChangeAction={handlePasswordChange}
       showButton={showButton}
+      buttonContent={
+        <IconBtn icon="eye-close" size="xs" customClassName="verify" />
+      }
+      onButtonClick={togglePwVisibility}
       errorMessage={errorMessage}
       showErrorMessage={false}
     />
