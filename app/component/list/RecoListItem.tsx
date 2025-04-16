@@ -3,21 +3,25 @@ import React from "react";
 import styles from "./RecoListItem.module.scss";
 import Image from "next/image";
 import { IListItemProps } from "./ListItem";
+import { IconBtn } from "../button/Buttons";
 
 interface IRecoListItemProps extends IListItemProps {
   duration: string;
+  index: number;
 }
 
 export default function RecoListItem({
   title,
   artist,
   duration,
+  index,
 }: IRecoListItemProps) {
+
   return (
-    <li className={styles.reco_item_container}>
+    <li className={styles.reco_item_container} >
       <div className={styles.inner_container}>
         <div className={styles.container_leftside}>
-          <button className={styles.search_button}></button>
+          <IconBtn icon="reco-search-icon" size="md" />
           <Image
             className={styles.album_img}
             src={"/images/sample-image.png"}

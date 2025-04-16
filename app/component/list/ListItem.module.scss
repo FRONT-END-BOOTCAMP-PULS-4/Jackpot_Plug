@@ -6,30 +6,31 @@
   padding-bottom: 0;
   border-radius: 10px;
   transition: all 0.3s;
+  &:has(+ &:hover) {
+    .inner_container {
+      @include border-bottom($color: transparent);
+    }
+  }
   &:hover {
     background: rgba($color: #fff, $alpha: 0.1);
+    .inner_container {
+      @include border-bottom($color: transparent);
+    }
   }
   .inner_container {
     padding-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include flex($justify: space-between, $align: center);
     @include border-bottom;
+    transition: border-bottom 0.3s;
     .container_leftside {
-      display: flex;
-      gap: 20px;
-      align-items: center;
+      @include flex($gap: 20px, $align: center);
       .album_img {
         border-radius: 10px;
         object-fit: cover;
       }
 
       .desc_container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 8px;
-
+        @include flex($direction: column, $gap: 8px, $align: flex-start);
         .title {
           font-size: rem(20);
         }
@@ -38,27 +39,6 @@
           font-size: rem(14);
           color: #bcbcbc;
         }
-      }
-    }
-
-    .container_rightside {
-      .expand_button {
-        padding: 4px;
-        @include icon(
-          $width: 24,
-          $height: 24,
-          $url: "/assets/icons/expand-icon.svg",
-          $size: cover
-        );
-      }
-      .collapse_button {
-        padding: 4px;
-        @include icon(
-          $width: 24,
-          $height: 24,
-          $url: "/assets/icons/collapse-icon.svg",
-          $size: cover
-        );
       }
     }
   }

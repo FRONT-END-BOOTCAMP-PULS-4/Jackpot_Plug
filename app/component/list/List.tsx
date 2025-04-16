@@ -3,7 +3,8 @@ import React from "react";
 import styles from "./List.module.scss";
 import ListItem from "./ListItem";
 import RecoListItem from "./RecoListItem";
-
+// props로 추후 페이지에서 받아온 데이터를 전달 받을 예정입니다.
+// dto가 지정되면 해당 인터페이스에 맞게 가져와야해서 틀만 현재 제공됩니다.
 export default function List() {
   return (
     <ul className={styles.playlist_container}>
