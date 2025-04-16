@@ -21,7 +21,7 @@ export default function SearchInput({
         className={`${styles.search_input}`}
         autoComplete="off"
       />
-      <button>{buttonIcon}</button>
+      {buttonIcon}
     </div>
   );
 }

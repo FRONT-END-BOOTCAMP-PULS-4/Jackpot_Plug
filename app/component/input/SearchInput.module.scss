@@ -9,7 +9,8 @@
   gap: 30px;
 
   &.default {
-    padding: 30px 48px;
+    padding: 22px 48px;
+    margin-bottom: 20px;
 
     .search_input {
       font-size: rem(22);
@@ -18,7 +19,7 @@
 
   &.small {
     max-width: 548px;
-    padding: 24px 38px;
+    padding: 16px 38px;
   }
 
   .search_input {

@@ -1,5 +1,6 @@
 "use client";
 
+import { IconBtn } from "../button/Buttons";
 import EmailInput from "./EmailInput";
 import PasswordInput from "./PasswordInput";
 import SearchInput from "./SearchInput";
@@ -8,10 +9,14 @@ import TextInput from "./TextInput";
 export default function Home() {
   return (
     <div>
-      <SearchInput placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요." />
+      <SearchInput
+        placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
+        // buttonIcon={<IconBtn icon="plug" size="xl" />}
+      />
       <SearchInput
         placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
         size="small"
+        buttonIcon={<IconBtn icon="plug" size="md" />}
       />
 
       <EmailInput />
