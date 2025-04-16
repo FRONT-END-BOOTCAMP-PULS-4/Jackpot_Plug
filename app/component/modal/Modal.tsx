@@ -1,10 +1,10 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import ModalFooter from "./ModalFooter";
 import ModalHeader from "./ModalHeader";
+import Portal from "../Portal";
 
 interface ModalProps {
   isOpen: boolean;
@@ -47,11 +47,7 @@ export default function Modal({
   // 마운트되었는지, 모달 열려있는지 확인
   if (!mounted || !isOpen) return null;
 
-  // 포탈이 있는지 확인
-  const portalDiv = document.querySelector("#modal-root");
-  if (!portalDiv) return null;
-
-  return createPortal(
+  const modalContent = (
     <div className={styles.modal_dim} onClick={onClose}>
       <div
         className={`${styles.modal_wrapper} ${styles[`${size}`]}`}
@@ -71,7 +67,8 @@ export default function Modal({
           align={size != "lg" ? "center" : "right"}
         />
       </div>
-    </div>,
-    portalDiv
+    </div>
   );
+
+  return <Portal id="modal-root" content={modalContent} />;
 }
