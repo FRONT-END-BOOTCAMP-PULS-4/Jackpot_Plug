@@ -1,0 +1,151 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+/* RoundBtn */
+.round_btn {
+  position: relative;
+  border-radius: 50px;
+  font-weight: $font-regular;
+
+  &:hover {
+    @include hover-filter();
+  }
+
+  /* RoundBtn 사이즈 */
+  // 로그인
+  &_lg {
+    padding: 20px 188px;
+    font-size: rem(18);
+  }
+
+  // 플레이리스트 만들기, GO BACK HOME →
+  &_md {
+    padding: 17px 22px;
+    font-size: rem(16);
+  }
+
+  // 네, 삭제할게요
+  &_sm {
+    padding: 13px 24px;
+    font-size: rem(14);
+  }
+
+  // 인증(활성화, 비활성화화)
+  &_xs {
+    padding: 5px 15px;
+    font-size: rem(14);
+    border-radius: 10px;
+  }
+
+  /* RoundBtn 스타일 */
+  // 로그인, 네, 삭제할게요., 플레이리스트 만들기
+  &.accent {
+    background: $color-accent;
+    color: $color-white;
+  }
+
+  // GO BACK HOME →
+  &.gray {
+    background: rgba(217, 217, 217, 0.3);
+    color: $color-white;
+  }
+
+  // 인증(활성화)
+  &.enabled {
+    background: $color-o-w3;
+    color: $color-white;
+
+    &:hover {
+      filter: none;
+    }
+  }
+
+  // 인증(비활성화)
+  &.disabled {
+    background: $color-o-w3;
+    color: $color-o-w5;
+
+    &:hover {
+      filter: none;
+    }
+  }
+}
+
+/* ProfileImgBtn */
+.profileImgBtn {
+  position: relative;
+  padding: 88px 88px;
+  border-radius: 50%;
+  background: #87879f;
+
+  &:before {
+    @include before(40px, 40px, "/assets/icons/profile.svg", 40px 40px);
+    @include position();
+  }
+
+  /* 이미지가 제공된 경우 */
+  &.profileImgBtn_withImage {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &:before {
+      content: none;
+    }
+  }
+}
+
+/* IconBtn */
+.icon_btn {
+  background: {
+    repeat: no-repeat;
+    position: center;
+    size: contain;
+  }
+
+  /* IconBtn 사이즈 */
+  // plug(big)
+  &_xl {
+    width: 36px;
+    height: 36px;
+    size: 48px 48px;
+  }
+
+  // close
+  &_lg {
+    width: 28px;
+    height: 28px;
+    size: 40px 40px;
+  }
+
+  // plug(small)
+  &_md {
+    width: 25px;
+    height: 25px;
+    size: 35px 35px;
+  }
+
+  // add, minus
+  &_sm {
+    width: 24px;
+    height: 24px;
+    size: 32px 32px;
+  }
+
+  // eye, eye-close, edit
+  &_xs {
+    width: 18px;
+    height: 18px;
+    size: 24px 24px;
+  }
+
+  // 플러그 이미지 일 때만 호버 기능 추가
+  &_plug {
+    background-image: url("/assets/icons/plug.svg");
+
+    &:hover {
+      background-image: url("/assets/icons/plug-fill.svg");
+      transition: background ease-in 0.3s;
+    }
+  }
+}
