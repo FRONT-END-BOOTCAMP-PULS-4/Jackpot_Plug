@@ -12,6 +12,7 @@ export default function InputField({
   label,
   labeHidden = true,
   onChangeAction,
+  onBlur,
   showButton,
   buttonContent,
   onButtonClick,
@@ -57,6 +58,7 @@ export default function InputField({
           placeholder={placeholder}
           className={`${styles.input} ${value.length > 0 ? styles.filled : ""}`}
           onChange={onChangeAction}
+          onBlur={onBlur}
           autoComplete="off"
         />
         {showButton && onButtonClick && buttonContent}

@@ -10,7 +10,11 @@ export default function TextInput({ placeholder, label }: TextInputPorps) {
   const [Text, setText] = useState("");
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
+    const value = e.target.value;
+
+    if (value.length <= 10) {
+      setText(value);
+    }
   };
 
   return (

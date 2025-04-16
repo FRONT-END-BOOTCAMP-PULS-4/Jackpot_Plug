@@ -3,8 +3,10 @@ import { ReactNode, ChangeEvent } from "react";
 export interface MessageProps {
   errorMessage?: {
     email?: string;
+    emailExists?: string;
     authCode?: string;
     password?: string;
+    authCodeIncomplete?: string;
   };
   successMessage?: {
     authCode?: string;
@@ -35,6 +37,7 @@ export interface InputBaseProps {
   value: string;
   className?: string;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
 }
 
 export interface InputFieldProps
