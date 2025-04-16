@@ -8,7 +8,7 @@ export default function InputField({
   type,
   value,
   placeholder,
-  className,
+  className = "",
   label,
   labeHidden = true,
   onChangeAction,
@@ -41,7 +41,7 @@ export default function InputField({
   };
 
   return (
-    <div className={styles.input_container}>
+    <>
       <div className={`${styles.input_field} ${className}`}>
         <label
           htmlFor={id}
@@ -77,6 +77,6 @@ export default function InputField({
       {showSuccessMessage && getSuccessMessage && (
         <p className={styles.success_message}>* {getSuccessMessage()}</p>
       )}
-    </div>
+    </>
   );
 }

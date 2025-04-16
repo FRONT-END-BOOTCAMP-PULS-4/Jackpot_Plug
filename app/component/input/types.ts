@@ -24,12 +24,12 @@ export interface PlaceholderProps {
 }
 
 export interface LabelProps {
+  id?: string;
   label?: string;
   labeHidden?: boolean;
 }
 
 export interface InputBaseProps {
-  id: string;
   name: string;
   type: string;
   value: string;

@@ -9,43 +9,46 @@ import TextInput from "./TextInput";
 export default function Home() {
   return (
     <div>
-      <SearchInput
-        placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
-        // buttonIcon={<IconBtn icon="plug" size="xl" />}
-      />
-      <SearchInput
-        placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
-        size="small"
-        buttonIcon={<IconBtn icon="plug" size="md" />}
-      />
+      {/* 검색 폼 */}
+      <form>
+        <SearchInput placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요." />
+        {/* <SearchInput
+          placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
+          size="small"
+        /> */}
+      </form>
 
-      <EmailInput />
-      <PasswordInput />
+      {/* 로그인 폼 */}
+      <form>
+        <EmailInput />
+        <PasswordInput />
+      </form>
 
-      <EmailInput
-        errorMessage={{
-          email: "이메일이 일치하지 않아요.",
-        }}
-        showButton={false}
-      />
-      <PasswordInput
-        errorMessage={{
-          password: "비밀번호가 일치하지 않아요.",
-        }}
-      />
+      {/* 비밀번호 변경 폼 */}
+      <form>
+        {/* <PasswordInput
+          label="현재 비밀번호"
+          labeHidden={false}
+        /> */}
+        <PasswordInput
+          label="새 비밀번호"
+          labeHidden={false}
+          id="new_password"
+        />
+        <PasswordInput
+          label="새 비밀번호 확인"
+          labeHidden={false}
+          id="password_confirm"
+        />
+      </form>
 
-      <PasswordInput label="현재 비밀번호" labeHidden={false} />
-      <PasswordInput label="새 비밀번호" labeHidden={false} />
-      <PasswordInput label="새 비밀번호 확인" labeHidden={false} />
-
-      <TextInput
-        placeholder="닉네임을 2~10자 이내로 입력해주세요."
-        label="닉네임"
-      />
-      <TextInput
-        placeholder="플레이리스트 이름을 작성해주세요."
-        label="플레이리스트 이름"
-      />
+      {/* 닉네임 입력 폼 */}
+      <form>
+        <TextInput
+          placeholder="닉네임을 2~10자 이내로 입력해주세요."
+          label="닉네임"
+        />
+      </form>
     </div>
   );
 }

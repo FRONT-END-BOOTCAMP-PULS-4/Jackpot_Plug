@@ -10,6 +10,7 @@ export default function PasswordInput({
   showButton = true,
   label = "비밀번호",
   labeHidden = true,
+  id = "password_input",
 }: PasswordInputProps) {
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
@@ -20,7 +21,7 @@ export default function PasswordInput({
 
   return (
     <InputField
-      id="password_input"
+      id={id}
       name="password"
       type="password"
       value={password}

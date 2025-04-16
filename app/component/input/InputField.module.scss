@@ -1,13 +1,10 @@
 @use "./../../../public/styles/mixin.scss" as *;
 @use "./../../../public/styles/variable.scss" as *;
 
-.input_container {
-  margin-bottom: 38px;
-}
-
 .input_field {
   position: relative;
   max-width: 400px;
+  margin-top: 38px;
 
   .visible_label {
     padding-left: 8px;

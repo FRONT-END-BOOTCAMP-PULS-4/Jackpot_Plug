@@ -126,7 +126,7 @@
 
   // add, minus
   &_sm {
-    width: 32x;
+    width: 32px;
     height: 32px;
     background-size: 24px;
   }
@@ -140,7 +140,6 @@
 
   // 플러그 이미지 일 때만 호버 기능 추가
   &_plug {
-    background-size: contain;
     background-image: url("/assets/icons/plug.svg");
 
     &:hover {
