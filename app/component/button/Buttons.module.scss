@@ -4,7 +4,6 @@
 /* RoundBtn */
 .round_btn {
   position: relative;
-  border: none;
   border-radius: 50px;
   font-weight: $font-regular;
 
@@ -78,7 +77,6 @@
   padding: 88px 88px;
   border-radius: 50%;
   background: #87879f;
-  border: none;
 
   &:before {
     @include before(40px, 40px, "/assets/icons/profile.svg", 40px 40px);
@@ -99,8 +97,6 @@
 
 /* IconBtn */
 .icon_btn {
-  border: none;
-
   background: {
     repeat: no-repeat;
     position: center;
