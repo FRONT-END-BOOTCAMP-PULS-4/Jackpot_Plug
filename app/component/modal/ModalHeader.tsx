@@ -1,20 +1,23 @@
 "use client";
 
-import { ReactNode } from "react";
-import styles from "./modal.module.scss";
+import styles from "./ModalHeader.module.scss";
+import { IconBtn } from "../button/Buttons";
 
-export interface ModalHeaderProps {
-  onCloseAction: () => void;
-  title?: string | ReactNode;
+interface ModalHeaderProps {
+  title?: string;
+  size: "sm" | "lg";
+  onClick: () => void;
 }
 
-export default function Modal({ onCloseAction, title }: ModalHeaderProps) {
+export default function ModalHeader({
+  title,
+  size,
+  onClick,
+}: ModalHeaderProps) {
   return (
     <div className={`${styles.modal_header} ${title ? styles.has_title : ""}`}>
       {title && <div className="title">{title}</div>}
-      <button className="close_button" onClick={onCloseAction}>
-        x
-      </button>
+      <IconBtn icon="close" size={size} onClick={onClick} />
     </div>
   );
 }

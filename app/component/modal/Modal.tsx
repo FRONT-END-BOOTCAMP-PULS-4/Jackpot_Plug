@@ -2,22 +2,28 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import styles from "./modal.module.scss";
-import ModalHeader, { ModalHeaderProps } from "./ModalHeader";
+import styles from "./Modal.module.scss";
+import ModalFooter from "./ModalFooter";
+import ModalHeader from "./ModalHeader";
 
-interface ModalProps extends ModalHeaderProps {
+interface ModalProps {
   isOpen: boolean;
-  children: ReactNode;
+  onClose: () => void;
+  onAction: () => void;
+  title?: string;
+  buttonTitle?: string;
   size: "sm" | "lg";
-  align?: "center" | "right";
+  children: ReactNode;
 }
 
 export default function Modal({
   isOpen,
-  onCloseAction,
+  onClose,
+  onAction,
   size,
-  align = "right",
   title,
+  buttonTitle,
+
   children,
 }: ModalProps) {
   const [mounted, setMounted] = useState(false);
@@ -27,7 +33,7 @@ export default function Modal({
 
     // Esc키 닫기
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCloseAction();
+      if (e.key === "Escape") onClose();
     };
 
     document.addEventListener("keydown", handleEsc);
@@ -36,7 +42,7 @@ export default function Modal({
     return () => {
       document.removeEventListener("keydown", handleEsc);
     };
-  }, [onCloseAction]);
+  }, [onClose]);
 
   // 마운트되었는지, 모달 열려있는지 확인
   if (!mounted || !isOpen) return null;
@@ -46,15 +52,24 @@ export default function Modal({
   if (!portalDiv) return null;
 
   return createPortal(
-    <div className={styles.modal_dim} onClick={onCloseAction}>
+    <div className={styles.modal_dim} onClick={onClose}>
       <div
         className={`${styles.modal_wrapper} ${styles[`${size}`]}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <ModalHeader onCloseAction={onCloseAction} title={title} />
-        <div className={`${styles.modal_content} ${styles[`${align}`]}`}>
+        <ModalHeader title={title} size={size} onClick={onClose} />
+        <div
+          className={`${styles.modal_content} ${
+            size === "sm" ? styles.algin_center : ""
+          }`}
+        >
           {children}
         </div>
+        <ModalFooter
+          buttonTitle={buttonTitle}
+          onAction={onAction}
+          align={size != "lg" ? "center" : "right"}
+        />
       </div>
     </div>,
     portalDiv

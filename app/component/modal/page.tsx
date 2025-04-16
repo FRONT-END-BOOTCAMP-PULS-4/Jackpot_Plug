@@ -2,29 +2,62 @@
 
 import useModal from "@/hooks/useModal";
 import Modal from "./Modal";
+import { RoundBtn } from "../button/Buttons";
 
 export default function Home() {
-  const { isOpen, open, close } = useModal();
+  // 만드는 타이틀에 따라 재선언하여 사용
+  // 타이틀 모달 _ 재선언
+  const TitleModal = Modal;
+  const titleModal = useModal();
+
+  // info 모달 _ 재선언
+  const InfoModal = Modal;
+  const infoModal = useModal();
+
   return (
     <div>
-      <button
-        onClick={open}
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        타이틀 없는 작은 모달 열기
-      </button>
+      <RoundBtn
+        text="타이틀 모달 열기"
+        size="md"
+        color="gray"
+        onClick={titleModal.open}
+      />
 
-      <Modal isOpen={isOpen} onCloseAction={close} size="sm" align="center">
-        <p>타이틀 없는 작은 모달</p>
-        <button onClick={close}>Close</button>
-      </Modal>
+      <RoundBtn
+        text="작은 모달 열기"
+        size="md"
+        color="accent"
+        onClick={infoModal.open}
+      />
+
+      <TitleModal
+        isOpen={titleModal.isOpen}
+        onClose={titleModal.close}
+        onAction={() => {
+          // 버튼 클릭 시 실행 함수
+          alert("확인 버튼 클릭");
+
+          // 모달 닫기
+          titleModal.close();
+        }}
+        size="lg"
+        title="플레이리스트 확인"
+      >
+        <p>안에 내용 왕창 넣으세요!</p>
+      </TitleModal>
+
+      <InfoModal
+        isOpen={infoModal.isOpen}
+        onClose={infoModal.close}
+        buttonTitle="확인하고 눌러주세요."
+        onAction={() => {
+          alert("확인 버튼 클릭");
+          infoModal.close();
+        }}
+        size="sm"
+      >
+        <p>이 내용을 확인해주세요!</p>
+      </InfoModal>
     </div>
   );
 }
