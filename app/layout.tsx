@@ -1,9 +1,9 @@
 import React from "react";
 import "./global.scss";
 
-type LayoutProps = {
+export interface LayoutProps {
   children: React.ReactNode;
-};
+}
 
 export default function RootLayout({ children }: LayoutProps) {
   return (
