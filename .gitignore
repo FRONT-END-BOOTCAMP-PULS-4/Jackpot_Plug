@@ -21,7 +21,7 @@
 /build
 
 # misc
-.DS_Stor
+.DS_Store
 ._.DS_Store
 **/.DS_Store
 **/._.DS_Store
