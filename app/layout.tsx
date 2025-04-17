@@ -1,6 +1,6 @@
 import React from "react";
 import "./global.scss";
-import Toast from "./component/toast/Toast";
+import Toast from "./components/toast/Toast";
 
 export interface LayoutProps {
   children: React.ReactNode;

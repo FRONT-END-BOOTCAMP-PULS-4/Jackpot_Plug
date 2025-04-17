@@ -1,5 +1,5 @@
 import { LayoutProps } from "../layout";
-import RootAside from "../component/sidebar/RootAside";
+import RootAside from "./components/sidebar/RootAside";
 
 export default function commonLayout({ children }: LayoutProps) {
   return (
