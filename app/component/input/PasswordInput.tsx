@@ -12,7 +12,7 @@ export default function PasswordInput({
   },
   showButton = true,
   label = "비밀번호",
-  labeHidden = true,
+  labelHidden = true,
   id = "password_input",
 }: PasswordInputProps) {
   const [password, setPassword] = useState("");
@@ -20,7 +20,7 @@ export default function PasswordInput({
   const [pwVisible, setPwVisible] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
 
-  const valudatePassword = (value: string): boolean => {
+  const validatePassword = (value: string): boolean => {
     if (value.length === 0) return true;
     if (value.length < 8 || value.length > 20) return false;
     const hasLetter = /[A-Za-z]/.test(value);
@@ -39,7 +39,7 @@ export default function PasswordInput({
     }
 
     if (isTouched) {
-      setIsError(!valudatePassword(value));
+      setIsError(!validatePassword(value));
     }
   };
 
@@ -49,7 +49,7 @@ export default function PasswordInput({
 
   const handleBlur = () => {
     setIsTouched(true);
-    setIsError(!valudatePassword(password));
+    setIsError(!validatePassword(password));
   };
 
   return (
@@ -60,7 +60,7 @@ export default function PasswordInput({
       value={password}
       placeholder="비밀번호를 입력해주세요."
       label={label}
-      labeHidden={labeHidden}
+      labelHidden={labelHidden}
       onChangeAction={handlePasswordChange}
       showButton={showButton}
       buttonContent={
@@ -71,7 +71,6 @@ export default function PasswordInput({
           onClick={togglePwVisibility}
         />
       }
-      onButtonClick={togglePwVisibility}
       errorMessage={errorMessage}
       showErrorMessage={isError}
       onBlur={handleBlur}

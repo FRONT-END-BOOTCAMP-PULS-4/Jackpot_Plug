@@ -7,7 +7,7 @@ import styles from "./InputField.module.scss";
 interface TextInputPorps extends PlaceholderProps, LabelProps {}
 
 export default function TextInput({ placeholder, label }: TextInputPorps) {
-  const [Text, setText] = useState("");
+  const [text, setText] = useState("");
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -22,7 +22,7 @@ export default function TextInput({ placeholder, label }: TextInputPorps) {
       id="text_input"
       name="text"
       type="text"
-      value={Text}
+      value={text}
       placeholder={placeholder}
       label={label}
       onChangeAction={handleTextChange}

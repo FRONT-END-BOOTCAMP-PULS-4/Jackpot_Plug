@@ -30,15 +30,15 @@ export default function Home() {
 
       {/* 비밀번호 변경 폼 */}
       <form>
-        {/* <PasswordInput label="현재 비밀번호" labeHidden={false} /> */}
+        {/* <PasswordInput label="현재 비밀번호" labelHidden={false} /> */}
         <PasswordInput
           label="새 비밀번호"
-          labeHidden={false}
+          labelHidden={false}
           id="new_password"
         />
         <PasswordInput
           label="새 비밀번호 확인"
-          labeHidden={false}
+          labelHidden={false}
           id="password_confirm"
         />
       </form>

@@ -18,7 +18,6 @@ export interface MessageProps {
 export interface ButtonProps {
   showButton?: boolean;
   buttonContent?: ReactNode;
-  onButtonClick?: () => void;
 }
 
 export interface PlaceholderProps {
@@ -28,7 +27,7 @@ export interface PlaceholderProps {
 export interface LabelProps {
   id?: string;
   label?: string;
-  labeHidden?: boolean;
+  labelHidden?: boolean;
 }
 
 export interface InputBaseProps {

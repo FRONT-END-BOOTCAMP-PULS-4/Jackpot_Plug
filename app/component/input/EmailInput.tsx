@@ -92,7 +92,6 @@ export default function EmailInput({
             onClick={handleAuthCodeClick}
           />
         }
-        onButtonClick={handleAuthCodeClick}
         errorMessage={
           errorType === "email"
             ? { email: errorMessage.email }
@@ -120,7 +119,6 @@ export default function EmailInput({
               onClick={handleConfirmClick}
             />
           }
-          onButtonClick={handleConfirmClick}
           errorMessage={
             errorType === "authCodeIncomplete"
               ? { authCode: errorMessage.authCodeIncomplete }

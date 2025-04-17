@@ -10,12 +10,11 @@ export default function InputField({
   placeholder,
   className,
   label,
-  labeHidden = true,
+  labelHidden = true,
   onChangeAction,
   onBlur,
   showButton,
   buttonContent,
-  onButtonClick,
   errorMessage,
   successMessage,
   showErrorMessage,
@@ -24,21 +23,17 @@ export default function InputField({
   const getErrorMessage = () => {
     if (!errorMessage) return null;
 
-    if (typeof errorMessage === "object") {
-      return errorMessage[name as keyof typeof errorMessage];
-    }
-
-    return errorMessage;
+    return typeof errorMessage === "object"
+      ? errorMessage[name as keyof typeof errorMessage]
+      : errorMessage;
   };
 
   const getSuccessMessage = () => {
     if (!successMessage) return null;
 
-    if (typeof successMessage === "object") {
-      return successMessage[name as keyof typeof successMessage];
-    }
-
-    return successMessage;
+    return typeof successMessage === "object"
+      ? successMessage[name as keyof typeof successMessage]
+      : successMessage;
   };
 
   return (
@@ -46,7 +41,7 @@ export default function InputField({
       <div className={`${styles.input_field} ${className}`}>
         <label
           htmlFor={id}
-          className={labeHidden ? "blind" : styles.visible_label}
+          className={labelHidden ? "blind" : styles.visible_label}
         >
           {label}
         </label>
@@ -61,7 +56,7 @@ export default function InputField({
           onBlur={onBlur}
           autoComplete="off"
         />
-        {showButton && onButtonClick && buttonContent}
+        {showButton && buttonContent}
       </div>
 
       {showErrorMessage && getErrorMessage && (

@@ -1,6 +1,5 @@
 "use client";
 import styles from "./SearchInput.module.scss";
-import "./../../global.scss";
 import { SearchInputProps } from "./types";
 
 export default function SearchInput({
