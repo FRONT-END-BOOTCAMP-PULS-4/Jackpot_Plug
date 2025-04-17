@@ -1,13 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import styles from "./VideoList.module.scss";
 import VideoListItem from "./VideoListItem";
 
 export default function VideoList() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleClick = (index: number) => {
+  const handleClick = useCallback((index: number) => {
     setSelectedIndex(index);
-  };
+  }, []);
   return (
     // 숫자는 추후 map함수의 index로 대체될 예정입니다.
     // List 컴포넌트를 사용하지않고 Swiper을 통해 구현할 예정입니다.

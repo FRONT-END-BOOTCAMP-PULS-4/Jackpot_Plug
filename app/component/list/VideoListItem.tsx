@@ -24,6 +24,33 @@ export default function VideoListItem({
   mode = "thumbnail",
   src = "/images/sample-image.png",
 }: IVideoListItemProps) {
+  
+  const renderMedia = () => {
+    if (mode === "video") {
+      return (
+        <iframe
+          width="200"
+          height="140"
+          className={styles.video_player}
+          src={src}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      );
+    }
+
+    return (
+      <Image
+        className={styles.thumbnail_img}
+        src={src}
+        alt={`${title} thumbnail`}
+        width={mode === "playlist" ? 380 : 200}
+        height={mode === "playlist" ? 250 : 140}
+      />
+    );
+  };
+
   return (
     <li
       className={`${
@@ -32,32 +59,12 @@ export default function VideoListItem({
       onClick={mode === "video" ? undefined : onClick}
     >
       <div className={styles.thumbnail_img_container}>
-        <>
-          {mode === "video" ? (
-            <iframe
-              width="200"
-              height="140"
-              className={styles.video_player}
-              src={src}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-          ) : (
-            <Image
-              className={styles.thumbnail_img}
-              src={src}
-              alt="album_img"
-              width={mode === "playlist" ? 380 : 200}
-              height={mode === "playlist" ? 250 : 140}
-            />
-          )}
-          {mode === "playlist" && (
-            <div className={styles.delete_btn_container}>
-              <IconBtn icon="delete-playlist" size="sm" />
-            </div>
-          )}
-        </>
+        {renderMedia()}
+        {mode === "playlist" && (
+          <div className={styles.delete_btn_container}>
+            <IconBtn icon="delete-playlist" size="sm" />
+          </div>
+        )}
       </div>
       <div className={styles.desc_container}>
         <span className={styles.title}>{title ?? "Meaning of you"}</span>
