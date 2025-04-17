@@ -1,0 +1,10 @@
+@use "../../../public/styles/mixin" as *;
+
+.btn_container {
+  &.center {
+    @include flex($justify: center);
+  }
+  &.right {
+    @include flex($justify: flex-end);
+  }
+}
