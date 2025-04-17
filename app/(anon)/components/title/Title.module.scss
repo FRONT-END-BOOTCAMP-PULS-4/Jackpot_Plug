@@ -1,0 +1,25 @@
+@use "../../../../public/styles/variable" as *;
+
+.title_container {
+  text-align: center;
+
+  .title {
+    font-size: rem(68);
+  }
+
+  .description {
+    font-size: rem(18);
+    margin-bottom: 36px;
+  }
+
+  &.small {
+    .title {
+      font-size: rem(60);
+    }
+
+    .description {
+      font-size: rem(16);
+      margin-bottom: 16px;
+    }
+  }
+}
