@@ -11,7 +11,7 @@ export default function ToastPage() {
         text="토스트 얍!"
         size="md"
         color="gray"
-        onClick={() => showToast("로켓 발사!", 2000)}
+        onClick={() => showToast("토스트 내용 적어요!", 2000)}
       />
     </div>
   );

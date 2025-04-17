@@ -5,12 +5,12 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
   @include flex();
 
   .toast {
+    z-index: 999;
     border-radius: 50px;
-    background-color: $color-black;
+    background-color: #000000;
     box-shadow: 0px 0px 20px 0px rgba(255, 255, 255, 0.2);
     font-size: rem(16);
     padding: 20px 30px;
