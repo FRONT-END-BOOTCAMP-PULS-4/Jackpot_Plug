@@ -1,0 +1,127 @@
+@use "../../../public/styles/variable" as *;
+@use "../../../public/styles/mixin" as *;
+
+.thumbnail_item_container {
+  cursor: pointer;
+  @include flex($direction: column, $align: flex-start, $gap: 10px);
+  .thumbnail_img_container {
+    border-radius: 10px;
+    overflow: hidden;
+    .thumbnail_img {
+      transition: filter 0.2s;
+      object-fit: cover;
+    }
+  }
+  .desc_container {
+    width: 100%;
+    @include flex(
+      $direction: column,
+      $justify: flex-start,
+      $align: flex-start,
+      $gap: 6px
+    );
+    .title {
+      max-width: 200px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: rem(16);
+    }
+    .artist_container {
+      @include flex($gap: 6px);
+      .certified {
+        @include icon(
+          $width: 12px,
+          $height: 12px,
+          $url: "/assets/icons/is-certified.svg",
+          $size: cover
+        );
+      }
+      .artist {
+        font-size: rem(12);
+      }
+    }
+    .bottom_container {
+      width: 100%;
+      @include flex($justify: space-between);
+      .duration_container {
+        @include flex($gap: 6px);
+        .duration_icon {
+          @include icon(
+            $width: 12px,
+            $height: 12px,
+            $url: "/assets/icons/duration.svg",
+            $size: cover
+          );
+        }
+        .duration {
+          font-size: rem(12);
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  &.selected {
+    .thumbnail_img_container {
+      position: relative;
+      &::before {
+        z-index: 1;
+        @include before(
+          $width: 30px,
+          $height: 30px,
+          $url: "/assets/icons/is-selected.svg",
+          $size: 30px
+        );
+        @include position;
+      }
+      .thumbnail_img {
+        filter: brightness(0.2);
+      }
+    }
+  }
+}
+
+.video_item_container {
+  cursor: default;
+  @extend .thumbnail_item_container;
+  .video_player {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
+
+.playlist_item_container {
+  cursor: default;
+  @extend .thumbnail_item_container;
+  .thumbnail_img_container {
+    position: relative;
+    transition: filter 0.3s;
+    &:hover {
+      .thumbnail_img {
+        filter: brightness(0.4);
+      }
+    }
+  }
+  .desc_container {
+    .title {
+      font-size: rem(16);
+      font-weight: $font-semibold;
+    }
+  }
+  .desc_container *:not(.title) {
+    display: none;
+  }
+  .delete_btn_container {
+    @include position($top: 22px, $left: auto, $transform: none);
+    right: 22px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  &:hover {
+    .delete_btn_container {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+@use "../../../public/styles/variable" as *;
+@use "../../../public/styles/mixin" as *;
+
+.container {
+  @include flex($gap: 20px);
+}

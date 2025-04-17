@@ -56,7 +56,7 @@ export function ProfileImgBtn({ image, onClick }: ProfileImgBtnProps) {
 /* IconBtn 컴포넌트 */
 interface IconBtnProps {
   icon: string; // 예: "plug", "add", "eye-close"
-  size: "xl" | "lg" | "md" | "sm" | "xs";
+  size: "xl" | "lg" | "md" | "sm" | "xs" | "xxs";
   onClick?: () => void;
   customClassName?: string;
 }

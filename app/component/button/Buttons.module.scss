@@ -138,6 +138,12 @@
     background-size: 18px;
   }
 
+  &_xxs {
+    width: 20px;
+    height: 20px;
+    background-size: 12px;
+  }
+
   // 플러그 이미지 일 때만 호버 기능 추가
   &_plug {
     background-image: url("/assets/icons/plug.svg");
