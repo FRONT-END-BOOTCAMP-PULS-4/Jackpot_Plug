@@ -4,7 +4,15 @@ import InputField from "./InputField";
 import { MessageProps, ButtonProps } from "./types";
 import { RoundBtn } from "../button/Buttons";
 
-interface EmailInputProps extends MessageProps, ButtonProps {}
+interface EmailInputProps extends MessageProps, ButtonProps {
+  onClick?: () => void;
+  email: string;
+  setEmail: (email: string) => void;
+  checkNum?: string;
+  setIsVerified?: (isVerified: boolean) => void;
+}
+
+const noop = () => {};
 
 export default function EmailInput({
   errorMessage = {
@@ -17,8 +25,12 @@ export default function EmailInput({
     authCode: "인증이 완료되었습니다.",
   },
   showButton = true,
+  onClick,
+  email,
+  setEmail,
+  checkNum,
+  setIsVerified,
 }: EmailInputProps) {
-  const [email, setEmail] = useState("");
   const [authCode, setAuthCode] = useState("");
   const [showAuthCode, setShowAuthCode] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -34,7 +46,10 @@ export default function EmailInput({
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    const newEmail = e.target.value;
+    if (setEmail) {
+      setEmail(newEmail); // setEmail이 전달된 경우에만 호출
+    }
   };
 
   const handleAuthCodeChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,13 +82,13 @@ export default function EmailInput({
       setErrorType("authCodeIncomplete");
       setIsSuccess(false);
     } else {
-      if (isSuccess) {
+      if (authCode === checkNum) {
+        setIsSuccess(true);
+        setIsError(false);
+      } else {
         setIsSuccess(false);
         setIsError(true);
         setErrorType("authCode");
-      } else {
-        setIsSuccess(true);
-        setIsError(false);
       }
     }
   };
@@ -87,7 +102,7 @@ export default function EmailInput({
         value={email}
         placeholder="이메일을 입력해주세요."
         label="이메일"
-        onChangeAction={handleEmailChange}
+        onChangeAction={isSuccess ? noop : handleEmailChange}
         showButton={showButton}
         buttonContent={
           <RoundBtn
@@ -95,7 +110,16 @@ export default function EmailInput({
             size="xs"
             color="enabled"
             customClassName="verify"
-            onClick={handleAuthCodeClick}
+            onClick={
+              isSuccess
+                ? noop
+                : () => {
+                    handleAuthCodeClick();
+                    if (validateEmail(email) && onClick) {
+                      onClick();
+                    }
+                  }
+            }
           />
         }
         errorMessage={
@@ -114,7 +138,7 @@ export default function EmailInput({
           value={authCode}
           placeholder="인증번호 6자리를 입력해주세요."
           label="인증번호"
-          onChangeAction={handleAuthCodeChange}
+          onChangeAction={isSuccess ? noop : handleAuthCodeChange}
           showButton={showButton}
           buttonContent={
             <RoundBtn
@@ -122,7 +146,14 @@ export default function EmailInput({
               size="xs"
               color="enabled"
               customClassName="verify"
-              onClick={handleConfirmClick}
+              onClick={
+                isSuccess
+                  ? noop
+                  : () => {
+                      handleConfirmClick();
+                      setIsVerified?.(true);
+                    }
+              }
             />
           }
           errorMessage={
