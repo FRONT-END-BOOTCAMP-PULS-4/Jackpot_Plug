@@ -20,6 +20,11 @@ export default function InputField({
   showErrorMessage,
   showSuccessMessage,
 }: InputFieldProps) {
+  /**
+   * 오류 메시지를 검색하는 함수
+   * errorMessage가 객체인 경우 현재 입력 필드의 name에 해당하는 메시지를 반환
+   * 문자열인 경우 해당 문자열을 반환
+   */
   const getErrorMessage = () => {
     if (!errorMessage) return null;
 

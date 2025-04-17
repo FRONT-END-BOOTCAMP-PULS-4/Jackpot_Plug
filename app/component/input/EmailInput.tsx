@@ -27,6 +27,7 @@ export default function EmailInput({
     "email" | "emailExists" | "authCode" | "authCodeIncomplete"
   >("email");
 
+  // 이메일 유효성 검사
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
@@ -44,6 +45,10 @@ export default function EmailInput({
     }
   };
 
+  /**
+   * 이메일 인증 버튼 클릭 핸들러
+   * 이메일 유효성 검사 후, 유효하면 인증 코드 입력 필드를 표시/유효하지 않으면 오류 메시지 표시
+   */
   const handleAuthCodeClick = () => {
     if (!validateEmail(email)) {
       setIsError(true);
@@ -55,6 +60,7 @@ export default function EmailInput({
     }
   };
 
+  // 인증 코드 확인 버튼 클릭 핸들러 (UI 확인용 샘플 버전)
   const handleConfirmClick = () => {
     if (authCode.length !== 6) {
       setIsError(true);
