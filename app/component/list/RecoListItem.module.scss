@@ -1,0 +1,73 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+@mixin border-top($weight: 1px, $type: solid, $color: $color-o-w3) {
+  border-top: $weight $type $color;
+}
+
+.reco_item_container {
+  border-radius: 10px;
+  transition: all 0.3s;
+
+  .inner_container {
+    padding: 20px;
+    @include border-top($color: transparent);
+  }
+
+  &:nth-child(3) .inner_container,
+  &:nth-child(4) .inner_container {
+    @include border-top;
+  }
+
+  &:nth-child(1):hover ~ &:nth-child(3) .inner_container {
+    @include border-top($color: transparent);
+  }
+
+  &:nth-child(2):hover ~ &:nth-child(4) .inner_container {
+    @include border-top($color: transparent);
+  }
+
+  &:hover {
+    background: rgba($color: #fff, $alpha: 0.1);
+    .inner_container {
+      @include border-top($color: transparent);
+    }
+  }
+
+  .inner_container {
+    padding-top: 20px;
+    @include flex($justify: space-between, $align: center);
+    transition: border-top 0.3s;
+
+    .container_leftside {
+      @include flex($gap: 20px, $align: center);
+
+      .album_img {
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .desc_container {
+        @include flex($direction: column, $gap: 8px, $align: flex-start);
+
+        .title {
+          text-overflow: ellipsis;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 160px;
+          font-size: rem(16);
+        }
+
+        .artist {
+          font-size: rem(12);
+          color: #bcbcbc;
+        }
+      }
+    }
+
+    .container_rightside {
+      font-size: rem(14);
+    }
+  }
+}

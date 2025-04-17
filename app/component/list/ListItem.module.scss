@@ -1,0 +1,62 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.edit_item_container {
+  border-radius: 10px;
+  transition: all 0.3s;
+  &:has(+ &:hover) {
+    .inner_container {
+      @include border-bottom($color: transparent);
+    }
+  }
+  &:hover {
+    background: rgba($color: #fff, $alpha: 0.1);
+    .inner_container {
+      @include border-bottom($color: transparent);
+    }
+  }
+  .inner_container {
+    padding: 20px;
+    @include flex($justify: space-between, $align: center);
+    @include border-bottom;
+    transition: border-bottom 0.3s;
+    .container_leftside {
+      @include flex($gap: 20px, $align: center);
+      .album_img {
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .desc_container {
+        @include flex($direction: column, $gap: 8px, $align: flex-start);
+        .title {
+          font-size: rem(20);
+        }
+
+        .artist {
+          font-size: rem(14);
+          color: #bcbcbc;
+        }
+      }
+    }
+  }
+}
+
+.extract_item_container {
+  @extend .edit_item_container;
+  .desc_container {
+    .artist {
+      display: none;
+    }
+  }
+  .album_img {
+    display: none;
+  }
+}
+
+.songs_item_container {
+  @extend .edit_item_container;
+  .container_rightside {
+    display: none;
+  }
+}

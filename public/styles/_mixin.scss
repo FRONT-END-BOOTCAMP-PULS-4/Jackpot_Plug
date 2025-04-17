@@ -1,3 +1,5 @@
+@use "./variable" as *;
+
 // mixin
 @mixin border-style($weight: 1px, $type: solid, $color: #f00) {
   border: $weight $type $color;
