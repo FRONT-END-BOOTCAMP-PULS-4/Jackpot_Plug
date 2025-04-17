@@ -5,7 +5,11 @@
   border: $weight $type $color;
 }
 
-@mixin border-bottom($weight: 1px, $type: solid, $color: $color-o-w3) {
+@mixin border-bottom(
+  $weight: 1px,
+  $type: solid,
+  $color: rgba(255, 255, 255, 0.3)
+) {
   border-bottom: $weight $type $color;
 }
 

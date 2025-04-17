@@ -1,0 +1,14 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.modal_header {
+  @include flex($justify: end);
+  margin-bottom: 11px;
+
+  &.has_title {
+    @include flex($justify: space-between);
+    margin-bottom: 50px;
+    font-size: rem(28);
+    font-weight: $font-semibold;
+  }
+}

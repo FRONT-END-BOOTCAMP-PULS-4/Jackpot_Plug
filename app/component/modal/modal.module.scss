@@ -1,0 +1,43 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.modal_dim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $color-o-b6;
+  z-index: 999;
+  @include flex();
+}
+
+.modal_wrapper {
+  background-color: $color-dark-primary;
+  @include border-style($color: $color-o-w3);
+  z-index: 1000;
+
+  &.lg {
+    min-width: 600px;
+    padding: 46px 50px 30px;
+    border-radius: 30px;
+    .modal_content {
+      padding-bottom: 90px;
+    }
+  }
+
+  &.sm {
+    min-width: 436px;
+    padding: 22px 23px 35px;
+    border-radius: 15px;
+    .modal_content {
+      padding-bottom: 42px;
+    }
+  }
+}
+
+.modal_content {
+  &.algin_center {
+    @include flex($justify: center);
+  }
+}
