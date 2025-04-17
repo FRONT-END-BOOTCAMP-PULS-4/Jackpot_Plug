@@ -49,6 +49,11 @@ export default function Home() {
           placeholder="닉네임을 2~10자 이내로 입력해주세요."
           label="닉네임"
         />
+        {/* <TextInput
+          placeholder="플레이리스트 제목을 작성해주세요."
+          label="플레이리스트 제목"
+          maxLength={20}
+        /> */}
       </form>
     </div>
   );

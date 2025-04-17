@@ -4,15 +4,21 @@ import InputField from "./InputField";
 import { PlaceholderProps, LabelProps } from "./types";
 import styles from "./InputField.module.scss";
 
-interface TextInputPorps extends PlaceholderProps, LabelProps {}
+interface TextInputPorps extends PlaceholderProps, LabelProps {
+  maxLength?: number;
+}
 
-export default function TextInput({ placeholder, label }: TextInputPorps) {
+export default function TextInput({
+  placeholder,
+  label,
+  maxLength = 10,
+}: TextInputPorps) {
   const [text, setText] = useState("");
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (value.length <= 10) {
+    if (value.length <= maxLength) {
       setText(value);
     }
   };
