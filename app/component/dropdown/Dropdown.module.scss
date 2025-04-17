@@ -1,0 +1,72 @@
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.dropdown {
+  position: relative;
+  width: 100%;
+
+  &_right {
+    .dropdown_button_wrapper {
+      @include flex($justify: flex-end);
+    }
+
+    .dropdown_content {
+      right: 0;
+    }
+  }
+
+  &_left {
+    .dropdown_button_wrapper {
+      @include flex($justify: flex-start);
+    }
+
+    .dropdown_content {
+      left: 0;
+    }
+  }
+
+  &_content {
+    position: absolute;
+    margin-top: 10px;
+    padding: 16px;
+    background: $color-primary;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    @include border-style($color: $color-o-w1);
+    animation: dropdown_fade 0.2s ease;
+  }
+
+  &_options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &_option {
+    width: 100%;
+  }
+}
+
+.option_btn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $color-o-w1;
+  }
+}
+
+@keyframes dropdown_fade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
