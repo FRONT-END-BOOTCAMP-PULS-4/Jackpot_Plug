@@ -65,7 +65,7 @@ export default function Dropdown({
       ref={dropdownRef}
     >
       <div className={styles.dropdown_button_wrapper}>
-        <IconBtn icon="edit" size="xs" onClick={toggleDropdown} />
+        <IconBtn icon="more" size="xs" onClick={toggleDropdown} />
       </div>
 
       {isOpen && (
