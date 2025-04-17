@@ -6,7 +6,7 @@ feat / 브랜치명 - 간단한 작업내용
 
 ### 반영 브랜치
 
-ex) feat/login -> dev
+ex) PLUG-01-Button -> dev
 
 ### PR 타입(하나 이상의 PR 타입을 선택해주세요)
 
