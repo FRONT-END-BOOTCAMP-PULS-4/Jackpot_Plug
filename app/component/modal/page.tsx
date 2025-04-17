@@ -3,6 +3,7 @@
 import useModal from "@/hooks/useModal";
 import Modal from "./Modal";
 import { RoundBtn } from "../button/Buttons";
+import { AnimatePresence } from "motion/react";
 
 export default function Home() {
   // 만드는 타이틀에 따라 재선언하여 사용
@@ -30,22 +31,28 @@ export default function Home() {
         onClick={infoModal.open}
       />
 
-      <TitleModal
-        isOpen={titleModal.isOpen}
-        onClose={titleModal.close}
-        onAction={() => {
-          // 버튼 클릭 시 실행 함수
-          alert("확인 버튼 클릭");
+      {/* 사라질 때 애니메이션 적용 _ AnimatePresence, titleModal.isOpen 필요 */}
+      <AnimatePresence mode="wait">
+        {titleModal.isOpen && (
+          <TitleModal
+            isOpen={titleModal.isOpen}
+            onClose={titleModal.close}
+            onAction={() => {
+              // 버튼 클릭 시 실행 함수
+              alert("확인 버튼 클릭");
 
-          // 모달 닫기
-          titleModal.close();
-        }}
-        size="lg"
-        title="플레이리스트 확인"
-      >
-        <p>안에 내용 왕창 넣으세요!</p>
-      </TitleModal>
+              // 모달 닫기
+              titleModal.close();
+            }}
+            size="lg"
+            title="플레이리스트 확인"
+          >
+            <p>안에 내용 왕창 넣으세요!</p>
+          </TitleModal>
+        )}
+      </AnimatePresence>
 
+      {/* 사라질 때 애니메이션 미적용*/}
       <InfoModal
         isOpen={infoModal.isOpen}
         onClose={infoModal.close}

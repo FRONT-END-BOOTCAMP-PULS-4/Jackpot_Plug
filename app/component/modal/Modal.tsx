@@ -5,6 +5,7 @@ import styles from "./Modal.module.scss";
 import ModalFooter from "./ModalFooter";
 import ModalHeader from "./ModalHeader";
 import Portal from "../Portal";
+import { motion } from "motion/react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -49,7 +50,11 @@ export default function Modal({
 
   const modalContent = (
     <div className={styles.modal_dim} onClick={onClose}>
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.2 }}
         className={`${styles.modal_wrapper} ${styles[`${size}`]}`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -66,7 +71,7 @@ export default function Modal({
           onAction={onAction}
           align={size != "lg" ? "center" : "right"}
         />
-      </div>
+      </motion.div>
     </div>
   );
 
