@@ -53,7 +53,7 @@ export default function Modal({
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
         transition={{ duration: 0.2 }}
         className={`${styles.modal_wrapper} ${styles[`${size}`]}`}
         onClick={(e) => e.stopPropagation()}

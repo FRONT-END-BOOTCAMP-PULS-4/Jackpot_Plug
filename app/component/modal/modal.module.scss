@@ -9,11 +9,11 @@
   height: 100%;
   background-color: $color-o-b6;
   z-index: 999;
+  @include flex();
 }
 
 .modal_wrapper {
   background-color: $color-dark-primary;
-  @include position();
   @include border-style($color: $color-o-w3);
   z-index: 1000;
 
