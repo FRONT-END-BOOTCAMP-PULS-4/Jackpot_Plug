@@ -1,0 +1,50 @@
+@use "./../../../public/styles/mixin.scss" as *;
+@use "./../../../public/styles/variable.scss" as *;
+
+.input_container {
+  margin-bottom: 38px;
+}
+
+.input_field {
+  position: relative;
+  max-width: 400px;
+
+  .visible_label {
+    padding-left: 8px;
+  }
+
+  .input {
+    padding: 22px 8px;
+    width: 100%;
+    max-width: 400px;
+    @include border-bottom;
+
+    &.filled {
+      @include border-bottom($color: $color-purple);
+    }
+
+    &::placeholder {
+      color: $color-o-w5;
+    }
+
+    &:focus::placeholder {
+      opacity: 0;
+    }
+  }
+}
+
+.error_message,
+.success_message {
+  font-size: rem(14);
+  margin-top: 10px;
+}
+
+.error_message {
+  color: $color-red;
+}
+
+.text_input {
+  input {
+    text-align: center;
+  }
+}

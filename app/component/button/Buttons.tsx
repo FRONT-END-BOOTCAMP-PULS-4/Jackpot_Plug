@@ -7,15 +7,26 @@ interface RoundBtnProps {
   size: "lg" | "md" | "sm" | "xs";
   color?: "accent" | "gray" | "enabled" | "disabled";
   onClick?: () => void;
+  customClassName?: string;
 }
 
-export function RoundBtn({ text, size, color, onClick }: RoundBtnProps) {
+export function RoundBtn({
+  text,
+  size,
+  color,
+  onClick,
+  customClassName,
+}: RoundBtnProps) {
   const className = `${styles.round_btn} ${styles[`round_btn_${size}`]} ${
     color ? styles[color] : ""
   }`;
 
   return (
-    <button type="button" className={className} onClick={onClick}>
+    <button
+      type="button"
+      className={`${className} ${styles[`${customClassName}`] || ""}`}
+      onClick={onClick}
+    >
       {text}
     </button>
   );
@@ -47,9 +58,15 @@ interface IconBtnProps {
   icon: string; // 예: "plug", "add", "eye-close"
   size: "xl" | "lg" | "md" | "sm" | "xs";
   onClick?: () => void;
+  customClassName?: string;
 }
 
-export function IconBtn({ icon, size, onClick }: IconBtnProps) {
+export function IconBtn({
+  icon,
+  size,
+  onClick,
+  customClassName,
+}: IconBtnProps) {
   const isPlug = icon === "plug";
 
   const className = `${styles.icon_btn} ${styles[`icon_btn_${size}`]} ${
@@ -63,7 +80,7 @@ export function IconBtn({ icon, size, onClick }: IconBtnProps) {
   return (
     <button
       type="button"
-      className={className}
+      className={`${className} ${styles[`${customClassName}`] || ""}`}
       style={style}
       onClick={onClick}
     />
