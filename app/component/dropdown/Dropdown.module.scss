@@ -7,8 +7,7 @@
 
   &_right {
     .dropdown_button_wrapper {
-      display: flex;
-      justify-content: flex-end;
+      @include flex($justify: flex-end);
     }
 
     .dropdown_content {
@@ -18,8 +17,7 @@
 
   &_left {
     .dropdown_button_wrapper {
-      display: flex;
-      justify-content: flex-start;
+      @include flex($justify: flex-start);
     }
 
     .dropdown_content {
