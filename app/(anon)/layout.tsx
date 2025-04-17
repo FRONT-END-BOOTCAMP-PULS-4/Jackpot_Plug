@@ -5,7 +5,7 @@ export default function commonLayout({ children }: LayoutProps) {
   return (
     <div className="root_layout">
       <RootAside />
-      <main>{children}</main>
+      <main className="root_main">{children}</main>
     </div>
   );
 }

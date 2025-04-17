@@ -2,6 +2,7 @@
 @use "../../../public/styles/variable" as *;
 
 .root_aside {
+  flex-shrink: 0;
   width: 132px;
   height: 100vh;
   border-right: 1px solid $color-o-w3;

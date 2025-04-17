@@ -2,6 +2,7 @@
 @use "./../../../public/styles/variable.scss" as *;
 
 .search_field {
+  width: 100%;
   max-width: 1150px;
   border-radius: 50px;
   background-color: $color-o-w3;
