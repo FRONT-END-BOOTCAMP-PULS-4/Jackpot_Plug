@@ -24,7 +24,6 @@ export default function VideoListItem({
   mode = "thumbnail",
   src = "/images/sample-image.png",
 }: IVideoListItemProps) {
-  
   const renderMedia = () => {
     if (mode === "video") {
       return (

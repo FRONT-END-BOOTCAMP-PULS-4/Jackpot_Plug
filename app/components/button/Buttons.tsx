@@ -59,6 +59,7 @@ interface IconBtnProps {
   size: "xl" | "lg" | "md" | "sm" | "xs" | "xxs";
   onClick?: () => void;
   customClassName?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 export function IconBtn({
@@ -66,6 +67,7 @@ export function IconBtn({
   size,
   onClick,
   customClassName,
+  type = "button",
 }: IconBtnProps) {
   const isPlug = icon === "plug";
 
@@ -79,7 +81,7 @@ export function IconBtn({
 
   return (
     <button
-      type="button"
+      type={type}
       className={`${className} ${styles[`${customClassName}`] || ""}`}
       style={style}
       onClick={onClick}
