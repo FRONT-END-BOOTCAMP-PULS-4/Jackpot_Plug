@@ -1,13 +1,13 @@
 import styles from "./Title.module.scss";
 
 interface TitleProps {
-  isSmall: boolean;
+  isSmall?: boolean;
   titleText: string;
   descriptionText: string;
 }
 
 export default function Title({
-  isSmall,
+  isSmall = false,
   titleText,
   descriptionText,
 }: TitleProps) {
