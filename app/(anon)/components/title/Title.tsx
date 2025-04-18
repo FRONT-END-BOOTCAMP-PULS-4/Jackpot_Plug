@@ -3,7 +3,7 @@ import styles from "./Title.module.scss";
 interface TitleProps {
   isSmall?: boolean;
   titleText: string;
-  descriptionText: string;
+  descriptionText: string | React.ReactNode;
 }
 
 export default function Title({
