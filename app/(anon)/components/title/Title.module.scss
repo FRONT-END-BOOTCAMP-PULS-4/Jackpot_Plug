@@ -5,16 +5,19 @@
 
   .title {
     font-size: rem(68);
+    margin-bottom: 36px;
   }
 
   .description {
     font-size: rem(18);
-    margin-bottom: 36px;
+    white-space: pre-line;
+    line-height: 1.6;
   }
 
   &.small {
     .title {
       font-size: rem(60);
+      margin-bottom: 16px;
     }
 
     .description {
