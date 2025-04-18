@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useMemo } from "react";
 import { supabase } from "../../lib/supabase";
 import { SignupRequestDto } from "../../../application/usecases/member/dto/SignupRequestDto";
 import { EmailVerificationDto } from "../../../application/usecases/member/dto/EmailVerificationDto";
@@ -10,7 +10,7 @@ import { SendVerificationCodeUseCase } from "../../../application/usecases/membe
 import EmailInput from "../../components/input/EmailInput";
 import PasswordInput from "../../components/input/PasswordInput";
 import TextInput from "../../components/input/TextInput";
-import Toast from "../../components/toast/Toast";
+import Title from "../../(anon)/components/title/Title";
 
 import { RoundBtn, ProfileImgBtn } from "../../components/button/Buttons";
 import { useToast } from "@/hooks/useToast";
@@ -18,11 +18,9 @@ import { useToast } from "@/hooks/useToast";
 export default function JoinForm() {
   const [email, setEmail] = useState(""); // 사용자가 입력한 이메일
   const [checkNum, setCheckNum] = useState(""); // 생성된 인증번호
-  const [userCode, setUserCode] = useState(""); // 사용자가 입력한 인증번호
   const [password, setPassword] = useState(""); // 사용자가 입력한 비밀번호
   const [isVerified, setIsVerified] = useState(false); // 인증이 되었는지 유무
   const [passCheck, setPassCheck] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(false); // 메인 전송 성공, 실패 여부
   const [showProfileForm, setShowProfileForm] = useState(false);
   const [profileName, setProfileName] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -39,7 +37,6 @@ export default function JoinForm() {
 
     try {
       const res = await sendVerificationCodeUseCase.execute(verificationDto);
-      setIsCodeSent(true);
       showToast(res.message, 2000);
     } catch (error) {
       if (error instanceof Error) {
@@ -86,22 +83,64 @@ export default function JoinForm() {
 
     try {
       await registerMemberUseCase.execute(signupRequestDto);
-      alert("회원가입이 완료되었습니다!");
+      showToast("회원가입이 완료되었습니다!", 2000);
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert("회원가입 중 알 수 없는 오류가 발생했습니다");
+        showToast("회원가입 중 알 수 없는 오류가 발생했습니다", 2000);
       }
     }
   };
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // 이미지 선택 시 호출
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImage(file);
+    }
+  };
+
+  // 버튼 클릭 시 숨겨진 input 열기
+  const handleProfileImgBtnClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // ProfileImgBtn 최적화 - 렌더링 불필요한 경우 렌더링 방지
+  const memoizedProfileImgBtn = useMemo(() => {
+    return (
+      <ProfileImgBtn
+        image={profileImage ? URL.createObjectURL(profileImage) : undefined}
+        onClick={handleProfileImgBtnClick}
+      />
+    );
+  }, [profileImage]); // profileImage만 변경될 때에만 업데이트
+
   return (
-    <div>
-      <div id="toast-root" />
-      <Toast />
+    <section
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh", // 화면 세로 중앙 정렬용
+      }}
+    >
       {!showProfileForm ? (
-        <>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Title
+            isSmall={false}
+            titleText="회원가입"
+            descriptionText="나만의 리스트를 저장해 보세요."
+          />
           <EmailInput
             email={email}
             setEmail={setEmail}
@@ -111,7 +150,7 @@ export default function JoinForm() {
           />
           <PasswordInput
             password={password}
-            setPassword={setPassword}
+            setPass={setPassword}
             setPassCheck={setPassCheck}
           />
           <RoundBtn
@@ -124,41 +163,41 @@ export default function JoinForm() {
                 : () => showToast("모든 항목을 입력해주세요.", 2000)
             }
           />
-        </>
+        </div>
       ) : (
-        <>
-          <ProfileImgBtn />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Title
+            isSmall={false}
+            titleText="프로필 설정"
+            descriptionText="나중에 언제든지 변경할 수 있어요."
+          />
+          {memoizedProfileImgBtn}
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleImageSelect}
+          />
           <TextInput
             placeholder="닉네임을 2~10자 이내로 입력해주세요."
             label="닉네임"
+            setProfileName={setProfileName}
           />
           <RoundBtn
             text="시작하기"
             size="lg"
             color="accent"
-            onClick={() => setShowProfileForm(true)}
+            onClick={handleRegister}
           />
-          {/* <label>프로필 사진</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) setProfileImage(file);
-            }}
-          />
-          {profileImage && (
-            <img src={URL.createObjectURL(profileImage)} alt="preview" />
-          )}
-          <input
-            type="text"
-            placeholder="프로필 이름"
-            value={profileName}
-            onChange={(e) => setProfileName(e.target.value)}
-          />
-          <button onClick={handleRegister}>회원가입</button> */}
-        </>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

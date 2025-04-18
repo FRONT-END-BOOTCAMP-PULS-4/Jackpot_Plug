@@ -5,9 +5,9 @@ import { MessageProps, ButtonProps, LabelProps } from "./types";
 import { IconBtn } from "../button/Buttons";
 
 interface PasswordInputProps extends MessageProps, ButtonProps, LabelProps {
-  password: string; // 부모로부터 받은 상태
-  setPassword: (email: string) => void; // 상태 업데이트 콜백
-  setPassCheck: (passcheck: boolean) => void;
+  password: string;
+  setPass?: (email: string) => void;
+  setPassCheck?: (passcheck: boolean) => void;
 }
 
 export default function PasswordInput({
@@ -18,10 +18,10 @@ export default function PasswordInput({
   label = "비밀번호",
   labelHidden = true,
   id = "password_input",
-  password,
-  setPassword,
+  setPass,
   setPassCheck,
 }: PasswordInputProps) {
+  const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
   const [pwVisible, setPwVisible] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
@@ -44,6 +44,7 @@ export default function PasswordInput({
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setPassword(value);
+    setPass?.(value);
 
     if (!isTouched && value) {
       setIsTouched(true);
@@ -54,9 +55,9 @@ export default function PasswordInput({
       setIsError(!isValid);
 
       if (isValid) {
-        setPassCheck(true);
+        setPassCheck?.(true);
       } else {
-        setPassCheck(false);
+        setPassCheck?.(false);
       }
     }
   };
