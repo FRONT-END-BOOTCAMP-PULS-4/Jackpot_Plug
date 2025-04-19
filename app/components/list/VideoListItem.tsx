@@ -75,8 +75,8 @@ export default function VideoListItem({
         <YouTube
           videoId={youtubeVideoId}
           opts={{
-            width: "200",
-            height: "140",
+            width: "240",
+            height: "180",
           }}
           className={styles.video_player}
           title="YouTube video player"
