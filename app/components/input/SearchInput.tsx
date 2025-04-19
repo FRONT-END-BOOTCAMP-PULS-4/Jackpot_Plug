@@ -5,6 +5,7 @@ import { SearchInputProps } from "./types";
 export default function SearchInput({
   placeholder,
   buttonIcon,
+  onChange,
   size = "default",
 }: SearchInputProps) {
   return (
@@ -19,6 +20,7 @@ export default function SearchInput({
         placeholder={placeholder}
         className={`${styles.search_input}`}
         autoComplete="off"
+        onChange={onChange}
       />
       {buttonIcon}
     </div>
