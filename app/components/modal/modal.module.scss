@@ -13,7 +13,7 @@
 }
 
 .modal_wrapper {
-  background-color: $color-dark-primary;
+  background: $color-dark-primary;
   @include border-style($color: $color-o-w3);
   z-index: 1000;
 
@@ -39,5 +39,9 @@
 .modal_content {
   &.algin_center {
     @include flex($justify: center);
+    white-space: pre-line;
+    text-align: center;
+    font-size: rem(18);
+    line-height: 1.6;
   }
 }

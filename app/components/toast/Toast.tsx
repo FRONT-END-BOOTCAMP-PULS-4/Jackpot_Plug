@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Toast() {
   const [mounted, setMounted] = useState(false);
   const { message, visible, type } = useToastStore();
-  console.log("toast", message, visible, type);
   const toastStyle = `${styles.toast} ${
     type != "default" ? styles[`${type}`] : ""
   }`;
