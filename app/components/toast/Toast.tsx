@@ -8,7 +8,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function Toast() {
   const [mounted, setMounted] = useState(false);
-  const { message, visible } = useToastStore();
+  const { message, visible, type } = useToastStore();
+  console.log("toast", message, visible, type);
+  const toastStyle = `${styles.toast} ${
+    type != "default" ? styles[`${type}`] : ""
+  }`;
 
   useEffect(() => {
     setMounted(true);
@@ -18,23 +22,24 @@ export default function Toast() {
   if (!mounted) return null;
 
   const toastContent = (
-    <div className={styles.toast_container}>
-      <AnimatePresence>
-        {visible && (
+    <AnimatePresence>
+      {visible && (
+        <div className={styles.toast_container}>
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
             transition={{
               duration: 0.4,
               scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
             }}
-            className={styles.toast}
+            className={toastStyle}
           >
             {message}
           </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 
   return <Portal id="toast-root" content={toastContent} />;
