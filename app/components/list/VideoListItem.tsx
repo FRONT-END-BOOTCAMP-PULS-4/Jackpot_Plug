@@ -1,17 +1,21 @@
 "use client";
-import React from "react";
 import styles from "./VideoListItem.module.scss";
 import { IListItemProps } from "./ListItem";
 import Image from "next/image";
 import { videoListItemModeSwitcher } from "@/utils/modeSwitcher";
 import { IconBtn } from "../button/Buttons";
-
+import YouTube from "react-youtube";
+import type { YouTubePlayer, YouTubeEvent } from "react-youtube";
+import { useEffect, useRef } from "react";
 interface IVideoListItemProps extends IListItemProps {
   src?: string;
   duration?: string;
   isCertified?: boolean;
   onClick?: () => void;
   selected?: boolean;
+  videoId?: string;
+  currentPlayingId?: string | null;
+  onPlay?: (videoId: string) => void;
 }
 
 export default function VideoListItem({
@@ -23,18 +27,61 @@ export default function VideoListItem({
   selected,
   mode = "thumbnail",
   src = "/images/sample-image.png",
+  videoId,
+  currentPlayingId,
+  onPlay,
 }: IVideoListItemProps) {
+  const playerRef = useRef<YouTubePlayer | null>(null);
+
+  // YouTube URL에서 videoId 추출하는 함수
+  const extractVideoId = (url: string): string | null => {
+    if (!url.includes("youtube.com/embed/")) return null;
+
+    const parts = url.split("/");
+    const idPart = parts[parts.length - 1];
+    // URL 파라미터 제거
+    return idPart.split("?")[0];
+  };
+
+  // src가 YouTube URL인 경우 videoId 추출
+  const youtubeVideoId = videoId || (src ? extractVideoId(src) : null);
+
+  useEffect(() => {
+    if (
+      currentPlayingId &&
+      youtubeVideoId &&
+      currentPlayingId !== youtubeVideoId &&
+      playerRef.current
+    ) {
+      // 다른 비디오가 재생 중이라면 이전 비디오 중지
+      playerRef.current.pauseVideo();
+    }
+  }, [currentPlayingId, youtubeVideoId]);
+
+  const handleReady = (e: YouTubeEvent) => {
+    // 플레이어 인스턴스 저장
+    playerRef.current = e.target;
+  };
+
+  const handlePlay = () => {
+    if (onPlay && youtubeVideoId) {
+      onPlay(youtubeVideoId);
+    }
+  };
+
   const renderMedia = () => {
-    if (mode === "video") {
+    if (mode === "video" && youtubeVideoId) {
       return (
-        <iframe
-          width="200"
-          height="140"
+        <YouTube
+          videoId={youtubeVideoId}
+          opts={{
+            width: "200",
+            height: "140",
+          }}
           className={styles.video_player}
-          src={src}
           title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
+          onReady={handleReady}
+          onPlay={handlePlay}
         />
       );
     }

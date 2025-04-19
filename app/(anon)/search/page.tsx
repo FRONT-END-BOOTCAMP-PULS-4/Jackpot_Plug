@@ -5,11 +5,13 @@ import styles from "./page.module.scss";
 import SearchInput from "@/app/components/input/SearchInput";
 import { IconBtn } from "@/app/components/button/Buttons";
 import VideoListItem from "@/app/components/list/VideoListItem";
+import { video } from "motion/react-client";
 
 export default function Page() {
   const [query, setQuery] = useState("");
   const [currentQuery, setCurrentQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [currentPlayingId, setCurrentPlayingId] = useState<string | null>(null);
 
   const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -41,6 +43,10 @@ export default function Page() {
     }
   };
 
+  const handleVideoPlay = (videoId: string) => {
+    setCurrentPlayingId(videoId);
+  };
+
   return (
     <section className={styles.search}>
       <Title
@@ -53,7 +59,7 @@ export default function Page() {
       <form onSubmit={handleSearch} className={styles.search_form}>
         <SearchInput
           placeholder="찾고 싶은 음악 또는 아티스트를 검색해 보세요."
-          buttonIcon={<IconBtn icon="search" size="xl" type="submit" />}
+          buttonIcon={<IconBtn icon="search" size="lg" type="submit" />}
           value={query}
           onChange={handleQueryChange}
         />
@@ -68,7 +74,9 @@ export default function Page() {
               artist={result.snippet.channelTitle}
               isCertified={true}
               mode="video"
-              src={`https://www.youtube.com/embed/${result.id.videoId}`}
+              videoId={result.id.videoId}
+              currentPlayingId={currentPlayingId}
+              onPlay={handleVideoPlay}
             />
           ))}
         </ul>
