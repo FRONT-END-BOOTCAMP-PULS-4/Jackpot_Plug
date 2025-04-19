@@ -5,7 +5,6 @@ import styles from "./page.module.scss";
 import SearchInput from "@/app/components/input/SearchInput";
 import { IconBtn } from "@/app/components/button/Buttons";
 import VideoListItem from "@/app/components/list/VideoListItem";
-import { video } from "motion/react-client";
 
 export default function Page() {
   const [query, setQuery] = useState("");

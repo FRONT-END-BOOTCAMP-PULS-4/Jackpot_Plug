@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     // API 요청을 위한 URL 설정
     const baseUrl = process.env.NEXT_PUBLIC_YOUTUBE_API_URL_SEARCH;
     const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-    const apiUrl = `${baseUrl}?key=${apiKey}&part=snippet&order=relevance&type=video&maxResults=5&q=${encodeURIComponent(
+    const apiUrl = `${baseUrl}?key=${apiKey}&part=snippet&order=relevance&type=video&videoEmbeddable=true&maxResults=10&q=${encodeURIComponent(
       query
     )}`;
 
@@ -34,7 +34,15 @@ export async function GET(request: Request) {
     // 응답 데이터 파싱
     const data = await response.json();
 
-    return NextResponse.json(data);
+    const videoItems = data.items.filter(
+      (item: any) => item.id && item.id.videoId
+    );
+
+    return NextResponse.json({
+      items: videoItems.slice(0, 5),
+      totalResults: videoItems.length,
+      query,
+    });
   } catch (error) {
     console.error("Error fetching search results:", error);
 
