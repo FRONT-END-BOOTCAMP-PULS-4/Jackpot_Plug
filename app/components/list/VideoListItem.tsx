@@ -7,6 +7,8 @@ import { IconBtn } from "../button/Buttons";
 import YouTube from "react-youtube";
 import type { YouTubePlayer, YouTubeEvent } from "react-youtube";
 import { useEffect, useRef } from "react";
+import { decodeHtmlEntities } from "@/utils/decodeHtmlEntities";
+
 interface IVideoListItemProps extends IListItemProps {
   src?: string;
   duration?: string;
@@ -97,6 +99,9 @@ export default function VideoListItem({
     );
   };
 
+  const decodedTitle = title ? decodeHtmlEntities(title) : "Meaning of you";
+  const decodedArtist = artist ? decodeHtmlEntities(artist) : "아이유 IU";
+
   return (
     <li
       className={`${
@@ -113,10 +118,10 @@ export default function VideoListItem({
         )}
       </div>
       <div className={styles.desc_container}>
-        <span className={styles.title}>{title ?? "Meaning of you"}</span>
+        <span className={styles.title}>{decodedTitle}</span>
         <div className={styles.artist_container}>
           <div className={styles[isCertified ? "certified" : ""]}></div>
-          <span className={styles.artist}>{artist ?? "아이유 IU"}</span>
+          <span className={styles.artist}>{decodedArtist}</span>
         </div>
         <div className={styles.bottom_container}>
           <div className={styles.duration_container}>
