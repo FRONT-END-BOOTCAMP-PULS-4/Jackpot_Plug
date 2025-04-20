@@ -123,12 +123,8 @@ export default function VideoListItem({
           <div className={styles[isCertified ? "certified" : ""]}></div>
           <span className={styles.artist}>{decodedArtist}</span>
         </div>
-        <div className={styles.bottom_container}>
-          <div className={styles.duration_container}>
-            <div className={styles.duration_icon}></div>
-            <span className={styles.duration}>{duration}</span>
-          </div>
-          <IconBtn icon="search-add-playlist" size="xxs" />
+        <div className={styles.add_playlist_btn}>
+          <IconBtn icon="search-add-playlist" size="xs" />
         </div>
       </div>
     </li>
