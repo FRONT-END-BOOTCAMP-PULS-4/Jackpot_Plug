@@ -1,4 +1,4 @@
-import { getMusiclistUseCase } from "@/application/usecase/musics/useGetMusiclist";
+import { getVideoInfoUseCase } from "@/application/usecase/musics/useGetVideoContents";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     );
 
   try {
-    const result = await getMusiclistUseCase(videoId);
+    const result = await getVideoInfoUseCase(videoId);
     return Response.json(result);
   } catch (error: any) {
     if (error.message === "NoDescription" || error.message === "NoMusicItem") {

@@ -3,10 +3,11 @@ import { VideoRepository } from "@/domain/repositories/VideoRepository";
 import { YoutubeApiRepository } from "@/infra/repositories/youtube/VideoReposiroty";
 import { Video } from "./dto/Video.dto";
 import { extractTimeline } from "@/utils/extractTimeline";
+import { formatDuration } from "@/utils/formatDuration";
 
 const videoRepo: VideoRepository = new YoutubeApiRepository();
 
-export async function getMusiclistUseCase(videoId: string): Promise<Video> {
+export async function getVideoInfoUseCase(videoId: string): Promise<Video> {
   const { title, channelTitle, thumbnail, duration, description } =
     await videoRepo.fetchVideoData(videoId);
 
@@ -15,6 +16,7 @@ export async function getMusiclistUseCase(videoId: string): Promise<Video> {
   }
 
   const musicList = extractTimeline(description);
+  const videoDuration = formatDuration(duration);
 
   if (musicList.length === 0) {
     throw new Error("NoMusicItem");
@@ -24,7 +26,7 @@ export async function getMusiclistUseCase(videoId: string): Promise<Video> {
     title,
     channelTitle,
     thumbnail,
-    duration,
+    duration: videoDuration,
     musicList: musicList,
   };
 }

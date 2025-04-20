@@ -1,4 +1,4 @@
-function formatDuration(duration: string): string {
+export function formatDuration(duration: string): string {
   const regex = /P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
 
   const [, days, hours, minutes, seconds] = duration.match(regex) || [];
