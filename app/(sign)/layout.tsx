@@ -5,17 +5,14 @@ import { LayoutProps } from "../layout";
 export default function signLayout({ children }: LayoutProps) {
   return (
     <>
-      <div id="toast-root" />
       <div
+        id="toast-root"
         style={{
           position: "fixed",
-          top: "20px",
-          right: "20px",
           zIndex: 9999,
+          pointerEvents: "none",
         }}
-      >
-        <Toast />
-      </div>
+      />
       <div
         style={{
           display: "flex",
