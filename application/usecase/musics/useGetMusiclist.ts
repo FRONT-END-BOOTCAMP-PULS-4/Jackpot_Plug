@@ -1,25 +1,30 @@
 // 영상 설명을 가져오고 타임라인을 추출하는 유스케이스
-import { MusicRepository } from "@/domain/repositories/MusicRepository";
-import { YoutubeApiRepository } from "@/infra/repositories/youtube/videoReposiroty";
-import { MusicItemDto } from "./dto/music.dto";
+import { VideoRepository } from "@/domain/repositories/VideoRepository";
+import { YoutubeApiRepository } from "@/infra/repositories/youtube/VideoReposiroty";
+import { Video } from "./dto/Video.dto";
 import { extractTimeline } from "@/utils/extractTimeline";
 
-const videoRepo: MusicRepository = new YoutubeApiRepository();
+const videoRepo: VideoRepository = new YoutubeApiRepository();
 
-export async function getMusiclistUseCase(
-  videoId: string
-): Promise<MusicItemDto[]> {
-  const description = await videoRepo.fetchDescription(videoId);
+export async function getMusiclistUseCase(videoId: string): Promise<Video> {
+  const { title, channelTitle, thumbnail, duration, description } =
+    await videoRepo.fetchVideoData(videoId);
 
   if (!description || description === "No description available") {
     throw new Error("NoDescription");
   }
 
-  const MusicItems = extractTimeline(description);
+  const musicList = extractTimeline(description);
 
-  if (MusicItems.length === 0) {
+  if (musicList.length === 0) {
     throw new Error("NoMusicItem");
   }
 
-  return MusicItems;
+  return {
+    title,
+    channelTitle,
+    thumbnail,
+    duration,
+    musicList: musicList,
+  };
 }
