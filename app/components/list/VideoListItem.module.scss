@@ -14,6 +14,7 @@
   }
   .desc_container {
     width: 100%;
+    position: relative;
     @include flex(
       $direction: column,
       $justify: flex-start,
@@ -21,44 +22,31 @@
       $gap: 6px
     );
     .title {
-      max-width: 200px;
+      max-width: 230px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
       font-size: rem(16);
+      margin-bottom: 6px;
     }
     .artist_container {
       @include flex($gap: 6px);
       .certified {
         @include icon(
-          $width: 12px,
-          $height: 12px,
+          $width: 14px,
+          $height: 14px,
           $url: "/assets/icons/is-certified.svg",
           $size: cover
         );
       }
       .artist {
-        font-size: rem(12);
+        font-size: rem(14);
       }
     }
-    .bottom_container {
-      width: 100%;
-      @include flex($justify: space-between);
-      .duration_container {
-        @include flex($gap: 6px);
-        .duration_icon {
-          @include icon(
-            $width: 12px,
-            $height: 12px,
-            $url: "/assets/icons/duration.svg",
-            $size: cover
-          );
-        }
-        .duration {
-          font-size: rem(12);
-          opacity: 0.6;
-        }
-      }
+    .add_playlist_btn {
+      position: absolute;
+      right: 0;
+      bottom: -8px;
     }
   }
 
