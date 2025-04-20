@@ -48,14 +48,21 @@ export default function VideoListItem({
     playerRef.current = e.target;
   };
 
+  const handleItemClick = () => {
+    if (mode === "video") return;
+    if (onClick) {
+      onClick();
+    }
+  };
+
   const renderMedia = () => {
     if (videoId && isPlaying) {
       return (
         <YouTube
           videoId={videoId}
           opts={{
-            width: "240",
-            height: "135",
+            width: "100%",
+            height: "100%",
             playerVars: {
               autoplay: 1,
             },
@@ -73,8 +80,8 @@ export default function VideoListItem({
           className={styles.video_thumbnail_img}
           src={getThumbnailUrl(videoId)}
           alt={`${title} thumbnail`}
-          width={mode === "playlist" ? 380 : 240}
-          height={mode === "playlist" ? 250 : 135}
+          width={240}
+          height={134}
           onError={handleThumbnailError}
         />
       );
@@ -85,8 +92,8 @@ export default function VideoListItem({
         className={styles.thumbnail_img}
         src={src}
         alt={`${title} thumbnail`}
-        width={mode === "playlist" ? 380 : 200}
-        height={mode === "playlist" ? 250 : 140}
+        width={mode === "playlist" ? 380 : 240}
+        height={mode === "playlist" ? 250 : 134}
       />
     );
   };
@@ -99,7 +106,7 @@ export default function VideoListItem({
       className={`${
         styles[videoListItemModeSwitcher(mode as string) as string]
       } ${selected && mode === "thumbnail" ? styles.selected : ""}`}
-      onClick={mode === "video" ? undefined : onClick}
+      onClick={handleItemClick}
     >
       <div className={styles.thumbnail_img_container}>
         {renderMedia()}
