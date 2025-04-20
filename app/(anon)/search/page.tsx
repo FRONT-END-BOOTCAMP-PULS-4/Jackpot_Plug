@@ -10,7 +10,7 @@ export default function Page() {
   const [query, setQuery] = useState("");
   const [currentQuery, setCurrentQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [currentPlayingId, setCurrentPlayingId] = useState<string | null>(null);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
 
   const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -30,6 +30,7 @@ export default function Page() {
       const data = await response.json();
       setSearchResults(data.items || []);
       setCurrentQuery(searchQuery);
+      setSelectedVideoId(null);
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
@@ -42,8 +43,12 @@ export default function Page() {
     }
   };
 
-  const handleVideoPlay = (videoId: string) => {
-    setCurrentPlayingId(videoId);
+  const handleVideoSelect = (videoId: string) => {
+    if (selectedVideoId === videoId) {
+      setSelectedVideoId(null);
+    } else {
+      setSelectedVideoId(videoId);
+    }
   };
 
   return (
@@ -72,10 +77,11 @@ export default function Page() {
               title={result.snippet.title}
               artist={result.snippet.channelTitle}
               isCertified={true}
-              mode="video"
+              mode="thumbnail"
               videoId={result.id.videoId}
-              currentPlayingId={currentPlayingId}
-              onPlay={handleVideoPlay}
+              selected={selectedVideoId === result.id.videoId}
+              onClick={() => handleVideoSelect(result.id.videoId)}
+              isPlaying={selectedVideoId === result.id.videoId}
             />
           ))}
         </ul>

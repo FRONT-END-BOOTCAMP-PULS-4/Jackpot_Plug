@@ -6,7 +6,7 @@ import { videoListItemModeSwitcher } from "@/utils/modeSwitcher";
 import { IconBtn } from "../button/Buttons";
 import YouTube from "react-youtube";
 import type { YouTubePlayer, YouTubeEvent } from "react-youtube";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { decodeHtmlEntities } from "@/utils/decodeHtmlEntities";
 
 interface IVideoListItemProps extends IListItemProps {
@@ -16,8 +16,7 @@ interface IVideoListItemProps extends IListItemProps {
   onClick?: () => void;
   selected?: boolean;
   videoId?: string;
-  currentPlayingId?: string | null;
-  onPlay?: (videoId: string) => void;
+  isPlaying?: boolean;
 }
 
 export default function VideoListItem({
@@ -30,60 +29,53 @@ export default function VideoListItem({
   mode = "thumbnail",
   src = "/images/sample-image.png",
   videoId,
-  currentPlayingId,
-  onPlay,
+  isPlaying = false,
 }: IVideoListItemProps) {
   const playerRef = useRef<YouTubePlayer | null>(null);
+  const [thumbnailError, setThumbnailError] = useState(false);
 
-  // YouTube URL에서 videoId 추출하는 함수
-  const extractVideoId = (url: string): string | null => {
-    if (!url.includes("youtube.com/embed/")) return null;
-
-    const parts = url.split("/");
-    const idPart = parts[parts.length - 1];
-    // URL 파라미터 제거
-    return idPart.split("?")[0];
+  // 유튜브 썸네일 URL 생성 함수
+  const getThumbnailUrl = (videoId: string) => {
+    return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
   };
 
-  // src가 YouTube URL인 경우 videoId 추출
-  const youtubeVideoId = videoId || (src ? extractVideoId(src) : null);
-
-  useEffect(() => {
-    if (
-      currentPlayingId &&
-      youtubeVideoId &&
-      currentPlayingId !== youtubeVideoId &&
-      playerRef.current
-    ) {
-      // 다른 비디오가 재생 중이라면 이전 비디오 중지
-      playerRef.current.pauseVideo();
-    }
-  }, [currentPlayingId, youtubeVideoId]);
+  const handleThumbnailError = () => {
+    setThumbnailError(true);
+  };
 
   const handleReady = (e: YouTubeEvent) => {
     // 플레이어 인스턴스 저장
     playerRef.current = e.target;
   };
 
-  const handlePlay = () => {
-    if (onPlay && youtubeVideoId) {
-      onPlay(youtubeVideoId);
-    }
-  };
-
   const renderMedia = () => {
-    if (mode === "video" && youtubeVideoId) {
+    if (videoId && isPlaying) {
       return (
         <YouTube
-          videoId={youtubeVideoId}
+          videoId={videoId}
           opts={{
             width: "240",
-            height: "180",
+            height: "135",
+            playerVars: {
+              autoplay: 1,
+            },
           }}
           className={styles.video_player}
           title="YouTube video player"
           onReady={handleReady}
-          onPlay={handlePlay}
+        />
+      );
+    }
+
+    if (videoId && !thumbnailError) {
+      return (
+        <img
+          className={styles.video_thumbnail_img}
+          src={getThumbnailUrl(videoId)}
+          alt={`${title} thumbnail`}
+          width={mode === "playlist" ? 380 : 240}
+          height={mode === "playlist" ? 250 : 135}
+          onError={handleThumbnailError}
         />
       );
     }
