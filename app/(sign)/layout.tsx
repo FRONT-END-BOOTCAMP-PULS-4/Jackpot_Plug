@@ -4,18 +4,29 @@ import { LayoutProps } from "../layout";
 
 export default function signLayout({ children }: LayoutProps) {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        height: "100vh",
-      }}
-    >
+    <>
       <div id="toast-root" />
-      <Toast />
-      <main>{children}</main>
-    </div>
+      <div
+        style={{
+          position: "fixed",
+          top: "20px",
+          right: "20px",
+          zIndex: 9999,
+        }}
+      >
+        <Toast />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          height: "100vh",
+        }}
+      >
+        <main>{children}</main>
+      </div>
+    </>
   );
 }

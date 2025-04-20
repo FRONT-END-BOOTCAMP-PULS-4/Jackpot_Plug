@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { SignupRequestDto } from "../../../application/usecases/member/dto/SignupRequestDto";
 import { EmailVerificationDto } from "../../../application/usecases/member/dto/EmailVerificationDto";
@@ -24,6 +25,8 @@ export default function JoinForm() {
   const [showProfileForm, setShowProfileForm] = useState(false);
   const [profileName, setProfileName] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
+
+  const router = useRouter();
 
   const { showToast } = useToast();
 
@@ -84,6 +87,9 @@ export default function JoinForm() {
     try {
       await registerMemberUseCase.execute(signupRequestDto);
       showToast("회원가입이 완료되었습니다!", 2000);
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000); // 2초 후 이동 (토스트 메시지 보여준 후)
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
