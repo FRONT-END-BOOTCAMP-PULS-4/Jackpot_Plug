@@ -4,16 +4,46 @@
 .thumbnail_item_container {
   cursor: pointer;
   @include flex($direction: column, $align: flex-start, $gap: 10px);
+  padding: 22px 16px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover,
+  &.selected {
+    background-color: $color-o-w1;
+  }
+
   .thumbnail_img_container {
     border-radius: 10px;
     overflow: hidden;
-    .thumbnail_img {
-      transition: filter 0.2s;
+
+    .video_thumbnail_img {
       object-fit: cover;
+      width: 240px;
+      height: 134px;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover .video_thumbnail_img {
+      transform: scale(1.05);
+    }
+
+    .thumbnail_img {
+      transition: filter 0.3s ease;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video_player {
+      width: 260px;
+      height: 146px;
+      @include flex;
     }
   }
   .desc_container {
     width: 100%;
+    position: relative;
     @include flex(
       $direction: column,
       $justify: flex-start,
@@ -21,63 +51,31 @@
       $gap: 6px
     );
     .title {
-      max-width: 200px;
+      max-width: 230px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
       font-size: rem(16);
+      margin-bottom: 5px;
     }
     .artist_container {
       @include flex($gap: 6px);
       .certified {
         @include icon(
-          $width: 12px,
-          $height: 12px,
+          $width: 14px,
+          $height: 14px,
           $url: "/assets/icons/is-certified.svg",
           $size: cover
         );
       }
       .artist {
-        font-size: rem(12);
+        font-size: rem(14);
       }
     }
-    .bottom_container {
-      width: 100%;
-      @include flex($justify: space-between);
-      .duration_container {
-        @include flex($gap: 6px);
-        .duration_icon {
-          @include icon(
-            $width: 12px,
-            $height: 12px,
-            $url: "/assets/icons/duration.svg",
-            $size: cover
-          );
-        }
-        .duration {
-          font-size: rem(12);
-          opacity: 0.6;
-        }
-      }
-    }
-  }
-
-  &.selected {
-    .thumbnail_img_container {
-      position: relative;
-      &::before {
-        z-index: 1;
-        @include before(
-          $width: 30px,
-          $height: 30px,
-          $url: "/assets/icons/is-selected.svg",
-          $size: 30px
-        );
-        @include position;
-      }
-      .thumbnail_img {
-        filter: brightness(0.2);
-      }
+    .add_playlist_btn {
+      position: absolute;
+      right: 0;
+      bottom: -8px;
     }
   }
 }
@@ -85,9 +83,12 @@
 .video_item_container {
   cursor: default;
   @extend .thumbnail_item_container;
+
   .video_player {
     border-radius: 10px;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -96,7 +97,7 @@
   @extend .thumbnail_item_container;
   .thumbnail_img_container {
     position: relative;
-    transition: filter 0.3s;
+    transition: filter 0.3s ease;
     &:hover {
       .thumbnail_img {
         filter: brightness(0.4);
@@ -117,7 +118,7 @@
     right: 22px;
     z-index: 1;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
   }
   &:hover {
     .delete_btn_container {

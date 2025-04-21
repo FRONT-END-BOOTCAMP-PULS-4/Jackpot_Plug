@@ -19,9 +19,9 @@ export default function SearchInput({
         name="search"
         id="search_input"
         placeholder={placeholder}
+        value={value}
         className={`${styles.search_input}`}
         autoComplete="off"
-        value={value}
         onChange={onChange}
       />
       {buttonIcon}
