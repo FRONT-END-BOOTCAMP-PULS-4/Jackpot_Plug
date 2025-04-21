@@ -1,10 +1,13 @@
 import { create } from "zustand";
 
+export type ToastType = "default" | "error";
+
 interface ToastState {
   message: string;
   visible: boolean;
   duration: number;
-  show: (msg: string, duration?: number) => void;
+  type?: ToastType;
+  show: (msg: string, duration?: number, toastType?: ToastType) => void;
   hide: () => void;
 }
 
@@ -12,8 +15,9 @@ export const useToastStore = create<ToastState>((set, get) => ({
   message: "",
   visible: false,
   duration: 1500,
-  show: (msg, duration = get().duration) => {
-    set({ message: msg, visible: true, duration });
+  toastType: "default",
+  show: (msg, duration = get().duration, toastType = "default") => {
+    set({ message: msg, visible: true, duration, type: toastType });
     setTimeout(() => set({ visible: false }), duration);
   },
   hide: () => set({ visible: false }),
