@@ -1,9 +1,9 @@
-import { supabase } from "../../../app/lib/supabase";
-import { SignupRequestDto } from "./dto/SignupRequestDto";
+import { supabase } from "../../../lib/supabase";
+import { SignUpRequestDto } from "./dto/SignUpRequestDto";
 import bcrypt from "bcryptjs"; // 🔑 bcryptjs import
 
 export class RegisterMemberUseCase {
-  async execute(dto: SignupRequestDto) {
+  async execute(dto: SignUpRequestDto) {
     const { email, password, profileName, profilePicUrl } = dto;
 
     // 🔐 비밀번호 해시 처리

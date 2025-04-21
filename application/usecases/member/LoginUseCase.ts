@@ -1,4 +1,4 @@
-import { supabase } from "../../../app/lib/supabase";
+import { supabase } from "../../../lib/supabase";
 import { LoginRequestDto } from "./dto/LoginRequestDto";
 import bcrypt from "bcryptjs"; // bcryptjs import
 

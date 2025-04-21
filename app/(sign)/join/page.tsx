@@ -2,8 +2,8 @@
 
 import { useState, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabase";
-import { SignupRequestDto } from "../../../application/usecases/member/dto/SignupRequestDto";
+import { supabase } from "../../../lib/supabase";
+import { SignUpRequestDto } from "../../../application/usecases/member/dto/SignUpRequestDto";
 import { EmailVerificationDto } from "../../../application/usecases/member/dto/EmailVerificationDto";
 import { RegisterMemberUseCase } from "../../../application/usecases/member/RegisterMemberUseCase";
 import { SendVerificationCodeUseCase } from "../../../application/usecases/member/SendVerificationCodeUseCase";
@@ -75,7 +75,7 @@ export default function JoinForm() {
   // 멤버 테이블에 등록
   const handleRegister = async () => {
     const uploadedUrl = await handleImageUpload();
-    const signupRequestDto: SignupRequestDto = {
+    const signupRequestDto: SignUpRequestDto = {
       email,
       password,
       profileName,
