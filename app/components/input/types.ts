@@ -50,4 +50,6 @@ export interface SearchInputProps {
   placeholder?: string;
   buttonIcon?: ReactNode;
   size?: "default" | "small";
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }

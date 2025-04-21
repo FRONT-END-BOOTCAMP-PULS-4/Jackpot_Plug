@@ -1,10 +1,13 @@
 "use client";
-import React from "react";
 import styles from "./VideoListItem.module.scss";
 import { IListItemProps } from "./ListItem";
 import Image from "next/image";
 import { videoListItemModeSwitcher } from "@/utils/modeSwitcher";
 import { IconBtn } from "../button/Buttons";
+import YouTube from "react-youtube";
+import type { YouTubePlayer, YouTubeEvent } from "react-youtube";
+import { useEffect, useRef, useState } from "react";
+import { decodeHtmlEntities } from "@/utils/decodeHtmlEntities";
 
 interface IVideoListItemProps extends IListItemProps {
   src?: string;
@@ -12,6 +15,8 @@ interface IVideoListItemProps extends IListItemProps {
   isCertified?: boolean;
   onClick?: () => void;
   selected?: boolean;
+  videoId?: string;
+  isPlaying?: boolean;
 }
 
 export default function VideoListItem({
@@ -23,19 +28,61 @@ export default function VideoListItem({
   selected,
   mode = "thumbnail",
   src = "/images/sample-image.png",
+  videoId,
+  isPlaying = false,
 }: IVideoListItemProps) {
-  
+  const playerRef = useRef<YouTubePlayer | null>(null);
+  const [thumbnailError, setThumbnailError] = useState(false);
+
+  // 유튜브 썸네일 URL 생성 함수
+  const getThumbnailUrl = (videoId: string) => {
+    return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+  };
+
+  const handleThumbnailError = () => {
+    setThumbnailError(true);
+  };
+
+  const handleReady = (e: YouTubeEvent) => {
+    // 플레이어 인스턴스 저장
+    playerRef.current = e.target;
+  };
+
+  const handleItemClick = () => {
+    if (mode === "video") return;
+    if (onClick) {
+      onClick();
+    }
+  };
+
   const renderMedia = () => {
-    if (mode === "video") {
+    if (videoId && isPlaying) {
       return (
-        <iframe
-          width="200"
-          height="140"
+        <YouTube
+          videoId={videoId}
+          opts={{
+            width: "100%",
+            height: "100%",
+            playerVars: {
+              autoplay: 1,
+            },
+          }}
           className={styles.video_player}
-          src={src}
           title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
+          onReady={handleReady}
+        />
+      );
+    }
+
+    if (videoId && !thumbnailError) {
+      return (
+        <img
+          className={styles.video_thumbnail_img}
+          src={getThumbnailUrl(videoId)}
+          alt={`${title} thumbnail`}
+          width={240}
+          height={134}
+          onError={handleThumbnailError}
         />
       );
     }
@@ -45,18 +92,21 @@ export default function VideoListItem({
         className={styles.thumbnail_img}
         src={src}
         alt={`${title} thumbnail`}
-        width={mode === "playlist" ? 380 : 200}
-        height={mode === "playlist" ? 250 : 140}
+        width={mode === "playlist" ? 380 : 240}
+        height={mode === "playlist" ? 250 : 134}
       />
     );
   };
+
+  const decodedTitle = title ? decodeHtmlEntities(title) : "Meaning of you";
+  const decodedArtist = artist ? decodeHtmlEntities(artist) : "아이유 IU";
 
   return (
     <li
       className={`${
         styles[videoListItemModeSwitcher(mode as string) as string]
       } ${selected && mode === "thumbnail" ? styles.selected : ""}`}
-      onClick={mode === "video" ? undefined : onClick}
+      onClick={handleItemClick}
     >
       <div className={styles.thumbnail_img_container}>
         {renderMedia()}
@@ -67,17 +117,13 @@ export default function VideoListItem({
         )}
       </div>
       <div className={styles.desc_container}>
-        <span className={styles.title}>{title ?? "Meaning of you"}</span>
+        <span className={styles.title}>{decodedTitle}</span>
         <div className={styles.artist_container}>
           <div className={styles[isCertified ? "certified" : ""]}></div>
-          <span className={styles.artist}>{artist ?? "아이유 IU"}</span>
+          <span className={styles.artist}>{decodedArtist}</span>
         </div>
-        <div className={styles.bottom_container}>
-          <div className={styles.duration_container}>
-            <div className={styles.duration_icon}></div>
-            <span className={styles.duration}>{duration}</span>
-          </div>
-          <IconBtn icon="search-add-playlist" size="xxs" />
+        <div className={styles.add_playlist_btn}>
+          <IconBtn icon="search-add-playlist" size="xs" />
         </div>
       </div>
     </li>

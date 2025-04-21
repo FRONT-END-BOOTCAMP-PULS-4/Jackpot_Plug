@@ -6,6 +6,8 @@ export default function SearchInput({
   placeholder,
   buttonIcon,
   size = "default",
+  value,
+  onChange,
 }: SearchInputProps) {
   return (
     <div className={`${styles.search_field} ${styles[`${size}`]}`}>
@@ -17,8 +19,10 @@ export default function SearchInput({
         name="search"
         id="search_input"
         placeholder={placeholder}
+        value={value}
         className={`${styles.search_input}`}
         autoComplete="off"
+        onChange={onChange}
       />
       {buttonIcon}
     </div>
