@@ -74,6 +74,7 @@ export default function Page() {
           {searchResults.map((result, idx) => (
             <VideoListItem
               key={result.id.videoId || idx}
+              src={result.snippet.thumbnails.high.url}
               title={result.snippet.title}
               artist={result.snippet.channelTitle}
               isCertified={true}
