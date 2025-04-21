@@ -1,4 +1,4 @@
-import Modal from "../../../components/modal/Modal";
+import Modal from "./Modal";
 import { AnimatePresence } from "motion/react";
 import { useRouter } from "next/navigation";
 

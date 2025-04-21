@@ -47,6 +47,7 @@ export interface InputFieldProps
     LabelProps {}
 
 export interface SearchInputProps {
+  value?: string;
   placeholder?: string;
   buttonIcon?: ReactNode;
   size?: "default" | "small";

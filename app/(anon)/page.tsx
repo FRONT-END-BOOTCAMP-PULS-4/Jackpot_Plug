@@ -1,56 +1,12 @@
 "use client";
 
-import { getVideoId } from "@/utils/getYoutubeId";
-import { IconBtn } from "../components/button/Buttons";
-import SearchInput from "../components/input/SearchInput";
-import Title from "./components/title/Title";
-
 import styles from "./page.module.scss";
 import Link from "next/link";
-import { useState } from "react";
-import { useToast } from "@/hooks/useToast";
-import { NextResponse } from "next/server";
-import useModal from "@/hooks/useModal";
-import RouteModal from "./components/modal/RouteModal";
-import { useRouter } from "next/navigation";
+import Title from "../components/title/Title";
+import VideoExtractor from "./components/VideoExtractor";
 
 export default function Home() {
   const isLogin = false; // 로그인 상태 확인
-  const { showToast } = useToast();
-  const routeModal = useModal();
-  const router = useRouter();
-  const [videoUrl, setVideoUrl] = useState(""); // 유튜브 영상 URL
-  const [modalMessage, setModalMessage] = useState("모달 메세지"); // 모달 메시지
-
-  // 유튜브 영상 설명 추출 함수
-  // 영상 URL에서 ID를 추출하고, 해당 ID로 API 요청을 보내 설명을 가져옴
-  const handleExtract = async () => {
-    const videoId = getVideoId({ url: videoUrl, showToast });
-    if (!videoId) return;
-
-    try {
-      const response = await fetch(`/api/musics?id=${videoId}`);
-      if (!response.ok) {
-        throw NextResponse.json(
-          { error: "Failed to fetch video description" },
-          { status: response.status }
-        );
-      }
-      const data = await response.json();
-
-      console.log("data ==== ", data);
-
-      if (data.error) {
-        setModalMessage(data.error);
-        routeModal.open();
-      }
-
-      sessionStorage.setItem(videoId, JSON.stringify(data));
-      router.push(`/musics/${videoId}`);
-    } catch (error) {
-      console.error("Error fetching video description:", error);
-    }
-  };
 
   return (
     <section className={styles.section_container}>
@@ -61,11 +17,7 @@ export default function Home() {
 
         음악. 이제 경험의 영역입니다.`}
       ></Title>
-      <SearchInput
-        placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
-        onChange={(e) => setVideoUrl(e.target.value)}
-        buttonIcon={<IconBtn icon="plug" size="xl" onClick={handleExtract} />}
-      />
+      <VideoExtractor />
       <div>
         {isLogin ? (
           "ai 추천을 해줄거에요"
@@ -75,13 +27,6 @@ export default function Home() {
           </Link>
         )}
       </div>
-      <RouteModal
-        isOpen={routeModal.isOpen}
-        onClose={routeModal.close}
-        buttonText="네, 검색하러 갈게요."
-        targetRoute="/search"
-        message={modalMessage}
-      />
     </section>
   );
 }

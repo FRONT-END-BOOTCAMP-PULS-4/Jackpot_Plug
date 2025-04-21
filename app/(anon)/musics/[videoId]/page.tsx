@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import VideoExtractor from "../../components/VideoExtractor";
 
 interface VideoData {
   title: string;
@@ -9,6 +10,7 @@ interface VideoData {
   thumbnail: string;
   duration: string;
   musicList: string[];
+  videoUrl: string;
 }
 
 export default function MusicPage() {
@@ -47,6 +49,7 @@ export default function MusicPage() {
 
   return (
     <div>
+      <VideoExtractor defaultUrl={data.videoUrl} />
       <h2>{data.title}</h2>
       <p>채널: {data.channelTitle}</p>
       <img src={data.thumbnail} alt="썸네일" />
