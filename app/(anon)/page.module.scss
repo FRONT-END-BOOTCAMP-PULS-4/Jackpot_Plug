@@ -1,0 +1,11 @@
+@use "../../public/styles/mixin" as *;
+@use "../../public/styles/variable" as *;
+
+.section_container {
+  height: 100%;
+  @include flex($direction: column, $gap: 85px);
+}
+
+.go_login_text {
+  font-size: rem(26);
+}

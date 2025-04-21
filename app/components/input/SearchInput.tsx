@@ -4,10 +4,10 @@ import { SearchInputProps } from "./types";
 
 export default function SearchInput({
   placeholder,
-  buttonIcon,
-  size = "default",
   value,
+  buttonIcon,
   onChange,
+  size = "default",
 }: SearchInputProps) {
   return (
     <div className={`${styles.search_field} ${styles[`${size}`]}`}>
