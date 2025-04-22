@@ -39,6 +39,7 @@ export default function VideoExtractor({
       if (data.error) {
         setModalMessage(data.error);
         routeModal.open();
+        return;
       }
 
       sessionStorage.setItem(
