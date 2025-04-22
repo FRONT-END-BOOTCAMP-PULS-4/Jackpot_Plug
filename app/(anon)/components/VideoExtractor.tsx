@@ -1,13 +1,14 @@
-import { getVideoId } from "@/utils/getYoutubeId";
+import { FormEvent, useState } from "react";
+import { NextResponse } from "next/server";
+import { useRouter } from "next/navigation";
+
 import { IconBtn } from "@/app/components/button/Buttons";
 import SearchInput from "@/app/components/input/SearchInput";
-
-import { useState } from "react";
-import { useToast } from "@/hooks/useToast";
-import { NextResponse } from "next/server";
-import useModal from "@/hooks/useModal";
-import { useRouter } from "next/navigation";
 import RouteModal from "@/app/components/modal/RouteModal";
+
+import { useToast } from "@/hooks/useToast";
+import useModal from "@/hooks/useModal";
+import { getVideoId } from "@/utils/getYoutubeId";
 
 interface VideoExtractorProps {
   defaultUrl?: string;
@@ -22,7 +23,9 @@ export default function VideoExtractor({
   const [videoUrl, setVideoUrl] = useState(defaultUrl !== "" ? defaultUrl : ""); // 유튜브 영상 URL
   const [modalMessage, setModalMessage] = useState("모달 메세지"); // 모달 메시지
 
-  const handleExtract = async () => {
+  const handleExtract = async (e: FormEvent) => {
+    e.preventDefault();
+
     const videoId = getVideoId({ url: videoUrl, showToast });
     if (!videoId) return;
 
@@ -54,12 +57,14 @@ export default function VideoExtractor({
 
   return (
     <>
-      <SearchInput
-        placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
-        value={videoUrl}
-        onChange={(e) => setVideoUrl(e.target.value)}
-        buttonIcon={<IconBtn icon="plug" size="xl" onClick={handleExtract} />}
-      />
+      <form onSubmit={handleExtract}>
+        <SearchInput
+          placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
+          value={videoUrl}
+          onChange={(e) => setVideoUrl(e.target.value)}
+          buttonIcon={<IconBtn icon="plug" size="xl" type="submit" />}
+        />
+      </form>
       <RouteModal
         isOpen={routeModal.isOpen}
         onClose={routeModal.close}
