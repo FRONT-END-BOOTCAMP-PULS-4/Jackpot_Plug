@@ -1,47 +1,67 @@
 "use client";
-import React, { useCallback, useState } from "react";
 import styles from "./ListItem.module.scss";
-import { listItemModeSwitcher } from "@/utils/modeSwitcher";
-import Image from "next/image";
 import { IconBtn } from "../button/Buttons";
+import Image from "next/image";
+import React, { useCallback, useState } from "react";
 
 export interface IListItemProps {
   title?: string;
   artist?: string;
   mode?: string;
+  isLogin?: boolean;
+  onAction?: () => void;
 }
 
-export default function ListItem({ title, artist, mode }: IListItemProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+export default function ListItem({
+  title,
+  artist,
+  mode,
+  isLogin,
+  onAction,
+}: IListItemProps) {
+  const [isAdd, setIsAdd] = useState(false);
 
-  const handleExpand = useCallback(() => {
-    setIsExpanded((current) => !current);
+  // mode : edit, extract, playlist
+  const isEdit = mode === "edit";
+  const isExtractMode = mode === "extract";
+
+  const handleAdd = useCallback(() => {
+    setIsAdd((current) => !current);
+
+    if (isAdd) {
+      onAction?.();
+    }
   }, []);
 
   return (
-    <li className={styles[listItemModeSwitcher(mode as string) as string]}>
+    <li className={styles.item_container}>
       <div className={styles.inner_container}>
         <div className={styles.container_leftside}>
-          <Image
-            className={styles.album_img}
-            src={"/images/sample-image.png"}
-            alt="album_img"
-            width={72}
-            height={72}
-          />
+          {!isExtractMode && (
+            <Image
+              className={styles.album_img}
+              src={"/images/sample-image.png"}
+              alt="album_img"
+              width={72}
+              height={72}
+            />
+          )}
           <p className={styles.desc_container}>
-            {/* title없다면 우항에 기본값 설정하시면 됩니다. */}
             <span className={styles.title}>{title ?? "Meaning of you"}</span>
-            <span className={styles.artist}>{artist ?? "아이유 IU"}</span>
+            {!isExtractMode && (
+              <span className={styles.artist}>{artist ?? "아이유 IU"}</span>
+            )}
           </p>
         </div>
-        <div>
-          <IconBtn
-            icon={isExpanded ? "minus" : "add"}
-            size="lg"
-            onClick={handleExpand}
-          />
-        </div>
+        {((isExtractMode && isLogin) || isEdit) && (
+          <div>
+            <IconBtn
+              icon={isAdd ? "minus" : "add"}
+              size="sm"
+              onClick={handleAdd}
+            />
+          </div>
+        )}
       </div>
     </li>
   );

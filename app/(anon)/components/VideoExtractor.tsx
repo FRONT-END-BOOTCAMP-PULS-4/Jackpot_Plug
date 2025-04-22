@@ -12,10 +12,12 @@ import { getVideoId } from "@/utils/getYoutubeId";
 
 interface VideoExtractorProps {
   defaultUrl?: string;
+  size?: "default" | "small";
 }
 
 export default function VideoExtractor({
   defaultUrl = "",
+  size = "default",
 }: VideoExtractorProps) {
   const { showToast } = useToast();
   const routeModal = useModal();
@@ -62,7 +64,14 @@ export default function VideoExtractor({
           placeholder="추출하고 싶은 플레이리스트 링크를 입력하세요."
           value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
-          buttonIcon={<IconBtn icon="plug" size="xl" type="submit" />}
+          size={size}
+          buttonIcon={
+            <IconBtn
+              icon="plug"
+              size={size === "small" ? "md" : "xl"}
+              type="submit"
+            />
+          }
         />
       </form>
       <RouteModal
