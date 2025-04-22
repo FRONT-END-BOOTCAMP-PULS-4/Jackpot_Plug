@@ -12,6 +12,8 @@ import PasswordInput from "../../components/input/PasswordInput";
 import { RoundBtn } from "../../components/button/Buttons";
 import { useToast } from "@/hooks/useToast";
 
+import styles from "../page.module.scss";
+
 export default function LoginForm() {
   const [email, setEmail] = useState(""); // 사용자가 입력한 이메일
   const [password, setPassword] = useState(""); // 사용자가 입력한 비밀번호
@@ -44,14 +46,9 @@ export default function LoginForm() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <div className={styles.div_container}>
       <Title isSmall={false} titleText="PLUG" descriptionText="" />
+      <div style={{ marginBottom: '100px' }}></div>
       <EmailInput email={email} setEmail={setEmail} showButton={false} />
       <PasswordInput password={password} setPass={setPassword} />
       <RoundBtn text="로그인" size="lg" color="accent" onClick={handleVerify} />

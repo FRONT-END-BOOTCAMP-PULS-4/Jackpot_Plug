@@ -16,6 +16,8 @@ import Title from "../../components/title/Title";
 import { RoundBtn, ProfileImgBtn } from "../../components/button/Buttons";
 import { useToast } from "@/hooks/useToast";
 
+import styles from "../page.module.scss";
+
 export default function JoinForm() {
   const [email, setEmail] = useState(""); // 사용자가 입력한 이메일
   const [checkNum, setCheckNum] = useState(""); // 생성된 인증번호
@@ -92,7 +94,7 @@ export default function JoinForm() {
       }, 2000); // 2초 후 이동 (토스트 메시지 보여준 후)
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        showToast(error.message, 2000);
       } else {
         showToast("회원가입 중 알 수 없는 오류가 발생했습니다", 2000);
       }
@@ -125,28 +127,15 @@ export default function JoinForm() {
   }, [profileImage]); // profileImage만 변경될 때에만 업데이트
 
   return (
-    <section
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh", // 화면 세로 중앙 정렬용
-      }}
-    >
+    <section>
       {!showProfileForm ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <div className={styles.div_container}>
           <Title
             isSmall={false}
             titleText="회원가입"
             descriptionText="나만의 리스트를 저장해 보세요."
           />
+          <div style={{ height: "50px" }} />
           <EmailInput
             email={email}
             setEmail={setEmail}
@@ -171,18 +160,13 @@ export default function JoinForm() {
           />
         </div>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <div className={styles.div_container}>
           <Title
             isSmall={false}
             titleText="프로필 설정"
             descriptionText="나중에 언제든지 변경할 수 있어요."
           />
+          <div style={{ height: "50px" }} />
           {memoizedProfileImgBtn}
           <input
             type="file"

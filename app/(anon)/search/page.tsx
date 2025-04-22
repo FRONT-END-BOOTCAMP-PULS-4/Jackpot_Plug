@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import Title from "../components/title/Title";
+import Title from "../../components/title/Title";
 import styles from "./page.module.scss";
 import SearchInput from "@/app/components/input/SearchInput";
 import { IconBtn } from "@/app/components/button/Buttons";

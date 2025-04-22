@@ -67,6 +67,19 @@ button {
 }
 
 .sign_layout {
-  @include flex;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+
+  .sign_header {
+    align-self: flex-start;
+  }
+
+  .sign_main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
