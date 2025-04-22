@@ -1,5 +1,5 @@
 import { supabase } from "../../../lib/supabase";
-import { EmailVerificationDto } from "./dto/EmailVerificationDto";
+import { EmailVerificationDto } from "./dto/EmailVerification.dto";
 
 export class SendVerificationCodeUseCase {
   async execute(dto: EmailVerificationDto) {

@@ -1,5 +1,5 @@
 import { supabase } from "../../../lib/supabase";
-import { LoginRequestDto } from "./dto/LoginRequestDto";
+import { LoginRequestDto } from "./dto/LoginRequest.dto";
 import bcrypt from "bcryptjs"; // bcryptjs import
 
 export class LoginUseCase {

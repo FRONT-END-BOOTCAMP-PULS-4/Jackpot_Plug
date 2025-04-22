@@ -3,10 +3,10 @@
 import { useState, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../lib/supabase";
-import { SignUpRequestDto } from "../../../application/usecases/member/dto/SignUpRequestDto";
-import { EmailVerificationDto } from "../../../application/usecases/member/dto/EmailVerificationDto";
-import { RegisterMemberUseCase } from "../../../application/usecases/member/RegisterMemberUseCase";
-import { SendVerificationCodeUseCase } from "../../../application/usecases/member/SendVerificationCodeUseCase";
+import { SignUpRequestDto } from "../../../application/usecase/members/dto/SignUpRequest.dto";
+import { EmailVerificationDto } from "../../../application/usecase/members/dto/EmailVerification.dto";
+import { RegisterMemberUseCase } from "../../../application/usecase/members/RegisterMemberUseCase";
+import { SendVerificationCodeUseCase } from "../../../application/usecase/members/SendVerificationCodeUseCase";
 
 import EmailInput from "../../components/input/EmailInput";
 import PasswordInput from "../../components/input/PasswordInput";

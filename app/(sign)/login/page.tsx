@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { LoginUseCase } from "../../../application/usecases/member/LoginUseCase";
-import { LoginRequestDto } from "../../../application/usecases/member/dto/LoginRequestDto";
+import { LoginUseCase } from "../../../application/usecase/members/LoginUseCase";
+import { LoginRequestDto } from "../../../application/usecase/members/dto/LoginRequest.dto";
 
 import Title from "../../components/title/Title";
 import EmailInput from "../../components/input/EmailInput";
