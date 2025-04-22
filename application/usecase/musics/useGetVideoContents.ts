@@ -1,11 +1,14 @@
 // 영상 설명을 가져오고 타임라인을 추출하는 유스케이스
 import { VideoRepository } from "@/domain/repositories/VideoRepository";
-import { YoutubeApiRepository } from "@/infra/repositories/youtube/VideoRepository";
+import { YoutubeVideoApiRepository } from "@/infra/repositories/youtube/VideoRepository";
 import { Video } from "./dto/Video.dto";
 import { extractTimeline } from "@/utils/extractTimeline";
 import { formatDuration } from "@/utils/formatDuration";
+import { VideoCommentRepository } from "@/domain/repositories/VideoCommentRepository";
+import { YoutubeApiCommentRepository } from "@/infra/repositories/youtube/VideoCommentRepository";
 
-const videoRepo: VideoRepository = new YoutubeApiRepository();
+const videoRepo: VideoRepository = new YoutubeVideoApiRepository();
+const commentRepo: VideoCommentRepository = new YoutubeApiCommentRepository();
 
 export async function getVideoInfoUseCase(videoId: string): Promise<Video> {
   const { title, channelTitle, thumbnail, duration, description } =
@@ -15,11 +18,16 @@ export async function getVideoInfoUseCase(videoId: string): Promise<Video> {
     throw new Error("NoDescription");
   }
 
-  const musicList = extractTimeline(description);
+  let musicList = extractTimeline(description);
   const videoDuration = formatDuration(duration);
 
   if (musicList.length === 0) {
-    throw new Error("NoMusicItem");
+    const pinnedComment = await commentRepo.fetchVideoComment(videoId);
+    musicList = extractTimeline(pinnedComment.comment);
+
+    if (musicList.length === 0) {
+      throw new Error("NoMusicItem");
+    }
   }
 
   return {

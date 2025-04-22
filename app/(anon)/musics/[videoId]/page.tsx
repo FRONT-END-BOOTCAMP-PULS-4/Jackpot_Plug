@@ -52,6 +52,7 @@ export default function MusicPage() {
       <VideoExtractor defaultUrl={data.videoUrl} />
       <h2>{data.title}</h2>
       <p>채널: {data.channelTitle}</p>
+      <p>영상길이: {data.duration}</p>
       <img src={data.thumbnail} alt="썸네일" />
 
       <h3>타임라인</h3>
