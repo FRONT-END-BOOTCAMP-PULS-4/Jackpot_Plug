@@ -2,7 +2,11 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import styles from "./page.module.scss";
 import VideoExtractor from "../../components/VideoExtractor";
+import MusicInfoCard from "../../components/musicInfoCard/MusicInfoCard";
+import ListItem from "@/app/components/list/ListItem";
+import { RoundBtn } from "@/app/components/button/Buttons";
 
 interface VideoData {
   title: string;
@@ -18,12 +22,14 @@ export default function MusicPage() {
   const [data, setData] = useState<VideoData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     const cached = sessionStorage.getItem(videoId);
 
     if (cached) {
       setData(JSON.parse(cached));
+      console.log("캐시된 데이터 사용");
       setLoading(false);
     } else {
       fetch(`/api/videos?id=${videoId}`)
@@ -49,18 +55,35 @@ export default function MusicPage() {
 
   return (
     <div>
-      <VideoExtractor defaultUrl={data.videoUrl} />
-      <h2>{data.title}</h2>
-      <p>채널: {data.channelTitle}</p>
-      <p>영상길이: {data.duration}</p>
-      <img src={data.thumbnail} alt="썸네일" />
-
-      <h3>타임라인</h3>
-      <ul>
-        {data.musicList.map((item, idx) => (
-          <li key={idx}>{item}</li>
-        ))}
-      </ul>
+      <VideoExtractor defaultUrl={data.videoUrl} size="small" />
+      <div className={styles.container}>
+        <MusicInfoCard
+          thumbnailSrc={data.thumbnail}
+          title={data.title}
+          channelTitle={data.channelTitle}
+          duration={data.duration}
+        />
+        <div className={styles.musiclist_container}>
+          <ul className={styles.musiclist}>
+            {data.musicList.map((music, index) => (
+              <ListItem
+                mode="extract"
+                title={music}
+                key={index}
+                isLogin={isLogin}
+              />
+            ))}
+          </ul>
+          <div className={styles.button_container}>
+            {!isLogin && (
+              <div className={styles.animation}>
+                로그인 하면 사용할 수 있어요! 👉
+              </div>
+            )}
+            <RoundBtn text="플레이리스트 만들기" size="md" color="accent" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

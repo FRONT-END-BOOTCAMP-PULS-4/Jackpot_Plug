@@ -11,5 +11,6 @@ export function extractTimeline(description: string): string[] {
       line
         .replace(/^\s*\d{1,2}\s*\.\s*|\(?\d{1,2}:\d{2}(?::\d{2})?\)?\s*/g, "")
         .trim()
+        .replace(/\s*-\s*/, " - ")
     );
 }
