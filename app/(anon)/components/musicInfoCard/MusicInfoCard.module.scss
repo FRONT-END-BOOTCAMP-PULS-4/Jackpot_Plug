@@ -1,0 +1,69 @@
+@use "../../../../public/styles/variable" as *;
+@use "../../../../public/styles/mixin" as *;
+
+$music-info: (
+  "music": (
+    "thumnailImg": 30px,
+    "title": rem(22),
+    "infoContainer-padding-top": 21px,
+    "channelTitle": rem(18),
+    "channelTitle-padding": 12px 0 9px,
+    "duration": rem(14),
+  ),
+  "playlist": (
+    "thumnailImg": 20px,
+    "title": rem(36),
+    "infoContainer-padding-top": 16px,
+    "channelTitle": rem(20),
+    "channelTitle-padding": 26px 0 10px,
+    "duration": rem(16),
+  ),
+);
+
+$music-info-icons: (
+  "channel_title": "is-certified",
+  "duration": "duration",
+);
+
+.container {
+  max-width: 770px;
+  @each $type, $info in $music-info {
+    &.#{$type} {
+      .info_container {
+        padding-top: map-get($info, "infoContainer-padding-top");
+      }
+      .title {
+        font-size: map-get($info, "title");
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      .thumnail_img {
+        border-radius: map-get($info, "thumnailImg");
+      }
+      .channel_title {
+        font-size: map-get($info, "channelTitle");
+        padding: map-get($info, "channelTitle-padding");
+      }
+      .duration {
+        font-size: map-get($info, "duration");
+      }
+    }
+  }
+
+  @each $class-name, $icon-name in $music-info-icons {
+    .#{$class-name} {
+      @include flex($justify: flex-start, $gap: 8px);
+      @if $class-name == "duration" {
+        color: #9c9c9c;
+      }
+      &:before {
+        display: block;
+        @include before(14px, 14px, "/assets/icons/#{$icon-name}.svg", 14px);
+      }
+    }
+  }
+}
