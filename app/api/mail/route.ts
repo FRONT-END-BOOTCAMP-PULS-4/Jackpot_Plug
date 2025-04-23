@@ -1,27 +1,19 @@
-import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { NextResponse } from "next/server";
+import { SearchMusicUseCase } from "@/application/usecases/search/SearchMusicUseCase";
+// SearchResponseDto는 실제 응답 타입 정의에 사용
 
-export async function POST(req: Request) {
-  const { email, message } = await req.json()
+export async function GET(request: Request) {
+  try {
+    const url = new URL(request.url);
+    const query = url.searchParams.get("q");
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  })
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: `Plug 인증번호 입니다.`,
-    html: `
-      <p>인증번호는</p>
-      <p>${message}</p>
-      <p>입니다.</p>
-    `,
-  })
-
-  return NextResponse.json({ message: 'Email sent!' }, { status: 200 })
+    const searchMusicUseCase = new SearchMusicUseCase();
+    return await searchMusicUseCase.execute(query || "");
+  } catch (error) {
+    console.error("Error in route handler:", error);
+    return NextResponse.json(
+      { error: "An error occurred while processing your request" },
+      { status: 500 }
+    );
+  }
 }
