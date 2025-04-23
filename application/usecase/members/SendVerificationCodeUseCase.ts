@@ -1,5 +1,5 @@
 import { supabase } from "../../../lib/supabase";
-import { EmailVerificationDto } from "./dto/EmailVerificationDto";
+import { EmailVerificationDto } from "./dto/EmailVerification.dto";
 
 export class SendVerificationCodeUseCase {
   async execute(dto: EmailVerificationDto) {
@@ -15,10 +15,9 @@ export class SendVerificationCodeUseCase {
     if (existingMember) {
       throw new Error("이미 가입된 이메일입니다.");
     }
-    
 
     // 메일 전송 요청
-    const res = await fetch("/api/mail/", {
+    const res = await fetch("http://localhost:3000/api/mail/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, message: code }),

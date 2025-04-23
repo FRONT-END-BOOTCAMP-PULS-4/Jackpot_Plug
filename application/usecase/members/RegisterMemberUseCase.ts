@@ -1,5 +1,5 @@
 import { supabase } from "../../../lib/supabase";
-import { SignUpRequestDto } from "./dto/SignUpRequestDto";
+import { SignUpRequestDto } from "./dto/SignUpRequest.dto";
 import bcrypt from "bcryptjs"; // 🔑 bcryptjs import
 
 export class RegisterMemberUseCase {
