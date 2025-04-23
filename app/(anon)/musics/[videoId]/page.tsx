@@ -80,7 +80,12 @@ export default function MusicPage() {
                 로그인 하면 사용할 수 있어요! 👉
               </div>
             )}
-            <RoundBtn text="플레이리스트 만들기" size="md" color="accent" />
+            <RoundBtn
+              text="플레이리스트 만들기"
+              size="md"
+              color="accent"
+              customClassName={!isLogin ? "disabled" : ""}
+            />
           </div>
         </div>
       </div>

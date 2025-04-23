@@ -23,7 +23,9 @@ export class YoutubeVideoApiRepository implements VideoRepository {
       const title = data?.items?.[0]?.snippet?.title ?? "";
       const channelTitle = data?.items?.[0]?.snippet?.channelTitle ?? "";
       const thumbnail =
-        data?.items?.[0]?.snippet?.thumbnails?.standard?.url ?? "";
+        data?.items?.[0]?.snippet?.thumbnails?.maxres?.url ??
+        data?.items?.[0]?.snippet?.thumbnails?.standard?.url ??
+        "";
       const duration = data?.items?.[0]?.contentDetails?.duration ?? "";
       const description = data?.items?.[0]?.snippet?.description.trim()
         ? data.items[0].snippet.description
@@ -36,7 +38,6 @@ export class YoutubeVideoApiRepository implements VideoRepository {
         duration,
         description,
       };
-      
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw NextResponse.json(

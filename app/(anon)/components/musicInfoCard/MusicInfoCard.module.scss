@@ -43,6 +43,7 @@ $music-info-icons: (
       }
       .thumnail_img {
         border-radius: map-get($info, "thumnailImg");
+        object-fit: cover;
       }
       .channel_title {
         font-size: map-get($info, "channelTitle");
