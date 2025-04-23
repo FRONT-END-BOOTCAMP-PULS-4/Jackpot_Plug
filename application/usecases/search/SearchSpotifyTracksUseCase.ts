@@ -1,41 +1,25 @@
-import axios from "axios";
-import { getSpotifyAccessToken } from "@/utils/spotify";
+import { SpotifyRepository } from "@/domain/repositories/SpotifyRepository";
 import { SpotifyTrackDto } from "./dto/SpotifyTrackDto";
+import { SpotifyAPiRepository } from "@/infra/repositories/spotify/SpotifyApiRepository";
 
 export class SearchSpotifyTracksUseCase {
   constructor(
-    private spotifyBaseUrl: string = process.env
-      .NEXT_PUBLIC_SPOTIFY_API_BASEURL || ""
+    private spotifyRepository: SpotifyRepository = new SpotifyAPiRepository()
   ) {}
+
   async execute(query: string): Promise<SpotifyTrackDto[]> {
-    try {
-      const token = await getSpotifyAccessToken();
+    const tracks = await this.spotifyRepository.searchTracks(query);
 
-      const response = await axios({
-        method: "get",
-        url: `${this.spotifyBaseUrl}/search`,
-        params: {
-          q: query,
-          type: "track",
-          limit: 1,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      return response.data.tracks.items.map((track: any) => ({
-        id: track.id,
-        name: track.name,
-        artist: track.artists[0].name,
-        isrc: track.external_ids?.isrc,
-        album: track.album.name,
-        image: track.album.images[0]?.url,
-      }));
-    } catch (error) {
-      console.error("Error searching Spotify:", error);
-      return [];
-    }
+    return tracks.map(
+      (track) =>
+        new SpotifyTrackDto(
+          track.id,
+          track.name,
+          track.artist,
+          track.album,
+          track.isrc,
+          track.imageUrl
+        )
+    );
   }
 }
