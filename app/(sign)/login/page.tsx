@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/useToast";
 
@@ -10,15 +10,21 @@ import PasswordInput from "../../components/input/PasswordInput";
 import { RoundBtn } from "../../components/button/Buttons";
 import { useAuth } from "@/hooks/useAuth";
 import styles from "../page.module.scss";
+import { useAuthStore } from "@/store/authStore";
 
 export default function LoginForm() {
   const [email, setEmail] = useState(""); // 사용자가 입력한 이메일
   const [password, setPassword] = useState(""); // 사용자가 입력한 비밀번호
-
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const router = useRouter();
   const { showToast } = useToast();
-
   const { login } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isAuthenticated]);
 
   const handleVerify = async () => {
     const loginDto = { email, password };
@@ -41,6 +47,8 @@ export default function LoginForm() {
       showToast(data.message, 2000);
     }
   };
+
+  if (isAuthenticated) return null;
 
   return (
     <div className={styles.div_container}>

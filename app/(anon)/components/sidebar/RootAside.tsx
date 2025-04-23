@@ -3,8 +3,11 @@
 import Link from "next/link";
 import React from "react";
 import styles from "./RootAside.module.scss";
+import { useAuthStore } from "@/store/authStore";
 
 export default function RootAside() {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   return (
     <aside className={styles.root_aside}>
       <h1>
@@ -29,7 +32,7 @@ export default function RootAside() {
           </li>
           <li>
             <Link
-              href="/mypage"
+              href={isAuthenticated ? "/mypage" : "/login"}
               className={`${styles.icon} ${styles.user}`}
             ></Link>
           </li>

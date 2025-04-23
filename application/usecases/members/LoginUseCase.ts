@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; // ✅ JWT import
 
 // JWT 시크릿 키 (보통 환경 변수로 관리)
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET || "your-secret-key";
 
 export class LoginUseCase {
   async execute(dto: LoginRequestDto) {

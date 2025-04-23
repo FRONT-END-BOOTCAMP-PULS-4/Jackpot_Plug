@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../lib/supabase";
 
@@ -10,6 +10,7 @@ import TextInput from "../../components/input/TextInput";
 import Title from "../../components/title/Title";
 import { RoundBtn, ProfileImgBtn } from "../../components/button/Buttons";
 import { useToast } from "@/hooks/useToast";
+import { useAuthStore } from "@/store/authStore";
 
 import styles from "../page.module.scss";
 
@@ -22,10 +23,16 @@ export default function JoinForm() {
   const [showProfileForm, setShowProfileForm] = useState(false);
   const [profileName, setProfileName] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
-
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const router = useRouter();
   const { showToast } = useToast();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isAuthenticated]);
 
   const handleSubmit = async () => {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -106,6 +113,8 @@ export default function JoinForm() {
     [profileImage]
   );
 
+  if (isAuthenticated) return null;
+
   return (
     <section>
       {!showProfileForm ? (
@@ -123,10 +132,7 @@ export default function JoinForm() {
             onClick={handleSubmit}
             setIsVerified={setIsVerified}
           />
-          <PasswordInput
-            setPass={setPassword}
-            setPassCheck={setPassCheck}
-          />
+          <PasswordInput setPass={setPassword} setPassCheck={setPassCheck} />
           <RoundBtn
             text="다음"
             size="lg"
