@@ -1,6 +1,7 @@
 "use client";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import Title from "../components/title/Title";
+import axios from "axios";
+import Title from "../../components/title/Title";
 import styles from "./page.module.scss";
 import SearchInput from "@/app/components/input/SearchInput";
 import { IconBtn } from "@/app/components/button/Buttons";
@@ -20,14 +21,35 @@ export default function Page() {
     if (!searchQuery.trim()) return;
 
     try {
-      const response = await fetch(
-        `/api/search?q=${encodeURIComponent(searchQuery)}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch search results");
+      console.log("검색어:", searchQuery);
+
+      const response = await axios.get("/api/search", {
+        params: {
+          q: searchQuery,
+        },
+      });
+
+      const data = response.data;
+      console.log("API 응답 데이터:", data);
+
+      // 검색 결과가 있는지 확인
+      if (data.items && data.items.length > 0) {
+        console.log("첫 번째 검색 결과:", data.items[0].snippet.title);
+      } else {
+        console.log("검색 결과 없음");
       }
 
-      const data = await response.json();
+      // Spotify 트랙 정보가 있는지 확인
+      if (data.spotifyTracks && data.spotifyTracks.length > 0) {
+        console.log(
+          "Spotify 첫 번째 트랙:",
+          data.spotifyTracks[0].name,
+          "by",
+          data.spotifyTracks[0].artist
+        );
+        console.log("ISRC 코드:", data.spotifyTracks[0].isrc);
+      }
+
       setSearchResults(data.items || []);
       setCurrentQuery(searchQuery);
       setSelectedVideoId(null);
