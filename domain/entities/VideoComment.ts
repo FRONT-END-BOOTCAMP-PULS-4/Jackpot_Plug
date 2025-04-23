@@ -1,3 +1,3 @@
-export interface VideoComment {
-  comment: string;
+export class VideoComment {
+  constructor(public comment: string) {}
 }
