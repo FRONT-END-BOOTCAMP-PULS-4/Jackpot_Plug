@@ -5,7 +5,6 @@ import { MessageProps, ButtonProps, LabelProps } from "./types";
 import { IconBtn } from "../button/Buttons";
 
 interface PasswordInputProps extends MessageProps, ButtonProps, LabelProps {
-  password: string;
   setPass?: (email: string) => void;
   setPassCheck?: (passcheck: boolean) => void;
 }
