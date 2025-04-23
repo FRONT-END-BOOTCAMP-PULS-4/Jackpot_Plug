@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { SearchSpotifyTracksUseCase } from "./SearchSpotifyTracksUseCase";
 import { SearchYouTubeByIsrcUseCase } from "./SearchYouTubeByIsrcUseCase";
 import { SearchYouTubeDirectlyUseCase } from "./SearchYouTubeDirectlyUseCase";
-import { matchTracks } from "@/utils/metchTracks";
+import { matchTracks } from "@/utils/matchTracks";
 
 export class SearchMusicUseCase {
   constructor(
