@@ -1,16 +1,16 @@
-import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
-  const { email, message } = await req.json()
+  const { email, message } = await req.json();
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-  })
+  });
 
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
       <p>${message}</p>
       <p>입니다.</p>
     `,
-  })
+  });
 
-  return NextResponse.json({ message: 'Email sent!' }, { status: 200 })
+  return NextResponse.json({ message: "Email sent!" }, { status: 200 });
 }
