@@ -124,7 +124,6 @@ export default function JoinForm() {
             setIsVerified={setIsVerified}
           />
           <PasswordInput
-            password={password}
             setPass={setPassword}
             setPassCheck={setPassCheck}
           />
