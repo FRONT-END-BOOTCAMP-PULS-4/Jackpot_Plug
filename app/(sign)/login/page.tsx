@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { LoginUseCase } from "../../../application/usecases/member/LoginUseCase";
 import { LoginRequestDto } from "../../../application/usecases/member/dto/LoginRequestDto";
 
-import Title from "../../(anon)/components/title/Title";
+import Title from "../../components/title/Title";
 import EmailInput from "../../components/input/EmailInput";
 import PasswordInput from "../../components/input/PasswordInput";
 

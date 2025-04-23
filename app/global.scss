@@ -65,3 +65,8 @@ button {
   background-position: left 35% top 0;
   background-repeat: no-repeat;
 }
+
+.sign_layout {
+  @include flex;
+  height: 100%;
+}

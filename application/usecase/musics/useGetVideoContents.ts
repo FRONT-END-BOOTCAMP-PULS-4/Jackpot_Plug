@@ -1,6 +1,6 @@
 // 영상 설명을 가져오고 타임라인을 추출하는 유스케이스
 import { VideoRepository } from "@/domain/repositories/VideoRepository";
-import { YoutubeApiRepository } from "@/infra/repositories/youtube/videoReposiroty";
+import { YoutubeApiRepository } from "@/infra/repositories/youtube/VideoRepository";
 import { Video } from "./dto/Video.dto";
 import { extractTimeline } from "@/utils/extractTimeline";
 import { formatDuration } from "@/utils/formatDuration";

@@ -11,7 +11,7 @@ import { SendVerificationCodeUseCase } from "../../../application/usecases/membe
 import EmailInput from "../../components/input/EmailInput";
 import PasswordInput from "../../components/input/PasswordInput";
 import TextInput from "../../components/input/TextInput";
-import Title from "../../(anon)/components/title/Title";
+import Title from "../../components/title/Title";
 
 import { RoundBtn, ProfileImgBtn } from "../../components/button/Buttons";
 import { useToast } from "@/hooks/useToast";
