@@ -1,0 +1,45 @@
+@use "../../../../public/styles/mixin" as *;
+
+.container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  @include flex($justify: space-between, $gap: 36px);
+  & > div {
+    flex-basis: 686px;
+  }
+}
+
+.musiclist_container {
+  width: 100%;
+  gap: 42px;
+  max-width: 686px;
+  display: grid;
+  grid-template-rows: 770px auto;
+}
+
+.musiclist {
+  width: 100%;
+  max-height: 770px;
+  overflow-y: auto;
+}
+
+.button_container {
+  width: 100%;
+  @include flex($justify: flex-end, $align: center, $gap: 24px);
+}
+
+.animation {
+  @keyframes poke {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(8px);
+    }
+  }
+
+  animation: poke 0.8s infinite;
+}

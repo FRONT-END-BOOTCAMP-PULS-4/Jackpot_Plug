@@ -1,4 +1,6 @@
-import { getVideoInfoUseCase } from "@/application/usecase/musics/useGetVideoContents";
+import { GetVideoInfoUseCase } from "@/application/usecases/musics/useGetVideoContents";
+import { YoutubeApiCommentRepository } from "@/infra/repositories/youtube/VideoCommentRepository";
+import { YoutubeVideoApiRepository } from "@/infra/repositories/youtube/VideoRepository";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -12,7 +14,12 @@ export async function GET(req: Request) {
     );
 
   try {
-    const result = await getVideoInfoUseCase(videoId);
+    const videoRepo = new YoutubeVideoApiRepository();
+    const commentRepo = new YoutubeApiCommentRepository();
+
+    const useCase = new GetVideoInfoUseCase(videoRepo, commentRepo);
+    const result = await useCase.execute(videoId);
+
     return Response.json(result);
   } catch (error: any) {
     if (error.message === "NoDescription" || error.message === "NoMusicItem") {

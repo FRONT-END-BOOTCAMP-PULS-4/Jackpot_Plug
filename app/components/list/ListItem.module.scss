@@ -1,7 +1,7 @@
 @use "../../../public/styles/mixin" as *;
 @use "../../../public/styles/variable" as *;
 
-.edit_item_container {
+.item_container {
   border-radius: 10px;
   transition: all 0.3s;
   &:has(+ &:hover) {
@@ -39,24 +39,5 @@
         }
       }
     }
-  }
-}
-
-.extract_item_container {
-  @extend .edit_item_container;
-  .desc_container {
-    .artist {
-      display: none;
-    }
-  }
-  .album_img {
-    display: none;
-  }
-}
-
-.songs_item_container {
-  @extend .edit_item_container;
-  .container_rightside {
-    display: none;
   }
 }

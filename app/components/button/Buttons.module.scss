@@ -64,6 +64,8 @@
   &.disabled {
     background: $color-o-w3;
     color: $color-o-w5;
+    cursor: not-allowed;
+    pointer-events: none;
 
     &:hover {
       filter: none;

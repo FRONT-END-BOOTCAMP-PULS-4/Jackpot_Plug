@@ -4,6 +4,6 @@ export class Video {
     public channelTitle: string,
     public thumbnail: string,
     public duration: string,
-    public description: string
+    public musicList: string[]
   ) {}
 }
