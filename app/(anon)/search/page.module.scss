@@ -16,4 +16,9 @@
     @include flex;
     gap: 14px;
   }
+
+  .error_message {
+    text-align: center;
+    font-size: rem(18);
+  }
 }
