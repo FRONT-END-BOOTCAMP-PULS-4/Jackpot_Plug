@@ -28,7 +28,9 @@ export function useVideoPlayer(): {
   };
 
   const handlePlayPause = (): void => {
-    setIsPlaying((prev) => !prev);
+    if (selectedVideoId) {
+      setIsPlaying(!isPlaying);
+    }
   };
 
   const resetPlayer = (): void => {

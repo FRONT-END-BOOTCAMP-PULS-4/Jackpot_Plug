@@ -32,6 +32,72 @@
     }
   }
 
+  .thumbnail_wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    @include flex;
+
+    &:hover .play_pause_overlay {
+      opacity: 1;
+    }
+  }
+
+  .video_thumbnail_img {
+    object-fit: cover !important;
+    width: 134% !important;
+    height: 134% !important;
+    max-width: none !important;
+    max-height: none !important;
+    @include position;
+  }
+
+  .hidden_player {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    left: -9999px;
+  }
+
+  .play_pause_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include flex;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  .play_pause_button {
+    width: 100px;
+    height: 100px;
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  // 재생 버튼 스타일
+  .play_button {
+    background-image: url("/assets/icons/play.svg");
+  }
+
+  // 정지 버튼 스타일
+  .pause_button {
+    background-image: url("/assets/icons/pause.svg");
+  }
+
   // 설명 컨테이너
   .desc_container {
     width: 100%;
@@ -127,29 +193,11 @@
   }
 }
 
-.thumbnail_wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  @include flex;
-}
-
-.video_thumbnail_img {
-  object-fit: cover !important;
-  width: 134% !important;
-  height: 134% !important;
-  max-width: none !important;
-  max-height: none !important;
-  @include position;
-}
-
-.hidden_player {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  left: -9999px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

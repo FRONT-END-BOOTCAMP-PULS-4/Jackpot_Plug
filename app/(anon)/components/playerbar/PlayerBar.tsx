@@ -7,12 +7,14 @@ interface PlayerBarProps {
   player: YouTubePlayer | null;
   isPlaying: boolean;
   onSeek?: (seconds: number) => void;
+  isVisible?: boolean;
 }
 
 export default function PlayerBar({
   player,
   isPlaying,
   onSeek,
+  isVisible = false,
 }: PlayerBarProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -55,13 +57,13 @@ export default function PlayerBar({
 
     const rect = progressBarRef.current.getBoundingClientRect();
     const position = (clientX - rect.left) / rect.width;
-    const clampedPosition = Math.max(0, Math.min(1, position)); // 0~1 사이로 제한
+    const clampedPosition = Math.max(0, Math.min(1, position));
     return clampedPosition * duration;
   };
 
   // 진행바 클릭 처리
   const handleProgressBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation(); // 이벤트 버블링 방지
+    e.stopPropagation();
 
     if (!progressBarRef.current || !player || !duration) return;
 
@@ -167,7 +169,9 @@ export default function PlayerBar({
 
   return (
     <figure
-      className={styles.progress_container}
+      className={`${styles.progress_container} ${
+        isVisible ? styles.visible : ""
+      }`}
       onClick={(e) => e.stopPropagation()}
     >
       <figcaption className="blind">현재 재생 중인 음원</figcaption>

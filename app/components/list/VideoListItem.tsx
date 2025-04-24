@@ -41,11 +41,14 @@ export default function VideoListItem({
     if (selected && isPlaying && videoId) {
       setShowProgressBar(true);
     }
-  }, [selected, videoId]);
+  }, [selected, videoId, isPlaying]);
 
   const handleItemClick = (e: React.MouseEvent) => {
     // 프로그레스 바에서 발생한 클릭이라면 처리하지 않음
-    if ((e.target as HTMLElement).closest(`.${styles.progress_container}`)) {
+    if (
+      (e.target as HTMLElement).closest(`.${styles.progress_container}`) ||
+      (e.target as HTMLElement).closest(`.${styles.play_pause_overlay}`)
+    ) {
       return;
     }
 
@@ -77,6 +80,16 @@ export default function VideoListItem({
     }
   };
 
+  const handlePlayPause = () => {
+    if (onPlayPause) {
+      onPlayPause();
+    }
+
+    if (!selected && onClick) {
+      onClick();
+    }
+  };
+
   const decodedTitle = title ? decodeHtmlEntities(title) : "Meaning of you";
   const decodedArtist = artist ? decodeHtmlEntities(artist) : "아이유 IU";
 
@@ -95,6 +108,8 @@ export default function VideoListItem({
           src={src}
           mode={mode}
           onPlayerReady={handlePlayerReady}
+          onVideoEnded={onVideoEnded}
+          onPlayPause={handlePlayPause}
         />
         {mode === "playlist" && (
           <div className={styles.delete_btn_container}>
@@ -103,11 +118,12 @@ export default function VideoListItem({
         )}
       </div>
 
-      {showProgressBar && videoId && (
+      {videoId && (
         <PlayerBar
           player={playerRef.current}
           isPlaying={isPlaying}
           onSeek={handleSeek}
+          isVisible={showProgressBar}
         />
       )}
 
