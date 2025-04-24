@@ -54,10 +54,25 @@ export function useSearch() {
 
       const data = response.data;
       const results = data.items || [];
+      const spotifyTracks = data.spotifyTracks || [];
 
-      localStorage.setItem(cacheKey, JSON.stringify(results));
+      const enhancedResults = results.map((item: any) => {
+        const matchingTrack = spotifyTracks.find(
+          (track: any) =>
+            track.name
+              .toLowerCase()
+              .includes(item.snippet.title.toLowerCase()) ||
+            item.snippet.title.toLowerCase().includes(track.name.toLowerCase())
+        );
+        return {
+          ...item,
+          isrc: matchingTrack?.isrc || null,
+        };
+      });
 
-      setSearchResults(data.items || []);
+      localStorage.setItem(cacheKey, JSON.stringify(enhancedResults));
+
+      setSearchResults(enhancedResults);
       setCurrentQuery(searchQuery);
       setSelectedVideoId(null);
       setIsPlaying(false);
