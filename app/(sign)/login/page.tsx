@@ -57,6 +57,17 @@ export default function LoginForm() {
       <EmailInput email={email} setEmail={setEmail} showButton={false} />
       <PasswordInput setPass={setPassword} />
       <RoundBtn text="로그인" size="lg" color="accent" onClick={handleVerify} />
+      <div style={{ display: "flex" }}>
+        <p>나만의 리스트를 가지고 싶다면?&nbsp;</p>
+        <button
+          onClick={() => {
+            router.replace("/join");
+          }}
+          style={{ textDecoration: "underline", fontWeight: "bold" }}
+        >
+          회원가입
+        </button>
+      </div>
     </div>
   );
 }

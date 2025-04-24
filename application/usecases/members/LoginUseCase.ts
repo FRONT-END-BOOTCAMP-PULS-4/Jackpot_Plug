@@ -17,7 +17,7 @@ export class LoginUseCase {
       .single();
 
     if (error || !member) {
-      throw new Error("이메일 또는 비밀번호가 올바르지 않습니다.");
+      throw new Error("가입되지 않은 이메일입니다.");
     }
 
     const isPasswordMatch = bcrypt.compareSync(password, member.pw);

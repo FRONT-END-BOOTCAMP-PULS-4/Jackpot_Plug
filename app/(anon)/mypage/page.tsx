@@ -2,7 +2,6 @@
 
 import { useState, useRef, useMemo, useEffect } from "react";
 import { AnimatePresence } from "motion/react";
-
 import InputField from "../../components/input/InputField";
 import {
   IconBtn,
@@ -16,12 +15,9 @@ import styles from "./page.module.scss";
 import useModal from "@/hooks/useModal";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/useToast";
-import { supabase } from "../../../lib/supabase";
 import { useAuthStore } from "@/store/authStore";
 
 import { useRouter } from "next/navigation";
-
-import bcrypt from "bcryptjs";
 
 export default function Page() {
   const [userData, setUserData] = useState<{
@@ -54,26 +50,13 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
+    // 인증 상태 확인
     if (!isAuthenticated) {
       router.replace("/");
+      return; // 인증되지 않았으면 여기서 종료
     }
-  }, [isAuthenticated]);
 
-  const parseJwt = (token: string) => {
-    try {
-      if (!token || typeof token !== "string" || !token.includes(".")) {
-        throw new Error("유효하지 않은 토큰 형식");
-      }
-      const base64Payload = token.split(".")[1];
-      const payload = atob(base64Payload);
-      return JSON.parse(payload);
-    } catch (e) {
-      console.error("토큰 파싱 오류:", e);
-      return null;
-    }
-  };
-
-  useEffect(() => {
+    // 사용자 데이터 로드
     const getInitialAuthState = () => {
       const tokenString = localStorage.getItem("auth-storage");
       if (!tokenString)
@@ -99,7 +82,21 @@ export default function Page() {
 
     const initialState = getInitialAuthState();
     setUserData(initialState);
-  }, []);
+  }, [isAuthenticated, router]);
+
+  const parseJwt = (token: string) => {
+    try {
+      if (!token || typeof token !== "string" || !token.includes(".")) {
+        throw new Error("유효하지 않은 토큰 형식");
+      }
+      const base64Payload = token.split(".")[1];
+      const payload = atob(base64Payload);
+      return JSON.parse(payload);
+    } catch (e) {
+      console.error("토큰 파싱 오류:", e);
+      return null;
+    }
+  };
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -162,62 +159,42 @@ export default function Page() {
       return;
     }
 
-    const updates: any = {};
+    try {
+      const formData = new FormData();
+      formData.append("userId", userData.id);
 
-    if (isNameChanged) updates.profile_name = newName;
+      if (isNameChanged) formData.append("profileName", newName);
+      if (isImageChanged) formData.append("profileImage", newImage);
 
-    if (isImageChanged) {
-      const fileExt = newImage.name.split(".").pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `profile/${fileName}`;
+      const response = await fetch("/api/update-profile", {
+        method: "POST",
+        body: formData,
+      });
 
-      const { error: uploadError } = await supabase.storage
-        .from("images")
-        .upload(filePath, newImage);
+      const data = await response.json();
 
-      if (uploadError) {
-        console.error("이미지 업로드 실패:", uploadError.message);
-        showToast("이미지 업로드에 실패했습니다.");
-        return;
+      if (!response.ok) {
+        throw new Error(data.message || "프로필 업데이트 실패");
       }
 
-      const { data: urlData } = supabase.storage
-        .from("images")
-        .getPublicUrl(filePath);
+      setUserData((prev) => ({
+        ...prev,
+        profileName: data.profileName || prev.profileName,
+        profileImage: data.profileImage || prev.profileImage,
+      }));
 
-      updates.profile_pic = urlData.publicUrl;
-    }
+      // 로컬 스토리지 업데이트
+      Object.assign(parsed.state.user, {
+        ...(data.profileName && { profile_name: data.profileName }),
+        ...(data.profileImage && { profile_pic: data.profileImage }),
+      });
 
-    const { error } = await supabase
-      .from("member")
-      .update(updates)
-      .eq("id", userData.id);
-
-    if (error) {
-      console.error("업데이트 실패:", error.message);
-      showToast("프로필 수정에 실패했습니다.");
-      return;
-    }
-
-    setUserData((prev) => ({
-      ...prev,
-      profileName: updates.profile_name ?? prev.profileName,
-      profileImage: updates.profile_pic ?? prev.profileImage,
-    }));
-
-    // 👇 구조적으로 간결하게 업데이트
-    Object.assign(parsed.state.user, {
-      ...(updates.profile_name && { profile_name: updates.profile_name }),
-      ...(updates.profile_pic && { profile_pic: updates.profile_pic }),
-    });
-
-    try {
       localStorage.setItem("auth-storage", JSON.stringify(parsed));
-    } catch (e) {
-      console.error("로컬스토리지 갱신 실패", e);
+      showToast("프로필이 성공적으로 수정되었습니다!");
+    } catch (error) {
+      console.error("프로필 업데이트 오류:", error);
+      showToast("프로필 수정에 실패했습니다.");
     }
-
-    showToast("프로필이 성공적으로 수정되었습니다!");
   };
 
   const handlePasswordChange = async () => {
@@ -231,59 +208,61 @@ export default function Page() {
       return;
     }
 
-    const { data: user, error } = await supabase
-      .from("member")
-      .select("pw")
-      .eq("id", userData.id)
-      .single();
+    try {
+      const response = await fetch("/api/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData.id,
+          currentPassword: password,
+          newPassword: newPassword,
+        }),
+      });
 
-    if (error || !user) {
-      alert("사용자 정보를 불러오지 못했습니다.");
-      return;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "비밀번호 변경 실패");
+      }
+
+      setPassword("");
+      setNewPassword("");
+      setPassCheck("");
+      titleModal.close();
+      showToast("비밀번호가 성공적으로 변경되었습니다.");
+    } catch (error: any) {
+      alert(error.message || "비밀번호 변경에 실패했습니다.");
     }
-
-    const isMatch = await bcrypt.compare(password, user.pw);
-    if (!isMatch) {
-      alert("현재 비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
-    const { error: updateError } = await supabase
-      .from("member")
-      .update({ pw: hashedNewPassword })
-      .eq("id", userData.id);
-
-    if (updateError) {
-      alert("비밀번호 변경에 실패했습니다.");
-      return;
-    }
-
-    setPassword("");
-    setNewPassword("");
-    setPassCheck("");
-    titleModal.close();
-    showToast("비밀번호가 성공적으로 변경되었습니다.");
   };
 
   // 회원 탈퇴 처리
   const handleDeleteAccount = async () => {
-    const { error } = await supabase
-      .from("member")
-      .delete()
-      .eq("id", userData.id);
+    try {
+      const response = await fetch("/api/delete-account", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData.id,
+        }),
+      });
 
-    if (error) {
-      alert("회원 탈퇴에 실패했습니다.");
-      console.error("회원 탈퇴 실패:", error.message);
-      return;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "회원 탈퇴 실패");
+      }
+
+      // 탈퇴 후 로그아웃 및 페이지 리다이렉트
+      infoModal.close();
+      logout();
+      window.location.reload();
+    } catch (error: any) {
+      alert(error.message || "회원 탈퇴에 실패했습니다.");
     }
-
-    // 탈퇴 후 로그아웃 및 페이지 리다이렉트
-    infoModal.close();
-    logout();
-    window.location.reload();
   };
 
   if (!isAuthenticated) return null;
