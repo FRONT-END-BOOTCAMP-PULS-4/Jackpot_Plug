@@ -5,7 +5,7 @@ import { formatDuration } from "@/utils/formatDuration";
 export interface ISpotifyRecoData {
   name?: string;
   artist?: string;
-  albumImage: string | null;
+  albumImage?: string;
   previewUrl: string | null;
   duration?: string;
 }
