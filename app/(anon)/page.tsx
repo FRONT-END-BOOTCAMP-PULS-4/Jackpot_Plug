@@ -4,9 +4,21 @@ import styles from "./page.module.scss";
 import Link from "next/link";
 import Title from "../components/title/Title";
 import VideoExtractor from "./components/VideoExtractor";
+import { useAuth } from "@/hooks/useAuth";
+import AIReco from "./components/aiReco";
+import AIRecoSkeleton from "./components/aiRecoSkeleton";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const isLogin = false; // 로그인 상태 확인
+  const { isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    // Check login status and update state accordingly
+    setIsLogin(isAuthenticated);
+    setIsLoading(false);
+  }, [isAuthenticated]);
 
   return (
     <section className={styles.section_container}>
@@ -18,14 +30,19 @@ export default function Home() {
         음악. 이제 경험의 영역입니다.`}
       ></Title>
       <VideoExtractor />
-      <div>
-        {isLogin ? (
-          "ai 추천을 해줄거에요"
-        ) : (
-          <Link className={styles.go_login_text} href="/login">
-            Ai 추천은 로그인이 필요해요. ✨
-          </Link>
-        )}
+      <div className={styles.reco_section}>
+        <h4 className={styles.reco_header}>AI 추천을 해드릴게요.</h4>
+        <div className={styles.reco_list_container}>
+          {isLoading ? (
+            <AIRecoSkeleton hideTitle={true} />
+          ) : isLogin ? (
+            <AIReco hideTitle={true} />
+          ) : (
+            <Link className={styles.go_login_text} href="/login">
+              Ai 추천은 로그인이 필요해요. ✨
+            </Link>
+          )}
+        </div>
       </div>
     </section>
   );
