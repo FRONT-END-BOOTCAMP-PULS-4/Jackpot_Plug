@@ -8,7 +8,7 @@
   transition: padding 0.6s ease-in-out;
 
   &.searching {
-    padding-top: 40px;
+    padding-top: 20px;
     justify-content: flex-start;
 
     .title_container {
@@ -21,7 +21,7 @@
 
     .search_form {
       transform: translateY(-30px);
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
   }
 
@@ -55,10 +55,14 @@
 
   .loading {
     color: $color-o-w7;
+    text-align: center;
+    margin-bottom: 18px;
   }
 
   .no_results {
     font-size: rem(18);
+    text-align: center;
+    margin-bottom: 18px;
   }
 }
 

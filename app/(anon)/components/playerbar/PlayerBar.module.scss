@@ -1,0 +1,33 @@
+@use "../../../../public/styles/variable" as *;
+@use "../../../../public/styles/mixin" as *;
+
+.progress_container {
+  width: 100%;
+  margin: 15px 0;
+  @include flex($direction: column, $gap: 8px);
+}
+.progress_bar_container {
+  width: 100%;
+  height: 6px;
+  background-color: $color-o-w3;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease;
+}
+
+.progress_bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: $color-accent;
+  transition: width 1s ease-out;
+}
+
+.time_display {
+  width: 100%;
+  @include flex($justify: space-between);
+  font-size: rem(14);
+  color: $color-o-w7;
+}

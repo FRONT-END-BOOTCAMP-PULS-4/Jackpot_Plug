@@ -23,7 +23,6 @@ export default function VideoMedia({
   onPlayerReady,
   onVideoEnded,
 }: VideoMediaProps) {
-  const playerRef = useRef<YouTubePlayer | null>(null);
   const [videoEnded, setVideoEnded] = useState(false);
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
 

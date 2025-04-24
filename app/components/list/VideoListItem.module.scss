@@ -4,8 +4,8 @@
 .thumbnail_item_container {
   cursor: pointer;
   @include flex($direction: column, $align: flex-start, $gap: 10px);
-  padding: 40px 26px;
-  border-radius: 10px;
+  padding: 40px 32px;
+  border-radius: 15px;
   transition: background-color 0.3s ease;
 
   &:hover,
@@ -43,31 +43,37 @@
       $gap: 6px
     );
     .title {
-      max-width: 230px;
+      max-width: 350px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      font-size: rem(16);
+      font-size: rem(20);
       margin-bottom: 5px;
     }
     .artist_container {
       @include flex($gap: 6px);
       .certified {
         @include icon(
-          $width: 14px,
-          $height: 14px,
+          $width: 16px,
+          $height: 16px,
           $url: "/assets/icons/is-certified.svg",
           $size: cover
         );
       }
       .artist {
-        font-size: rem(14);
+        font-size: rem(16);
       }
     }
     .add_playlist_btn {
       position: absolute;
       right: 0;
       bottom: -8px;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }
