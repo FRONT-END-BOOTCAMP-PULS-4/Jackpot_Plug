@@ -1,12 +1,26 @@
 export interface YoutubeItem {
   id: { videoId: string };
-  snippet: { title: string; description: string; channelTitle: string };
+  snippet: {
+    title: string;
+    description: string;
+    channelTitle: string;
+    thumbnails: {
+      default?: { url: string };
+      medium?: { url: string };
+      high?: { url: string };
+    };
+    duration: string;
+  };
 }
 
 export interface SpotifyTrack {
   name: string;
   artist: string;
   isrc?: string;
+}
+
+export interface MatchedYoutubeItem extends YoutubeItem {
+  matchedTrack?: SpotifyTrack;
 }
 
 function normalize(text: string): string {
@@ -19,7 +33,7 @@ function normalize(text: string): string {
 export function matchTracks(
   youtubeItems: YoutubeItem[],
   spotifyTracks: SpotifyTrack[]
-): YoutubeItem[] {
+): MatchedYoutubeItem[] {
   // YouTube 항목 정규화
   const normalizedYoutubeItems = youtubeItems.map((item) => ({
     ...item,
@@ -43,7 +57,9 @@ export function matchTracks(
         );
       });
 
-      return matched ? { ...matched, matchedTrack: track } : null;
+      return matched
+        ? { ...matched, matchedTrack: track }
+        : "매칭 결과가 없어요";
     })
-    .filter(Boolean) as YoutubeItem[]; // null 제거
+    .filter(Boolean) as MatchedYoutubeItem[]; // null 제거
 }

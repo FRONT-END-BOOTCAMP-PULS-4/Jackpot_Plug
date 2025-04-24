@@ -12,7 +12,7 @@ export class YouTubeResultDto {
         medium?: { url: string };
         high?: { url: string };
       };
-      publishedAt?: string;
+      duration: string;
     }
   ) {}
 }

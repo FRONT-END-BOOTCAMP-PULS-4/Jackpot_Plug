@@ -9,6 +9,7 @@ import ListItem from "@/app/components/list/ListItem";
 import { RoundBtn } from "@/app/components/button/Buttons";
 import RouteModal from "@/app/components/modal/RouteModal";
 import { useVideoExtract } from "@/hooks/useVideoExtract";
+import axios from "axios";
 
 interface VideoData {
   title: string;
@@ -23,8 +24,10 @@ export default function MusicPage() {
   const { videoId } = useParams() as { videoId: string };
   const [data, setData] = useState<VideoData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const { extract, routeModal, modalMessage } = useVideoExtract();
+
+  const [selectedMusicList, setSelectedMusicList] = useState<string[]>([]);
 
   useEffect(() => {
     const cached = sessionStorage.getItem(videoId);
@@ -42,6 +45,29 @@ export default function MusicPage() {
       });
     }
   }, [videoId]);
+
+  const handleAddMusic = (title: string) => {
+    setSelectedMusicList(
+      (prev) =>
+        prev.includes(title)
+          ? prev.filter((t) => t !== title) // 제거
+          : [...prev, title] // 추가
+    );
+  };
+
+  const handleSearchMusic = async (selectedMusicList: string[]) => {
+    try {
+      const { data } = await axios.get(`/api/musics/search`, {
+        params: {
+          lists: selectedMusicList.join(","),
+        },
+      });
+
+      // console.log("data", data);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
 
   return (
     <>
@@ -67,6 +93,8 @@ export default function MusicPage() {
                     title={music}
                     key={index}
                     isLogin={isLogin}
+                    onAction={() => handleAddMusic(music)}
+                    isAdd={selectedMusicList.includes(music)}
                   />
                 ))}
               </ul>
@@ -80,7 +108,10 @@ export default function MusicPage() {
                   text="플레이리스트 만들기"
                   size="md"
                   color="accent"
-                  customClassName={!isLogin ? "disabled" : ""}
+                  customClassName={
+                    !isLogin || selectedMusicList.length === 0 ? "disabled" : ""
+                  }
+                  onClick={() => handleSearchMusic(selectedMusicList)}
                 />
               </div>
             </div>

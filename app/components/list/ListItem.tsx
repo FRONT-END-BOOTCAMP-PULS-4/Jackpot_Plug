@@ -8,6 +8,7 @@ export interface IListItemProps {
   title?: string;
   artist?: string;
   mode?: string;
+  isAdd?: boolean;
   isLogin?: boolean;
   onAction?: () => void;
 }
@@ -16,21 +17,16 @@ export default function ListItem({
   title,
   artist,
   mode,
+  isAdd,
   isLogin,
   onAction,
 }: IListItemProps) {
-  const [isAdd, setIsAdd] = useState(false);
-
   // mode : edit, extract, playlist
   const isEdit = mode === "edit";
   const isExtractMode = mode === "extract";
 
   const handleAdd = useCallback(() => {
-    setIsAdd((current) => !current);
-
-    if (isAdd) {
-      onAction?.();
-    }
+    onAction?.();
   }, []);
 
   return (
