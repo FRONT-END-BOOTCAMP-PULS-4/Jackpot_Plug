@@ -21,8 +21,13 @@ export default function Page() {
     updateAnimationState,
   } = useSearch();
 
-  const { selectedVideoId, isPlaying, handleVideoSelect, handleVideoEnded } =
-    useVideoPlayer();
+  const {
+    selectedVideoId,
+    isPlaying,
+    handleVideoSelect,
+    handleVideoEnded,
+    handlePlayPause,
+  } = useVideoPlayer();
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -84,6 +89,7 @@ export default function Page() {
                 onClick={() => handleVideoSelect(result.id.videoId)}
                 isPlaying={selectedVideoId === result.id.videoId && isPlaying}
                 onVideoEnded={handleVideoEnded}
+                onPlayPause={handlePlayPause}
               />
             ))}
           </ul>

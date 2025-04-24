@@ -6,6 +6,7 @@ export function useVideoPlayer(): {
   lastPlayed: string | null;
   handleVideoSelect: (videoId: string) => void;
   handleVideoEnded: () => void;
+  handlePlayPause: () => void;
   resetPlayer: () => void;
 } {
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
@@ -26,6 +27,10 @@ export function useVideoPlayer(): {
     setIsPlaying(false);
   };
 
+  const handlePlayPause = (): void => {
+    setIsPlaying((prev) => !prev);
+  };
+
   const resetPlayer = (): void => {
     setSelectedVideoId(null);
     setIsPlaying(false);
@@ -38,6 +43,7 @@ export function useVideoPlayer(): {
     lastPlayed,
     handleVideoSelect,
     handleVideoEnded,
+    handlePlayPause,
     resetPlayer,
   };
 }

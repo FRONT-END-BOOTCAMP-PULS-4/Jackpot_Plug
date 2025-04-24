@@ -41,16 +41,17 @@ export default function VideoListItem({
     if (selected && isPlaying && videoId) {
       setShowProgressBar(true);
     }
-  }, [selected, isPlaying, videoId]);
+  }, [selected, videoId]);
 
-  const handleItemClick = () => {
+  const handleItemClick = (e: React.MouseEvent) => {
+    // 프로그레스 바에서 발생한 클릭이라면 처리하지 않음
+    if ((e.target as HTMLElement).closest(`.${styles.progress_container}`)) {
+      return;
+    }
+
     if (mode === "video") return;
     if (onClick) {
       onClick();
-    }
-
-    if (selected && !showProgressBar && videoId) {
-      setShowProgressBar(true);
     }
   };
 
@@ -61,8 +62,19 @@ export default function VideoListItem({
 
     player.addEventListener("onStateChange", (e: any) => {
       if (e && e.data === 0 && onVideoEnded) {
+        onVideoEnded();
       }
     });
+  };
+
+  const handleSeek = (seconds: number) => {
+    if (playerRef.current) {
+      playerRef.current.seekTo(seconds, true);
+
+      if (!isPlaying && onPlayPause) {
+        onPlayPause();
+      }
+    }
   };
 
   const decodedTitle = title ? decodeHtmlEntities(title) : "Meaning of you";
@@ -95,11 +107,7 @@ export default function VideoListItem({
         <PlayerBar
           player={playerRef.current}
           isPlaying={isPlaying}
-          onSeek={(seconds) => {
-            if (playerRef.current) {
-              playerRef.current.seekTo(seconds, true);
-            }
-          }}
+          onSeek={handleSeek}
         />
       )}
 
