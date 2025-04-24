@@ -21,6 +21,8 @@ export default function Page() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [lastPlayed, setLastPlayed] = useState<string | null>(null);
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -57,6 +59,7 @@ export default function Page() {
         setSearchResults(results);
         setCurrentQuery(searchQuery);
         setSelectedVideoId(null);
+        setIsPlaying(false);
         return;
       }
 
@@ -74,6 +77,7 @@ export default function Page() {
       setSearchResults(data.items || []);
       setCurrentQuery(searchQuery);
       setSelectedVideoId(null);
+      setIsPlaying(false);
     } catch (error) {
       console.error("Error fetching search results:", error);
     } finally {
@@ -102,10 +106,16 @@ export default function Page() {
 
   const handleVideoSelect = (videoId: string) => {
     if (selectedVideoId === videoId) {
-      setSelectedVideoId(null);
+      setIsPlaying(!isPlaying);
     } else {
       setSelectedVideoId(videoId);
+      setIsPlaying(true);
     }
+    setLastPlayed(videoId);
+  };
+
+  const handleVideoEnded = () => {
+    setIsPlaying(false);
   };
 
   return (
@@ -147,6 +157,7 @@ export default function Page() {
               <VideoListItem
                 key={result.id.videoId || idx}
                 src={
+                  result.snippet.thumbnails.maxres?.url ||
                   result.snippet.thumbnails.high?.url ||
                   result.snippet.thumbnails.medium?.url ||
                   result.snippet.thumbnails.default?.url
@@ -158,7 +169,8 @@ export default function Page() {
                 videoId={result.id.videoId}
                 selected={selectedVideoId === result.id.videoId}
                 onClick={() => handleVideoSelect(result.id.videoId)}
-                isPlaying={selectedVideoId === result.id.videoId}
+                isPlaying={selectedVideoId === result.id.videoId && isPlaying}
+                onVideoEnded={handleVideoEnded}
               />
             ))}
           </ul>

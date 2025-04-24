@@ -16,6 +16,7 @@ interface IVideoListItemProps extends IListItemProps {
   selected?: boolean;
   videoId?: string;
   isPlaying?: boolean;
+  onVideoEnded?: () => void;
 }
 
 export default function VideoListItem({
@@ -28,6 +29,7 @@ export default function VideoListItem({
   src = "/images/sample-image.png",
   videoId,
   isPlaying = false,
+  onVideoEnded,
 }: IVideoListItemProps) {
   const playerRef = useRef<YouTubePlayer | null>(null);
 
@@ -36,6 +38,18 @@ export default function VideoListItem({
     if (onClick) {
       onClick();
     }
+  };
+
+  const handlePlayerReady = (player: YouTubePlayer) => {
+    if (!player) return;
+
+    playerRef.current = player;
+
+    player.addEventListener("onStateChange", (e: any) => {
+      if (e && e.data === 0 && onVideoEnded) {
+        onVideoEnded();
+      }
+    });
   };
 
   const decodedTitle = title ? decodeHtmlEntities(title) : "Meaning of you";
@@ -55,9 +69,7 @@ export default function VideoListItem({
           title={decodedTitle}
           src={src}
           mode={mode}
-          onPlayerReady={(player) => {
-            playerRef.current = player;
-          }}
+          onPlayerReady={handlePlayerReady}
         />
         {mode === "playlist" && (
           <div className={styles.delete_btn_container}>

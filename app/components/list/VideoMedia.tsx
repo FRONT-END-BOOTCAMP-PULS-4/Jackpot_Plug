@@ -1,7 +1,7 @@
 import YouTube from "react-youtube";
 import type { YouTubePlayer, YouTubeEvent } from "react-youtube";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./VideoListItem.module.scss";
 
 interface VideoMediaProps {
@@ -11,6 +11,7 @@ interface VideoMediaProps {
   src?: string;
   mode?: string;
   onPlayerReady?: (player: YouTubePlayer) => void;
+  onVideoEnded?: () => void;
 }
 
 export default function VideoMedia({
@@ -20,60 +21,101 @@ export default function VideoMedia({
   src = "/images/sample-image.png",
   mode = "thumbnail",
   onPlayerReady,
+  onVideoEnded,
 }: VideoMediaProps) {
   const playerRef = useRef<YouTubePlayer | null>(null);
-  const [thumbnailError, setThumbnailError] = useState(false);
-
-  const handleThumbnailError = () => {
-    setThumbnailError(true);
-  };
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [player, setPlayer] = useState<YouTubePlayer | null>(null);
 
   const handleReady = (e: YouTubeEvent) => {
-    // 플레이어 인스턴스 저장
-    playerRef.current = e.target;
-    if (onPlayerReady) {
-      onPlayerReady(e.target);
+    if (e.target) {
+      setPlayer(e.target);
+      if (onPlayerReady) {
+        onPlayerReady(e.target);
+      }
     }
   };
 
-  if (videoId && isPlaying) {
-    return (
-      <YouTube
-        videoId={videoId}
-        opts={{
-          width: "100%",
-          height: "100%",
-          playerVars: {
-            autoplay: 1,
-          },
-        }}
-        className={styles.video_player}
-        title="YouTube video player"
-        onReady={handleReady}
-      />
-    );
-  }
+  const handleStateChange = (e: YouTubeEvent) => {
+    if (e.data === 0 && onVideoEnded) {
+      onVideoEnded();
+    }
+  };
 
-  if (videoId && !thumbnailError) {
-    return (
-      <Image
-        className={styles.video_thumbnail_img}
-        src={src}
-        alt={`${title} thumbnail`}
-        width={240}
-        height={134}
-        onError={handleThumbnailError}
-      />
-    );
-  }
+  useEffect(() => {
+    if (player) {
+      try {
+        if (isPlaying) {
+          player.playVideo();
+        } else {
+          player.pauseVideo();
+        }
+      } catch (error) {
+        console.error("YouTube 플레이어 제어 중 오류:", error);
+      }
+    }
+  }, [isPlaying, videoEnded]);
 
   return (
+    <>
+      {/* 썸네일 이미지 */}
+      <div className={styles.thumbnail_wrapper}>
+        <Image
+          className={styles.video_thumbnail_img}
+          src={src}
+          alt={`${title} thumbnail`}
+          width={400}
+          height={400}
+          style={{
+            width: "134%",
+            height: "134%",
+            objectFit: "cover",
+            objectPosition: "center",
+          }}
+        />
+      </div>
+
+      {/* 오디오만 재생 (YouTube 플레이어 숨김) */}
+      {videoId && (
+        <div
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            width: "1px",
+            height: "1px",
+            overflow: "hidden",
+            opacity: 0,
+          }}
+        >
+          <YouTube
+            videoId={videoId}
+            opts={{
+              width: "1",
+              height: "1",
+              playerVars: {
+                autoplay: 1,
+                controls: 0,
+                fs: 0,
+                rel: 0,
+              },
+            }}
+            onReady={handleReady}
+            onStateChange={handleStateChange}
+          />
+        </div>
+      )}
+    </>
+  );
+}
+
+{
+  /* return (
     <Image
       className={styles.thumbnail_img}
       src={src}
       alt={`${title} thumbnail`}
-      width={mode === "playlist" ? 380 : 240}
-      height={mode === "playlist" ? 250 : 134}
+      width={mode === "playlist" ? 400 : 400}
+      height={mode === "playlist" ? 400 : 400}
     />
-  );
+  ); */
 }

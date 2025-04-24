@@ -4,7 +4,7 @@
 .thumbnail_item_container {
   cursor: pointer;
   @include flex($direction: column, $align: flex-start, $gap: 10px);
-  padding: 22px 16px;
+  padding: 40px 26px;
   border-radius: 10px;
   transition: background-color 0.3s ease;
 
@@ -13,19 +13,21 @@
     background-color: $color-o-w1;
   }
 
+  // 썸네일 이미지 컨테이ㄴ
   .thumbnail_img_container {
     border-radius: 10px;
     overflow: hidden;
+    width: 400px;
+    height: 400px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
 
     .video_thumbnail_img {
       object-fit: cover;
-      width: 240px;
-      height: 134px;
+      width: 134%;
+      height: 134%;
       transition: transform 0.3s ease;
-    }
-
-    &:hover .video_thumbnail_img {
-      transform: scale(1.05);
     }
 
     .thumbnail_img {
@@ -36,8 +38,8 @@
     }
 
     .video_player {
-      width: 260px;
-      height: 146px;
+      width: 400px;
+      height: 400px;
       @include flex;
     }
   }
@@ -125,4 +127,36 @@
       opacity: 1;
     }
   }
+}
+
+.thumbnail_wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video_thumbnail_img {
+  object-fit: cover !important;
+  width: 134% !important;
+  height: 134% !important;
+  max-width: none !important;
+  max-height: none !important;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.hidden_player {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  left: -9999px;
 }
