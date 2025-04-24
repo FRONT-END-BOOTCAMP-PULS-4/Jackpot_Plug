@@ -1,122 +1,35 @@
 "use client";
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useState,
-  useEffect,
-  useRef,
-} from "react";
-import axios from "axios";
+import React, { useEffect, useRef } from "react";
 import Title from "../../components/title/Title";
 import styles from "./page.module.scss";
 import SearchInput from "@/app/components/input/SearchInput";
 import { IconBtn } from "@/app/components/button/Buttons";
 import VideoListItem from "@/app/components/list/VideoListItem";
 
+import { useSearch } from "./hooks/useSearch";
+import { useVideoPlayer } from "./hooks/useVideoPlayer";
+
 export default function Page() {
-  const [query, setQuery] = useState("");
-  const [currentQuery, setCurrentQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [lastPlayed, setLastPlayed] = useState<string | null>(null);
+  const {
+    query,
+    searchResults,
+    errorMessage,
+    isSearching,
+    isAnimating,
+    handleQueryChange,
+    handleSearch,
+    updateAnimationState,
+  } = useSearch();
+
+  const { selectedVideoId, isPlaying, handleVideoSelect, handleVideoEnded } =
+    useVideoPlayer();
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // 검색 결과가 있거나 검색 중일 때 애니메이션 상태 변경
   useEffect(() => {
-    if (searchResults.length > 0 || isSearching) {
-      setIsAnimating(true);
-    }
+    updateAnimationState();
   }, [searchResults, isSearching]);
-
-  const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
-
-  const validateSearchQuery = (query: string): boolean => {
-    const regex = /^.+[-].+$/;
-    return regex.test(query.trim());
-  };
-
-  const fetchSearchResults = async (searchQuery: string) => {
-    if (!searchQuery.trim()) return;
-
-    try {
-      setIsSearching(true);
-
-      // 로컬 스토리지에서 검색 결과 확인
-      const cacheKey = `search_result_${searchQuery}`;
-      const cachedData = localStorage.getItem(cacheKey);
-
-      if (cachedData) {
-        console.log("캐시된 결과 사용");
-        const results = JSON.parse(cachedData);
-        setSearchResults(results);
-        setCurrentQuery(searchQuery);
-        setSelectedVideoId(null);
-        setIsPlaying(false);
-        return;
-      }
-
-      const response = await axios.get("/api/search", {
-        params: {
-          q: searchQuery,
-        },
-      });
-
-      const data = response.data;
-      const results = data.items || [];
-
-      localStorage.setItem(cacheKey, JSON.stringify(results));
-
-      setSearchResults(data.items || []);
-      setCurrentQuery(searchQuery);
-      setSelectedVideoId(null);
-      setIsPlaying(false);
-    } catch (error) {
-      console.error("Error fetching search results:", error);
-    } finally {
-      setIsSearching(false);
-    }
-  };
-
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault();
-
-    if (!query.trim()) {
-      setErrorMessage("검색어를 입력해주세요. ⚡️");
-      setSearchResults([]);
-      return;
-    }
-
-    if (!validateSearchQuery(query)) {
-      setErrorMessage("'아티스트명-곡명' 정확하게 입력해주세요. 🔍");
-      setSearchResults([]);
-      return;
-    }
-
-    setErrorMessage(null);
-    fetchSearchResults(query);
-  };
-
-  const handleVideoSelect = (videoId: string) => {
-    if (selectedVideoId === videoId) {
-      setIsPlaying(!isPlaying);
-    } else {
-      setSelectedVideoId(videoId);
-      setIsPlaying(true);
-    }
-    setLastPlayed(videoId);
-  };
-
-  const handleVideoEnded = () => {
-    setIsPlaying(false);
-  };
 
   return (
     <section
