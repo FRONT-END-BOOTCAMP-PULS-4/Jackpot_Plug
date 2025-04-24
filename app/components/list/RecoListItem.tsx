@@ -7,7 +7,7 @@ import { IconBtn } from "../button/Buttons";
 
 interface IRecoListItemProps extends IListItemProps {
   duration?: string;
-  albumImage: string;
+  albumImage?: string;
 }
 
 export default function RecoListItem({
