@@ -39,16 +39,18 @@ export default function RootAside() {
             ></Link>
           </li>
           <li>
-            {isAuthenticated && (
-              <button
-                onClick={() => {
-                  logout();
-                  window.location.reload();
-                }}
-              >
-                로그아웃
-              </button>
-            )}
+            <div className={styles.logout_button}>
+              {isAuthenticated && (
+                <button
+                  onClick={() => {
+                    logout();
+                    window.location.reload();
+                  }}
+                >
+                  LOGOUT
+                </button>
+              )}
+            </div>
           </li>
         </ul>
       </nav>
