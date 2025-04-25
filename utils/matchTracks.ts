@@ -9,18 +9,17 @@ export interface YoutubeItem {
       medium?: { url: string };
       high?: { url: string };
     };
-    duration: string;
   };
 }
 
 export interface SpotifyTrack {
   name: string;
   artist: string;
-  isrc?: string;
+  isrc: string;
 }
 
 export interface MatchedYoutubeItem extends YoutubeItem {
-  matchedTrack?: SpotifyTrack;
+  matchedTrack: SpotifyTrack;
 }
 
 function normalize(text: string): string {

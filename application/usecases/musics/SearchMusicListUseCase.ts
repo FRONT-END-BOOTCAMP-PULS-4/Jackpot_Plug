@@ -3,8 +3,7 @@ import { SearchSpotifyTracksUseCase } from "../search/SearchSpotifyTracksUseCase
 import { SearchYouTubeByIsrcUseCase } from "../search/SearchYouTubeByIsrcUseCase";
 import { matchTracks } from "@/utils/matchTracks";
 import { SpotifyAPiRepository } from "@/infra/repositories/spotify/SpotifyApiRepository";
-import { SearchMusicDto } from "./dto/SearchMusic.dto";
-import { formatDuration } from "@/utils/formatDuration";
+import { MusicDto } from "./dto/Music.dto";
 
 export class SearchMusicListUseCase {
   constructor(
@@ -13,9 +12,7 @@ export class SearchMusicListUseCase {
     ),
     private youtubeIsrcSearchUseCase = new SearchYouTubeByIsrcUseCase()
   ) {}
-  async execute(
-    musiclists: string[]
-  ): Promise<SearchMusicDto[] | NextResponse> {
+  async execute(musiclists: string[]): Promise<MusicDto[] | NextResponse> {
     try {
       if (!musiclists) {
         return NextResponse.json(
@@ -57,17 +54,18 @@ export class SearchMusicListUseCase {
         matchTracks(youtubeResults, tracks)
       );
 
+      console.log("matchedResults:", matchedResults);
+
       return matchedResults.flat().map((item) => ({
         videoId: item.id?.videoId,
         title: item.snippet?.title,
         channelTitle: item.snippet?.channelTitle,
-        duration: formatDuration(item.snippet?.duration),
         thumbnail:
           item.snippet?.thumbnails?.high?.url ??
           item.snippet?.thumbnails?.medium?.url ??
           item.snippet?.thumbnails?.default?.url ??
           "",
-        isrc: item.matchedTrack?.isrc,
+        isrc: item.matchedTrack.isrc,
       }));
     } catch (error) {
       console.error("Error fetching search results:", error);

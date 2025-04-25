@@ -8,10 +8,12 @@ export async function GET(request: Request) {
 
     const searchMusicListUseCase = new SearchMusicListUseCase();
 
-    return await searchMusicListUseCase.execute(lists || "");
+    const result = await searchMusicListUseCase.execute(lists || "");
+
+    return NextResponse.json(result);
   } catch (error: any) {
     if (error.message === "NoSpotifyTracks" || error.message === "NoISRC") {
-      return Response.json(
+      return NextResponse.json(
         {
           error: `맞는 음악 찾기에 실패했어요.😢
             직접 검색을 통해 원하는 노래를 찾아보세요.`,

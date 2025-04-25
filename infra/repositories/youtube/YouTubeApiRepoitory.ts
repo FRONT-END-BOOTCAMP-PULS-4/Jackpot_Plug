@@ -31,7 +31,7 @@ export class YouTubeApiRepository implements YouTubeRepository {
                 description: item.snippet.description,
                 channelTitle: item.snippet.channelTitle,
                 thumbnails: item.snippet.thumbnails,
-                duration: item.snippet.duration,
+
               }
             )
         );

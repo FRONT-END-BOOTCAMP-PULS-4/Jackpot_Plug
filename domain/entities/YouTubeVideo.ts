@@ -12,7 +12,6 @@ export class YouTubeVideo {
         medium?: { url: string };
         high?: { url: string };
       };
-      duration: string;
     }
   ) {}
 }
