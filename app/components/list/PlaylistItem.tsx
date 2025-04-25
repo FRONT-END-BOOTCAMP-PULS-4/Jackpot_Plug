@@ -2,7 +2,6 @@
 import styles from "./VideoListItem.module.scss";
 import { IListItemProps } from "./ListItem";
 import Image from "next/image";
-import { videoListItemModeSwitcher } from "@/utils/modeSwitcher";
 import { IconBtn } from "../button/Buttons";
 
 interface IVideoListItemProps extends IListItemProps {
@@ -16,7 +15,6 @@ interface IVideoListItemProps extends IListItemProps {
 export default function PlaylistItem({
   title,
   onClick,
-  selected,
   mode = "thumbnail",
   src = "/images/sample-image.png",
 }: IVideoListItemProps) {

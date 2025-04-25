@@ -1,7 +1,6 @@
 "use client";
 import styles from "./MusicPlayer.module.scss";
 import { IListItemProps } from "../list/ListItem";
-import { videoListItemModeSwitcher } from "@/utils/modeSwitcher";
 import { IconBtn } from "../button/Buttons";
 import type { YouTubePlayer } from "react-youtube";
 import { useEffect, useRef, useState } from "react";
@@ -24,10 +23,8 @@ interface IVideoListItemProps extends IListItemProps {
 export default function MusicPlayerItem({
   title,
   artist,
-  isCertified,
   onClick,
   selected,
-  mode = "thumbnail",
   src = "/images/sample-image.png",
   videoId,
   isPlaying = false,
