@@ -7,9 +7,8 @@
   border-radius: 15px;
   transition: background-color 0.3s ease;
 
-  &:hover,
   &.selected {
-    background-color: $color-o-w1;
+    background-color: $color-o-w2;
   }
 
   // 썸네일 이미지 컨테이너
