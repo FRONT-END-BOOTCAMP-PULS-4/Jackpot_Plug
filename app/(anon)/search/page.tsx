@@ -4,7 +4,7 @@ import Title from "../../components/title/Title";
 import styles from "./page.module.scss";
 import SearchInput from "@/app/components/input/SearchInput";
 import { IconBtn } from "@/app/components/button/Buttons";
-import VideoListItem from "@/app/components/list/VideoListItem";
+import MusicPlayerItem from "@/app/components/player/MusicPlayerItem";
 
 import { useSearch } from "./hooks/useSearch";
 import { useVideoPlayer } from "./hooks/useVideoPlayer";
@@ -63,16 +63,16 @@ export default function Page() {
       </form>
 
       {errorMessage && (
-        <p className={`${styles.error_message}`}>{errorMessage}</p>
+        <span className={`${styles.error_message}`}>{errorMessage}</span>
       )}
 
-      <div className={styles.result_container}>
+      <span className={styles.result_container}>
         {isSearching && <div className={styles.loading}>검색 중...</div>}
 
         {searchResults.length > 0 && (
           <ul className={styles.result_music}>
             {searchResults.map((result, idx) => (
-              <VideoListItem
+              <MusicPlayerItem
                 key={result.id.videoId || idx}
                 src={
                   result.snippet.thumbnails.maxres?.url ||
@@ -99,9 +99,11 @@ export default function Page() {
           searchResults.length === 0 &&
           !isSearching &&
           !errorMessage && (
-            <p className={styles.no_results}>찾으시는 음원은 없어요. 😢</p>
+            <span className={styles.no_results}>
+              찾으시는 음원은 없어요. 😢
+            </span>
           )}
-      </div>
+      </span>
     </section>
   );
 }

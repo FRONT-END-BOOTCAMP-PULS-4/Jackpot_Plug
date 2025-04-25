@@ -1,30 +1,28 @@
 import YouTube from "react-youtube";
 import type { YouTubePlayer, YouTubeEvent } from "react-youtube";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
-import styles from "./VideoListItem.module.scss";
+import { useState, useEffect } from "react";
+import styles from "./MusicPlayer.module.scss";
 
-interface VideoMediaProps {
+interface MusicPlayerProps {
   videoId?: string;
   isPlaying?: boolean;
   title?: string;
   src?: string;
-  mode?: string;
   onPlayerReady?: (player: YouTubePlayer) => void;
   onVideoEnded?: () => void;
   onPlayPause?: () => void;
 }
 
-export default function VideoMedia({
+export default function MusicPlayer({
   videoId,
   isPlaying = false,
   title,
   src = "/images/sample-image.png",
-  mode = "thumbnail",
   onPlayerReady,
   onVideoEnded,
   onPlayPause,
-}: VideoMediaProps) {
+}: MusicPlayerProps) {
   const [player, setPlayer] = useState<YouTubePlayer | null>(null);
   const [videoEnded, setVideoEnded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -40,7 +38,6 @@ export default function VideoMedia({
 
   const handleStateChange = (e: YouTubeEvent) => {
     if (e.data === 0) {
-      // 동영상 종료 상태
       setVideoEnded(true);
       if (onVideoEnded) {
         onVideoEnded();
@@ -82,32 +79,23 @@ export default function VideoMedia({
 
   return (
     <>
-      {/* 썸네일 이미지 */}
       <div
-        className={styles.thumbnail_wrapper}
+        className={styles.music_player_wrapper}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <Image
-          className={styles.video_thumbnail_img}
+          className={styles.thumbnail_img}
           src={src}
           alt={`${title} thumbnail`}
           width={400}
           height={400}
-          style={{
-            width: "134%",
-            height: "134%",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
         />
+
         {isHovering && (
-          <div
-            className={styles.play_pause_overlay}
-            onClick={handlePlayPauseClick}
-          >
+          <div className={styles.player_overlay} onClick={handlePlayPauseClick}>
             <div
-              className={`${styles.play_pause_button} ${
+              className={`${styles.player_control_btn} ${
                 isPlaying && !videoEnded
                   ? styles.pause_button
                   : styles.play_button
@@ -117,18 +105,8 @@ export default function VideoMedia({
         )}
       </div>
 
-      {/* 오디오만 재생 (YouTube 플레이어 숨김) */}
       {videoId && (
-        <div
-          style={{
-            position: "absolute",
-            left: "-9999px",
-            width: "1px",
-            height: "1px",
-            overflow: "hidden",
-            opacity: 0,
-          }}
-        >
+        <div className={styles.hidden_player}>
           <YouTube
             videoId={videoId}
             opts={{
@@ -148,16 +126,4 @@ export default function VideoMedia({
       )}
     </>
   );
-}
-
-{
-  /* return (
-    <Image
-      className={styles.thumbnail_img}
-      src={src}
-      alt={`${title} thumbnail`}
-      width={mode === "playlist" ? 400 : 400}
-      height={mode === "playlist" ? 400 : 400}
-    />
-  ); */
 }

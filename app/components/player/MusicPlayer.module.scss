@@ -1,13 +1,11 @@
 @use "../../../public/styles/variable" as *;
 @use "../../../public/styles/mixin" as *;
 
-.thumbnail_item_container {
-  cursor: pointer;
+.music_player {
   @include flex($direction: column, $align: flex-start, $gap: 10px);
   padding: 40px 32px;
   border-radius: 15px;
   transition: background-color 0.3s ease;
-  cursor: default;
 
   &:hover,
   &.selected {
@@ -15,7 +13,7 @@
   }
 
   // 썸네일 이미지 컨테이너
-  .thumbnail_img_container {
+  .player_container {
     border-radius: 10px;
     overflow: hidden;
     width: 400px;
@@ -34,7 +32,7 @@
     }
   }
 
-  .thumbnail_wrapper {
+  .music_player_wrappe {
     position: relative;
     width: 100%;
     height: 100%;
@@ -46,13 +44,42 @@
     }
   }
 
-  .video_thumbnail_img {
-    object-fit: cover !important;
-    width: 134% !important;
-    height: 134% !important;
-    max-width: none !important;
-    max-height: none !important;
+  .thumbnail_img {
     @include position;
+    width: 134%;
+    height: 134%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .player_overlay {
+    @include position;
+    @include flex;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  .player_control_btn {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .play_button {
+    background-image: url("/assets/icons/play.svg");
+  }
+
+  .pause_button {
+    background-image: url("/assets/icons/pause.svg");
   }
 
   .hidden_player {
@@ -65,41 +92,8 @@
     left: -9999px;
   }
 
-  .play_pause_overlay {
-    @include position;
-    width: 100%;
-    height: 100%;
-    @include flex;
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.3);
-    animation: fadeIn 0.3s ease forwards;
-  }
-
-  .play_pause_button {
-    width: 100px;
-    height: 100px;
-    background-size: 100px 100px;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: transform 0.2s ease;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-
-  // 재생 버튼 스타일
-  .play_button {
-    background-image: url("/assets/icons/play.svg");
-  }
-
-  // 정지 버튼 스타일
-  .pause_button {
-    background-image: url("/assets/icons/pause.svg");
-  }
-
   // 설명 컨테이너
-  .desc_container {
+  .music_info_container {
     width: 100%;
     position: relative;
     @include flex(
@@ -108,6 +102,7 @@
       $align: flex-start,
       $gap: 6px
     );
+
     .title {
       max-width: 350px;
       text-overflow: ellipsis;
@@ -116,8 +111,10 @@
       font-size: rem(20);
       margin-bottom: 5px;
     }
-    .artist_container {
+
+    .artist_info {
       @include flex($gap: 6px);
+
       .certified {
         @include icon(
           $width: 16px,
@@ -126,10 +123,8 @@
           $size: cover
         );
       }
-      .artist {
-        font-size: rem(16);
-      }
     }
+
     .add_playlist_btn {
       position: absolute;
       right: 0;
@@ -140,55 +135,6 @@
       &:hover {
         opacity: 1;
       }
-    }
-  }
-}
-
-// 비디오 아이템 컨테이너
-.video_item_container {
-  cursor: default;
-  @extend .thumbnail_item_container;
-
-  .video_player {
-    border-radius: 10px;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-// 플레이리스트 아이템 컨테이너
-.playlist_item_container {
-  cursor: default;
-  @extend .thumbnail_item_container;
-  .thumbnail_img_container {
-    position: relative;
-    transition: filter 0.3s ease;
-    &:hover {
-      .thumbnail_img {
-        filter: brightness(0.4);
-      }
-    }
-  }
-  .desc_container {
-    .title {
-      font-size: rem(16);
-      font-weight: $font-semibold;
-    }
-  }
-  .desc_container *:not(.title) {
-    display: none;
-  }
-  .delete_btn_container {
-    @include position($top: 22px, $left: auto, $transform: none);
-    right: 22px;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  &:hover {
-    .delete_btn_container {
-      opacity: 1;
     }
   }
 }
