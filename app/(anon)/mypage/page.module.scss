@@ -2,8 +2,33 @@
 @use "../../../public/styles/variable" as *;
 
 .div_container {
+  height: 100%;
+  @include flex($direction: column);
+
+  p {
+    width: 390px; // p 태그가 전체 너비를 차지하도록
+    text-align: left; // p 태그 텍스트 왼쪽 정렬
+    color: $color-o-w5;
+  }
+}
+
+@each $size in (25, 46, 60, 110) {
+  .div_gap_#{$size} {
+    height: rem($size);
+  }
+}
+
+.delete_account {
+  color: $color-o-w5;
+}
+
+.modal_list {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
+  p {
+    align-self: flex-start;
+    text-align: left;
+  }
 }

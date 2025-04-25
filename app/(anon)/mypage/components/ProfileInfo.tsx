@@ -132,6 +132,7 @@ export default function ProfileInfo({
         style={{ display: "none" }}
         onChange={handleImageSelect}
       />
+      <div className={styles.div_gap_25} />
       <InputField
         name="email"
         type="email"
@@ -159,6 +160,7 @@ export default function ProfileInfo({
         label="닉네임"
         buttonContent={<IconBtn icon="edit" size="xs" customClassName="verify" />}
       />
+      <div className={styles.div_gap_25} />
       <RoundBtn
         text="변경하기"
         size="lg"

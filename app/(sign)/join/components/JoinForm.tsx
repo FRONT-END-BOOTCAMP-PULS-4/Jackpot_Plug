@@ -9,6 +9,7 @@ import PasswordInput from "../../../components/input/PasswordInput";
 import ProfileForm from "./ProfileForm";
 import { useToast } from "@/hooks/useToast";
 import { sendVerificationEmail } from "../../utils/auth";
+import styles from "../../page.module.scss";
 
 export default function JoinForm() {
   const [email, setEmail] = useState("");
@@ -17,7 +18,6 @@ export default function JoinForm() {
   const [isVerified, setIsVerified] = useState(false);
   const [passCheck, setPassCheck] = useState(false);
   const [showProfileForm, setShowProfileForm] = useState(false);
-  const router = useRouter();
   const { showToast } = useToast();
 
   const handleSubmit = async () => {
@@ -47,7 +47,7 @@ export default function JoinForm() {
         titleText="회원가입"
         descriptionText="나만의 리스트를 저장해 보세요."
       />
-      <div style={{ height: "50px" }} />
+      <div className={styles.div_gap_110} />
       <EmailInput
         email={email}
         setEmail={setEmail}
@@ -56,6 +56,7 @@ export default function JoinForm() {
         setIsVerified={setIsVerified}
       />
       <PasswordInput setPass={setPassword} setPassCheck={setPassCheck} />
+      <div className={styles.div_gap_46} />
       <RoundBtn
         text="다음"
         size="lg"

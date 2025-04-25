@@ -7,6 +7,7 @@ import { RoundBtn, ProfileImgBtn } from "../../../components/button/Buttons";
 import TextInput from "../../../components/input/TextInput";
 import { useToast } from "@/hooks/useToast";
 import { uploadProfileImage, registerUser } from "../../utils/auth";
+import styles from "../../page.module.scss";
 
 interface ProfileFormProps {
   email: string;
@@ -32,7 +33,12 @@ export default function ProfileForm({ email, password }: ProfileFormProps) {
   };
 
   const handleRegister = async () => {
-    if (!profileName || profileName.length < 2 || profileName.length > 10 || !profileImage) {
+    if (
+      !profileName ||
+      profileName.length < 2 ||
+      profileName.length > 10 ||
+      !profileImage
+    ) {
       showToast("모든 항목을 입력해주세요.", 2000);
       return;
     }
@@ -43,9 +49,14 @@ export default function ProfileForm({ email, password }: ProfileFormProps) {
       return;
     }
 
-    const { success, message } = await registerUser(email, password, profileName, profilePicUrl);
+    const { success, message } = await registerUser(
+      email,
+      password,
+      profileName,
+      profilePicUrl
+    );
     showToast(message, 2000);
-    
+
     if (success) {
       setTimeout(() => router.push("/login"), 2000);
     }
@@ -62,13 +73,13 @@ export default function ProfileForm({ email, password }: ProfileFormProps) {
   );
 
   return (
-    <>
+    <div className={styles.div_container}>
       <Title
         isSmall={false}
         titleText="프로필 설정"
         descriptionText="나중에 언제든지 변경할 수 있어요."
       />
-      <div style={{ height: "50px" }} />
+      <div className={styles.div_gap_60} />
       {memoizedProfileImgBtn}
       <input
         type="file"
@@ -77,17 +88,19 @@ export default function ProfileForm({ email, password }: ProfileFormProps) {
         style={{ display: "none" }}
         onChange={handleImageSelect}
       />
+      <div className={styles.div_gap_46} />
       <TextInput
         placeholder="닉네임을 2~10자 이내로 입력해주세요."
         label="닉네임"
         setProfileName={setProfileName}
       />
+      <div className={styles.div_gap_25} />
       <RoundBtn
         text="시작하기"
         size="lg"
         color="accent"
         onClick={handleRegister}
       />
-    </>
+    </div>
   );
 }

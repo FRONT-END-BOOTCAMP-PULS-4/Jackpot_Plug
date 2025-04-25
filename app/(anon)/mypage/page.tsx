@@ -57,14 +57,15 @@ export default function Page() {
 
   return (
     <div className={styles.div_container}>
-      <ProfileInfo 
-        userData={userData} 
-        setUserData={setUserData} 
-        openPasswordModal={passwordModal.open} 
+      <ProfileInfo
+        userData={userData}
+        setUserData={setUserData}
+        openPasswordModal={passwordModal.open}
       />
-      
-      <button onClick={deleteAccountModal.open}>내 계정 삭제</button>
-      
+      <div className={styles.div_gap_46} />
+      <button onClick={deleteAccountModal.open} className={styles.delete_account}>
+        내 계정 삭제
+      </button>
       <AnimatePresence mode="wait">
         {passwordModal.isOpen && (
           <PasswordModal
@@ -74,7 +75,6 @@ export default function Page() {
           />
         )}
       </AnimatePresence>
-      
       <AnimatePresence mode="wait">
         {deleteAccountModal.isOpen && (
           <DeleteAccountModal

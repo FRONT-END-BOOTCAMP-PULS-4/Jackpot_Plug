@@ -69,16 +69,15 @@ export default function PasswordModal({
       size="lg"
       title="비밀번호 변경"
     >
-      <p>현재 비밀번호</p>
+      <div className={styles.div_gap_25} />
       <div className={styles.div_container}>
+        <p>현재 비밀번호</p>
         <PasswordInput setPass={setPassword} />
-      </div>
-      <p>새 비밀번호</p>
-      <div className={styles.div_container}>
+        <div className={styles.div_gap_25} />
+        <p>새 비밀번호</p>
         <PasswordInput setPass={setNewPassword} />
-      </div>
-      <p>새 비밀번호 확인</p>
-      <div className={styles.div_container}>
+        <div className={styles.div_gap_25} />
+        <p>새 비밀번호 확인</p>
         <PasswordInput setPass={setPassCheck} />
       </div>
     </Modal>
