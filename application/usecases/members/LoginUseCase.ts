@@ -43,7 +43,7 @@ export class LoginUseCase {
     );
 
     return {
-      message: "로그인 성공",
+      message: "로그인 되었습니다.",
       member: {
         id: member.id,
         email: member.email,
