@@ -98,7 +98,7 @@ export default function VideoListItem({
       className={`${
         styles[videoListItemModeSwitcher(mode as string) as string]
       } ${selected && mode === "thumbnail" ? styles.selected : ""}`}
-      onClick={handleItemClick}
+      // onClick={handleItemClick}
     >
       <div className={styles.thumbnail_img_container}>
         <VideoMedia

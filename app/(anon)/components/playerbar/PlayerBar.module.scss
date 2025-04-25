@@ -12,7 +12,7 @@
 
   &.visible {
     opacity: 1;
-    max-height: 60px; // 충분한 높이 설정
+    max-height: 60px;
     margin: 15px 0;
   }
 }
@@ -24,7 +24,7 @@
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-  transition: opacity 0.4s ease, max-height 0.4s ease, margin 0.4s ease;
+  cursor: pointer;
 }
 
 .progress_bar {
@@ -33,7 +33,7 @@
   top: 0;
   height: 100%;
   background: $color-accent;
-  transition: width 0.3s ease-out;
+  transition: width 0.1s ease-out;
 }
 
 .time_display {
