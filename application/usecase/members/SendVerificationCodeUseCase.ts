@@ -17,7 +17,7 @@ export class SendVerificationCodeUseCase {
     }
 
     // 메일 전송 요청
-    const res = await fetch("http://localhost:3000/api/mail/", {
+    const res = await fetch("http://localhost:3001/api/mail/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, message: code }),

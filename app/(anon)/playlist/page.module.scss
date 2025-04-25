@@ -2,8 +2,14 @@
 @use "../../../public/styles/variable" as *;
 
 .playlist {
+  height: calc(100vh - 86px);
+  @include flex($direction: column, $gap: 50px);
+  padding-bottom: 86px;
+
   .playlist_title {
-    @include flex($justify: left, $gap: 60px);
+    width: 100%;
+    @include flex($justify: flex-start, $gap: 60px);
+
     h2 {
       font-size: rem(40);
     }
@@ -17,7 +23,7 @@
         content: "";
         position: absolute;
         top: 50%;
-        right: 28px;
+        right: 20px;
         transform: translateY(-50%);
         @include icon(
           $width: 20px,
@@ -26,6 +32,38 @@
           $size: cover
         );
       }
+    }
+  }
+  .playlist_container {
+    width: 100%;
+    @include flex;
+    flex: 1;
+    overflow: hidden;
+
+    .loading,
+    .error,
+    .no_playlist {
+      @include flex;
+      text-align: center;
+    }
+
+    .playlist_grid {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(clamp(250px, 20vw, 320px), 1fr)
+      );
+      gap: clamp(20px, 2vw, 30px);
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      align-content: start;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
   }
 }

@@ -31,7 +31,7 @@ export default function JoinForm() {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setCheckNum(code);
 
-    const res = await fetch("http://localhost:3000/api/verify-email", {
+    const res = await fetch("http://localhost:3001/api/verify-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, code }),
@@ -70,7 +70,7 @@ export default function JoinForm() {
   const handleRegister = async () => {
     const profilePicUrl = await handleImageUpload();
 
-    const res = await fetch("http://localhost:3000/api/register", {
+    const res = await fetch("http://localhost:3001/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password, profileName, profilePicUrl }),
@@ -123,10 +123,7 @@ export default function JoinForm() {
             onClick={handleSubmit}
             setIsVerified={setIsVerified}
           />
-          <PasswordInput
-            setPass={setPassword}
-            setPassCheck={setPassCheck}
-          />
+          <PasswordInput setPass={setPassword} setPassCheck={setPassCheck} />
           <RoundBtn
             text="다음"
             size="lg"

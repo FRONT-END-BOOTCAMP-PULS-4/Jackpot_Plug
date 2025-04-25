@@ -60,6 +60,7 @@ interface IconBtnProps {
   onClick?: () => void;
   customClassName?: string;
   type?: "button" | "submit" | "reset";
+  hoverToWhite?: boolean;
 }
 
 export function IconBtn({
@@ -68,12 +69,13 @@ export function IconBtn({
   onClick,
   customClassName,
   type = "button",
+  hoverToWhite = false,
 }: IconBtnProps) {
   const isPlug = icon === "plug";
 
   const className = `${styles.icon_btn} ${styles[`icon_btn_${size}`]} ${
     isPlug ? styles.icon_btn_plug : ""
-  }`;
+  } ${hoverToWhite ? styles.hover_to_white : ""}`;
 
   const style = !isPlug
     ? { backgroundImage: `url("/assets/icons/${icon}.svg")` }

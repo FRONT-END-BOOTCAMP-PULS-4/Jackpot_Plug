@@ -105,6 +105,15 @@
     position: center;
   }
 
+  &.hover_to_white {
+    opacity: 0.6;
+    transition: all 0.3s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   /* IconBtn 사이즈 */
   // plug(big)
   &_xl {
