@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { SupabasePlaylistRepository } from "@/infra/repositories/playlist/SupabasePlaylistRepository";
+import { GetUserPlaylistsUseCase } from "@/application/usecases/playlist/GetUserPlaylistsUseCase";
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,49 +14,24 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // playlist + 썸네일을 join
-    const { data, error } = await supabase
-      .from("playlist")
-      .select(
-        `
-        id,
-        title,
-        playlist_videos (
-          index,
-          musics (
-            thumbnail
-          )
-        )
-      `
-      )
-      .eq("member_id", userId);
+    const playlistRepository = new SupabasePlaylistRepository();
+    const getUserPlaylistsUseCase = new GetUserPlaylistsUseCase(
+      playlistRepository
+    );
 
-    if (error) {
-      console.error("Supabase error:", error);
-      return NextResponse.json(
-        { error: "Failed to fetch playlists" },
-        { status: 500 }
-      );
-    }
+    const playlists = await getUserPlaylistsUseCase.execute(userId);
 
-    // 썸네일 추출: index === 1
-    const playlistsWithThumbnail = (data || []).map((playlist: any) => {
-      const thumbnailEntry = playlist.playlist_videos?.find(
-        (pv: any) => pv.index === 1
-      );
-      return {
-        id: playlist.id,
-        title: playlist.title,
-        thumbnail: thumbnailEntry?.musics?.thumbnail ?? null,
-      };
-    });
-
-    return NextResponse.json(playlistsWithThumbnail);
+    return NextResponse.json(playlists);
   } catch (err) {
-    console.error("Unexpected error:", err);
+    console.error("Error:", err);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: err instanceof Error ? err.message : "Internal server error" },
+      {
+        status:
+          err instanceof Error && err.message === "User ID is required"
+            ? 400
+            : 500,
+      }
     );
   }
 }
