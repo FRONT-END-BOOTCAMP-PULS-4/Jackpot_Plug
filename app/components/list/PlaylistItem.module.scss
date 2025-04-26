@@ -1,0 +1,56 @@
+@use "../../../public/styles/variable" as *;
+@use "../../../public/styles/mixin" as *;
+
+.playlist_item {
+  cursor: pointer;
+  @include flex($direction: column, $align: flex-start, $gap: 10px);
+
+  .playlist_item_thumbnail {
+    position: relative;
+    transition: filter 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .thumbnail_img {
+      transition: filter 0.2s;
+      object-fit: cover;
+    }
+
+    &:hover {
+      .thumbnail_img {
+        filter: brightness(0.4);
+      }
+    }
+
+    .delete_btn {
+      @include position($top: 22px, $left: auto, $transform: none);
+      right: 22px;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    &:hover {
+      .delete_btn {
+        opacity: 1;
+      }
+    }
+
+    .title {
+      width: 100%;
+      position: relative;
+      @include flex(
+        $direction: column,
+        $justify: flex-start,
+        $align: flex-start,
+        $gap: 6px
+      );
+      font-weight: $font-semibold;
+      span {
+        max-width: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+}

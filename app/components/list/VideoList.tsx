@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback, useState } from "react";
 import styles from "./VideoList.module.scss";
-import VideoListItem from "./VideoListItem";
+import VideoListItem from "./PlaylistItem";
 
 export default function VideoList() {
   const [selectedIndex, setSelectedIndex] = useState(0);

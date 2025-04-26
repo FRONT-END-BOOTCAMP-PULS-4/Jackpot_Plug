@@ -1,0 +1,148 @@
+@use "../../../public/styles/variable" as *;
+@use "../../../public/styles/mixin" as *;
+
+.music_player {
+  @include flex($direction: column, $align: flex-start, $gap: 10px);
+  padding: 40px 32px;
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+
+  &.selected {
+    background-color: $color-o-w2;
+  }
+
+  // 썸네일 이미지 컨테이너
+  .player_container {
+    border-radius: 10px;
+    overflow: hidden;
+    width: 400px;
+    height: 400px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    .thumbnail_img {
+      object-fit: cover;
+      width: 134%;
+      height: 134%;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .music_player_wrappe {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    @include flex;
+
+    &:hover .play_pause_overlay {
+      opacity: 1;
+    }
+  }
+
+  .thumbnail_img {
+    @include position;
+    width: 134%;
+    height: 134%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .player_overlay {
+    @include position;
+    @include flex;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  .player_control_btn {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .play_button {
+    background-image: url("/assets/icons/play.svg");
+  }
+
+  .pause_button {
+    background-image: url("/assets/icons/pause.svg");
+  }
+
+  .hidden_player {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    left: -9999px;
+  }
+
+  // 설명 컨테이너
+  .music_info_container {
+    width: 100%;
+    position: relative;
+    @include flex(
+      $direction: column,
+      $justify: flex-start,
+      $align: flex-start,
+      $gap: 6px
+    );
+
+    .title {
+      max-width: 350px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: rem(20);
+      margin-bottom: 5px;
+    }
+
+    .artist_info {
+      @include flex($gap: 6px);
+
+      .certified {
+        @include icon(
+          $width: 16px,
+          $height: 16px,
+          $url: "/assets/icons/is-certified.svg",
+          $size: cover
+        );
+      }
+    }
+
+    .add_playlist_btn {
+      position: absolute;
+      right: 0;
+      bottom: -8px;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

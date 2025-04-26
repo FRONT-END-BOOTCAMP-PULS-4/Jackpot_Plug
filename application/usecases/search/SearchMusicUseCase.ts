@@ -3,10 +3,13 @@ import { SearchSpotifyTracksUseCase } from "./SearchSpotifyTracksUseCase";
 import { SearchYouTubeByIsrcUseCase } from "./SearchYouTubeByIsrcUseCase";
 import { SearchYouTubeDirectlyUseCase } from "./SearchYouTubeDirectlyUseCase";
 import { matchTracks } from "@/utils/matchTracks";
+import { SpotifyAPiRepository } from "@/infra/repositories/spotify/SpotifyApiRepository";
 
 export class SearchMusicUseCase {
   constructor(
-    private spotifySearchUseCase = new SearchSpotifyTracksUseCase(),
+    private spotifySearchUseCase = new SearchSpotifyTracksUseCase(
+      new SpotifyAPiRepository()
+    ),
     private youtubeIsrcSearchUseCase = new SearchYouTubeByIsrcUseCase(),
     private youtubeDirectSearchUseCase = new SearchYouTubeDirectlyUseCase()
   ) {}
