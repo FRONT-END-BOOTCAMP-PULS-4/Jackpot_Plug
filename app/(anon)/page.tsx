@@ -15,7 +15,6 @@ export default function Home() {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    // Check login status and update state accordingly
     setIsLogin(isAuthenticated);
     setIsLoading(false);
   }, [isAuthenticated]);

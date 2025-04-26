@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSpotifyAccessToken } from "../../../utils/spotify";
 import { formatDuration } from "@/utils/formatDuration";
+import axios from "axios";
 
 export interface ISpotifyRecoData {
   name?: string;
@@ -14,18 +15,17 @@ export async function GET() {
   try {
     const token = await getSpotifyAccessToken();
     const spotifyBaseurl = process.env.NEXT_PUBLIC_SPOTIFY_API_BASEURL;
-    const response = await fetch(
-      `${spotifyBaseurl}/search?q=K-Pop&type=playlist&limit=1`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    
+    const response = await axios({
+      method: "GET",
+      url: `${spotifyBaseurl}/search?q=K-Pop&type=playlist&limit=1`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       return NextResponse.json(
         {
           error: "Cannot get recommended tracks",
@@ -34,20 +34,18 @@ export async function GET() {
       );
     }
 
-    const playlistData = await response.json();
+    const playlistData = response.data;
     const playlistId = playlistData?.playlists?.items[0]?.id;
 
-    const trackRes = await fetch(
-      `${spotifyBaseurl}/playlists/${playlistId}/tracks?limit=4`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const trackRes = await axios({
+      method: "GET",
+      url: `${spotifyBaseurl}/playlists/${playlistId}/tracks?limit=4`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    const trackData = await trackRes.json();
-    console.log(trackData.items);
+    const trackData = trackRes.data;
 
     const tracks = trackData?.items?.map((item: any) => ({
       name: item.track.name,

@@ -16,7 +16,6 @@ export default function RecoListItem({
   duration,
   albumImage,
 }: IRecoListItemProps) {
-  console.log(title);
   return (
     <li className={styles.reco_item_container}>
       <div className={styles.inner_container}>
