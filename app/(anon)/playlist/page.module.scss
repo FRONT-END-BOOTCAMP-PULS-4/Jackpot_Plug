@@ -68,3 +68,34 @@
     }
   }
 }
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.playlist {
+  .playlist_title {
+    @include flex($justify: left, $gap: 60px);
+    h2 {
+      font-size: rem(40);
+    }
+
+    span {
+      font-size: rem(20);
+      color: $color-o-w5;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 28px;
+        transform: translateY(-50%);
+        @include icon(
+          $width: 20px,
+          $height: 20px,
+          $url: "/assets/icons/playlists.svg",
+          $size: cover
+        );
+      }
+    }
+  }
+}

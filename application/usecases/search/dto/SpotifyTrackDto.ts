@@ -4,8 +4,8 @@ export class SpotifyTrackDto {
     public id: string,
     public name: string,
     public artist: string,
+    public isrc: string,
     public album?: string,
-    public isrc?: string,
     public image?: string
   ) {}
   static fromDomain(track: Track): SpotifyTrackDto {
@@ -13,8 +13,8 @@ export class SpotifyTrackDto {
       track.id,
       track.name,
       track.artist,
-      track.album || "",
       track.isrc,
+      track.album || "",
       track.imageUrl
     );
   }

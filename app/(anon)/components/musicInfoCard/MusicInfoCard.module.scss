@@ -1,5 +1,6 @@
 @use "../../../../public/styles/variable" as *;
 @use "../../../../public/styles/mixin" as *;
+@use "sass:map";
 
 $music-info: (
   "music": (
@@ -30,10 +31,10 @@ $music-info-icons: (
   @each $type, $info in $music-info {
     &.#{$type} {
       .info_container {
-        padding-top: map-get($info, "infoContainer-padding-top");
+        padding-top: map.get($info, "infoContainer-padding-top");
       }
       .title {
-        font-size: map-get($info, "title");
+        font-size: map.get($info, "title");
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -42,15 +43,15 @@ $music-info-icons: (
         -webkit-box-orient: vertical;
       }
       .thumnail_img {
-        border-radius: map-get($info, "thumnailImg");
+        border-radius: map.get($info, "thumnailImg");
         object-fit: cover;
       }
       .channel_title {
-        font-size: map-get($info, "channelTitle");
-        padding: map-get($info, "channelTitle-padding");
+        font-size: map.get($info, "channelTitle");
+        padding: map.get($info, "channelTitle-padding");
       }
       .duration {
-        font-size: map-get($info, "duration");
+        font-size: map.get($info, "duration");
       }
     }
   }

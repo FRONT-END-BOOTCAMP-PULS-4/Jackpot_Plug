@@ -6,14 +6,14 @@ import styles from "./InputField.module.scss";
 
 interface TextInputPorps extends PlaceholderProps, LabelProps {
   maxLength?: number;
-  setProfileName?: (value: string) => void;
+  setChangeText?: (value: string) => void;
 }
 
 export default function TextInput({
   placeholder,
   label,
   maxLength = 10,
-  setProfileName
+  setChangeText
 }: TextInputPorps) {
   const [text, setText] = useState("");
 
@@ -22,7 +22,7 @@ export default function TextInput({
 
     if (value.length <= maxLength) {
       setText(value);
-      setProfileName?.(value);
+      setChangeText?.(value);
     }
   };
 

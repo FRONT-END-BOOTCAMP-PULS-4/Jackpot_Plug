@@ -4,8 +4,37 @@
 .section_container {
   height: 100%;
   @include flex($direction: column, $gap: 85px);
+
+  & > form {
+    @include flex();
+    width: 100%;
+  }
+}
+
+.reco_section {
+  width: 70%;
+  margin-top: 40px;
+}
+
+.reco_header {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .go_login_text {
-  font-size: rem(26);
+  display: block;
+  text-align: center;
+  margin: 40px auto;
+  font-size: rem(16);
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.3s;
+
+  &:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+.reco_list_container {
+  width: 100%;
 }

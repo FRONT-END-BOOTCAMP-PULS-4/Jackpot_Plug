@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; // ✅ JWT import
 
 // JWT 시크릿 키 (보통 환경 변수로 관리)
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET || "your-secret-key";
 
 export class LoginUseCase {
   async execute(dto: LoginRequestDto) {
@@ -17,7 +17,7 @@ export class LoginUseCase {
       .single();
 
     if (error || !member) {
-      throw new Error("이메일 또는 비밀번호가 올바르지 않습니다.");
+      throw new Error("가입되지 않은 이메일입니다.");
     }
 
     const isPasswordMatch = bcrypt.compareSync(password, member.pw);
@@ -43,7 +43,7 @@ export class LoginUseCase {
     );
 
     return {
-      message: "로그인 성공",
+      message: "로그인 되었습니다.",
       member: {
         id: member.id,
         email: member.email,

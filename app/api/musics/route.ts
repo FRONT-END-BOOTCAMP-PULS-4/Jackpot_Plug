@@ -1,4 +1,4 @@
-import { GetVideoInfoUseCase } from "@/application/usecases/musics/useGetVideoContents";
+import { GetVideoInfoUseCase } from "@/application/usecases/musics/GetVideoContents";
 import { YoutubeApiCommentRepository } from "@/infra/repositories/youtube/VideoCommentRepository";
 import { YoutubeVideoApiRepository } from "@/infra/repositories/youtube/VideoRepository";
 import { NextResponse } from "next/server";
