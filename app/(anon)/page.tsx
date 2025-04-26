@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(isAuthenticated);
 
   useEffect(() => {
     setIsLogin(isAuthenticated);
