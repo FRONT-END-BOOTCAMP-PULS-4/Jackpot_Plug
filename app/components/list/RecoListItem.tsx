@@ -11,7 +11,7 @@ interface IRecoListItemProps extends IListItemProps {
 }
 
 export default function RecoListItem({
-  name: title,
+  title,
   artist,
   duration,
   albumImage,

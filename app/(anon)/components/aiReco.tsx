@@ -37,7 +37,11 @@ const AIReco: React.FC<AIRecoProps> = ({ hideTitle = false }) => {
     <div>
       <RecoList hideTitle={hideTitle}>
         {topTracks.map((track, index) => (
-          <RecoListItem key={`topTracks${index}`} {...track} />
+          <RecoListItem
+            key={`topTracks${index}`}
+            {...track}
+            title={track.name}
+          />
         ))}
       </RecoList>
     </div>
