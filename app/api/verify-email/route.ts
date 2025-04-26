@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { SendVerificationCodeUseCase } from "@/application/usecase/members/SendVerificationCodeUseCase";
-import { EmailVerificationDto } from "@/application/usecase/members/dto/EmailVerification.dto";
+import { SendVerificationCodeUseCase } from "@/application/usecases/members/SendVerificationCodeUseCase";
+import { EmailVerificationDto } from "@/application/usecases/members/dto/EmailVerification.dto";
 
 export async function POST(req: Request) {
   try {

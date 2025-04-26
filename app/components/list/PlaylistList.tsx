@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./PlaylistList.module.scss";
-import VideoListItem from "./VideoListItem";
+import VideoListItem from "./PlaylistItem";
 
 export default function PlaylistList() {
   return (

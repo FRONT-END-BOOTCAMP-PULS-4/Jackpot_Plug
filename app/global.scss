@@ -71,9 +71,12 @@ button {
   flex-direction: column;
   height: 100vh;
   padding: 20px;
+  position: relative;
 
   .sign_header {
-    align-self: flex-start;
+    position: fixed;
+    top: 62px;
+    left: 80px;
   }
 
   .sign_main {

@@ -37,6 +37,7 @@ export interface InputBaseProps {
   className?: string;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: () => void;
+  onClick?: () => void;
 }
 
 export interface InputFieldProps

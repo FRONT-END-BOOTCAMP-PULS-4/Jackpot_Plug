@@ -13,6 +13,7 @@ export default function InputField({
   labelHidden = true,
   onChangeAction,
   onBlur,
+  onClick,
   showButton,
   buttonContent,
   errorMessage,
@@ -59,6 +60,7 @@ export default function InputField({
           className={`${styles.input} ${value.length > 0 ? styles.filled : ""}`}
           onChange={onChangeAction}
           onBlur={onBlur}
+          onClick={onClick}
           autoComplete="off"
         />
         {showButton && buttonContent}
