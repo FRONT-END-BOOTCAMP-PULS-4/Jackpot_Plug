@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { DeleteAccountUsecase } from "@/application/usecases/mypages/DeleteAccountUsecase";
 import { UserRepositoryImpl } from "@/infra/repositories/supabase/UserRepository";
 
-export async function DELETE(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const { userId } = await request.json();
 

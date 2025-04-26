@@ -42,13 +42,12 @@ export default function RootAside() {
             <div className={styles.logout_button}>
               {isAuthenticated && (
                 <button
+                  className={`${styles.icon} ${styles.logout}`}
                   onClick={() => {
                     logout();
                     window.location.reload();
                   }}
-                >
-                  LOGOUT
-                </button>
+                />
               )}
             </div>
           </li>

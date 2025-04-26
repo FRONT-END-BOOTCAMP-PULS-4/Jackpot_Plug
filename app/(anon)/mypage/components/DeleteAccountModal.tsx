@@ -20,12 +20,7 @@ export default function DeleteAccountModal({
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await axios.delete("/api/delete-account", {
-        data: { userId },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post("/api/delete-account", { userId });
 
       // 탈퇴 후 로그아웃 및 페이지 리다이렉트
       onDeleteSuccess();

@@ -20,7 +20,7 @@
       border-radius: 50%;
     }
 
-    @each $icon-name in (home, search, playlist, user) {
+    @each $icon-name in (home, search, playlist, user, logout) {
       &.#{$icon-name} {
         @include icon(60px, 60px, "../assets/icons/#{$icon-name}.svg");
       }
