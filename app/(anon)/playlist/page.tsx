@@ -2,7 +2,7 @@
 import PlaylistItem from "@/app/components/list/PlaylistItem";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import RouteModal from "@/app/components/modal/RouteModal";
 import { usePlaylistStore } from "@/store/usePlaylistStore";
 
@@ -12,9 +12,11 @@ export default function Page() {
     usePlaylistStore();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [playlistToDelete, setPlaylistToDelete] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
   useEffect(() => {
-    // localStorage에서 사용자 정보 가져오기
+    if (fetchedRef.current) return;
+
     const authStorage = localStorage.getItem("auth-storage");
     if (authStorage) {
       const authData = JSON.parse(authStorage);
@@ -22,9 +24,10 @@ export default function Page() {
 
       if (userId) {
         fetchPlaylists(userId);
+        fetchedRef.current = true;
       }
     }
-  }, [fetchPlaylists]);
+  }, []);
 
   const handleDeleteClick = (playlistId: string) => {
     setPlaylistToDelete(playlistId);
