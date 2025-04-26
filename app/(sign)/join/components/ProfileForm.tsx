@@ -92,7 +92,7 @@ export default function ProfileForm({ email, password }: ProfileFormProps) {
       <TextInput
         placeholder="닉네임을 2~10자 이내로 입력해주세요."
         label="닉네임"
-        setProfileName={setProfileName}
+        setChangeText={setProfileName}
       />
       <div className={styles.div_gap_25} />
       <RoundBtn

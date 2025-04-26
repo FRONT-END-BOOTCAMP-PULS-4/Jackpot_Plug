@@ -24,7 +24,7 @@ export default function Home() {
 
       {/* 로그인 폼 */}
       <form>
-        <EmailInput />
+        {/* <EmailInput /> */}
         <PasswordInput />
       </form>
 
