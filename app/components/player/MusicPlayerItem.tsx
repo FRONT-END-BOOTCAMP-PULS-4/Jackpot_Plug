@@ -18,6 +18,7 @@ interface IVideoListItemProps extends IListItemProps {
   isPlaying?: boolean;
   onVideoEnded?: () => void;
   onPlayPause?: () => void;
+  mode?: "player" | "list";
 }
 
 export default function MusicPlayerItem({
@@ -30,6 +31,7 @@ export default function MusicPlayerItem({
   isPlaying = false,
   onVideoEnded,
   onPlayPause,
+  mode = "player",
 }: IVideoListItemProps) {
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [showProgressBar, setShowProgressBar] = useState(false);
@@ -76,7 +78,11 @@ export default function MusicPlayerItem({
   const decodedArtist = artist ? decodeHtmlEntities(artist) : "아이유 IU";
 
   return (
-    <li className={styles.music_player}>
+    <li
+      className={`${styles.music_player} ${
+        mode === "list" ? styles.list_mode : ""
+      }`}
+    >
       <div className={styles.player_container}>
         <MusicPlayer
           videoId={videoId}
@@ -94,7 +100,8 @@ export default function MusicPlayerItem({
           player={playerRef.current}
           isPlaying={isPlaying}
           onSeek={handleSeek}
-          isVisible={showProgressBar}
+          isVisible={mode === "list" ? true : showProgressBar}
+          mode={mode}
         />
       )}
 

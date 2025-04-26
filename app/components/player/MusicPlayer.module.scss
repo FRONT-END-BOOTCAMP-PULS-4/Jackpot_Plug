@@ -137,6 +137,43 @@
       }
     }
   }
+
+  &.list_mode {
+    padding: 0;
+
+    &:hover {
+      background: none;
+    }
+
+    .player_container {
+      width: 480px;
+      height: 480px;
+    }
+
+    .music_info_container {
+      .title {
+        max-width: 470px;
+        font-size: rem(32);
+        font-weight: 600;
+        margin-top: -4px;
+        white-space: normal;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .artist_info {
+        font-size: rem(20);
+        color: $color-o-w7;
+        margin-top: 2px;
+      }
+    }
+
+    .add_playlist_btn {
+      display: none;
+    }
+  }
 }
 
 @keyframes fadeIn {

@@ -15,30 +15,41 @@
     max-height: 60px;
     margin: 15px 0;
   }
-}
 
-.progress_bar_container {
-  width: 100%;
-  height: 6px;
-  background-color: $color-o-w3;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
+  .progress_bar_container {
+    width: 100%;
+    height: 6px;
+    background-color: $color-o-w3;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
 
-.progress_bar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background: $color-accent;
-  transition: width 0.1s ease-out;
-}
+  .progress_bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: $color-accent;
+    transition: width 0.1s ease-out;
+  }
 
-.time_display {
-  width: 100%;
-  @include flex($justify: space-between);
-  font-size: rem(14);
-  color: $color-o-w7;
+  .time_display {
+    width: 100%;
+    @include flex($justify: space-between);
+    font-size: rem(14);
+    color: $color-o-w7;
+  }
+
+  &.list_mode {
+    .progress_bar_container {
+      height: 8px;
+      margin-bottom: 3px;
+    }
+
+    .time_display {
+      font-size: rem(16);
+    }
+  }
 }

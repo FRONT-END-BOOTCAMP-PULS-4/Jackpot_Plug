@@ -9,6 +9,7 @@ interface PlayerBarProps {
   isPlaying: boolean;
   onSeek?: (seconds: number) => void;
   isVisible?: boolean;
+  mode?: "player" | "list";
 }
 
 export default function PlayerBar({
@@ -16,6 +17,7 @@ export default function PlayerBar({
   isPlaying,
   onSeek,
   isVisible = false,
+  mode = "player",
 }: PlayerBarProps) {
   const {
     currentTime,
@@ -30,7 +32,7 @@ export default function PlayerBar({
     <div
       className={`${styles.progress_container} ${
         isVisible ? styles.visible : ""
-      }`}
+      } ${mode === "list" ? styles.list_mode : ""}`}
       role="progressbar"
       onClick={(e) => e.stopPropagation()}
     >
