@@ -3,13 +3,35 @@ import PlaylistItem from "@/app/components/list/PlaylistItem";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
 import { usePlaylists, Playlist } from "./hooks/usePlaylists";
+import { useState } from "react";
+import RouteModal from "@/app/components/modal/RouteModal";
 
 export default function page() {
   const router = useRouter();
-  const { playlists, loading, error } = usePlaylists();
+  const { playlists, loading, error, deletePlaylist } = usePlaylists();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [playlistToDelete, setPlaylistToDelete] = useState<string | null>(null);
 
-  const handlePlaylistClick = (playlistId: string) => {
-    router.push(`/playlist/${playlistId}`);
+  const handleDeleteClick = (playlistId: string) => {
+    setPlaylistToDelete(playlistId);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (playlistToDelete) {
+      try {
+        await deletePlaylist(playlistToDelete);
+        setDeleteModalOpen(false);
+        setPlaylistToDelete(null);
+      } catch (err) {
+        alert("플레이리스트 삭제에 실패했습니다.");
+      }
+    }
+  };
+
+  const handleCloseModal = () => {
+    setDeleteModalOpen(false);
+    setPlaylistToDelete(null);
   };
 
   return (
@@ -35,9 +57,10 @@ export default function page() {
                 {playlists.map((playlist: Playlist) => (
                   <PlaylistItem
                     key={playlist.id}
+                    id={playlist.id}
                     title={playlist.title}
                     src={playlist.thumbnail || undefined}
-                    onClick={() => handlePlaylistClick(playlist.id)}
+                    onDelete={() => handleDeleteClick(playlist.id)}
                   />
                 ))}
               </ul>
@@ -45,6 +68,15 @@ export default function page() {
           </>
         )}
       </div>
+
+      <RouteModal
+        isOpen={deleteModalOpen}
+        onClose={handleCloseModal}
+        message="삭제하면 되돌릴 수 없어요. 계속하시겠어요?"
+        buttonText="네, 삭제할게요."
+        targetRoute=""
+        onAction={handleConfirmDelete}
+      />
     </section>
   );
 }

@@ -50,5 +50,19 @@ export function usePlaylists() {
     fetchPlaylists();
   }, []);
 
-  return { playlists, loading, error };
+  const deletePlaylist = async (playlistId: string) => {
+    try {
+      await axios.delete(`/api/playlist/${playlistId}`);
+
+      // 로컬 상태 업데이트
+      setPlaylists((prevPlaylists) =>
+        prevPlaylists.filter((playlist) => playlist.id !== playlistId)
+      );
+    } catch (err) {
+      console.error("Failed to delete playlist:", err);
+      throw err;
+    }
+  };
+
+  return { playlists, loading, error, deletePlaylist };
 }
