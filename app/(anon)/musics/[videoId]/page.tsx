@@ -2,14 +2,20 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import styles from "./page.module.scss";
+
+import { MusicDto } from "@/application/usecases/musics/dto/Music.dto";
+import { sortByOriginalOrder, toggleSelection } from "@/utils/musicUtils";
+
 import VideoExtractor from "../../components/VideoExtractor";
 import MusicInfoCard from "../../components/musicInfoCard/MusicInfoCard";
 import ListItem from "@/app/components/list/ListItem";
 import { RoundBtn } from "@/app/components/button/Buttons";
 import RouteModal from "@/app/components/modal/RouteModal";
 import { useVideoExtract } from "@/hooks/useVideoExtract";
-import axios from "axios";
+import PlaylistSaveFunnelModal from "../../components/PlaylistSaveFunnelModal/PlaylistSaveFunnelModal";
+import useModal from "@/hooks/useModal";
 
 interface VideoData {
   title: string;
@@ -28,6 +34,8 @@ export default function MusicPage() {
   const { extract, routeModal, modalMessage } = useVideoExtract();
 
   const [selectedMusicList, setSelectedMusicList] = useState<string[]>([]);
+  const [saveTrackList, setSaveTrackList] = useState<MusicDto[]>([]);
+  const playlistSaveModal = useModal();
 
   useEffect(() => {
     const cached = sessionStorage.getItem(videoId);
@@ -47,23 +55,27 @@ export default function MusicPage() {
   }, [videoId]);
 
   const handleAddMusic = (title: string) => {
-    setSelectedMusicList(
-      (prev) =>
-        prev.includes(title)
-          ? prev.filter((t) => t !== title) // 제거
-          : [...prev, title] // 추가
-    );
+    setSelectedMusicList((prev) => toggleSelection(prev, title));
   };
 
   const handleSearchMusic = async (selectedMusicList: string[]) => {
+    console.log("selectedMusicList", selectedMusicList);
+
+    const sortedSelectMusiclist = sortByOriginalOrder(data!.musicList, selectedMusicList);
+
+    console.log("sortedSelectMusiclist", sortedSelectMusiclist);
+
     try {
       const { data } = await axios.get(`/api/musics/search`, {
         params: {
-          lists: selectedMusicList.join(","),
+          lists: sortedSelectMusiclist.join(","),
         },
       });
 
-      // console.log("data", data);
+      console.log("data", data);
+
+      setSaveTrackList(data);
+      playlistSaveModal.open();
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
@@ -93,8 +105,8 @@ export default function MusicPage() {
                     title={music}
                     key={index}
                     isLogin={isLogin}
-                    onAction={() => handleAddMusic(music)}
-                    isAdd={selectedMusicList.includes(music)}
+                    onSelectToggle={() => handleAddMusic(music)}
+                    isSelected={selectedMusicList.includes(music)}
                   />
                 ))}
               </ul>
@@ -116,6 +128,12 @@ export default function MusicPage() {
               </div>
             </div>
           </div>
+          <PlaylistSaveFunnelModal
+            isOpen={playlistSaveModal.isOpen}
+            onClose={playlistSaveModal.close}
+            mode="extract"
+            initialTracks={saveTrackList}
+          />
         </div>
       )}
       <RouteModal

@@ -1,0 +1,48 @@
+@use "../../../../public/styles/variable" as *;
+@use "../../../../public/styles/mixin" as *;
+
+.track_list_container {
+  width: 686px;
+}
+
+.playlists_container {
+  width: 538px;
+  .playlist_item {
+    @include flex($gap: 10px, $align: center);
+    padding: 20px 10px;
+    cursor: pointer;
+
+    font-size: rem(20);
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @include border-bottom;
+    transition: border-bottom 0.3s;
+
+    &:has(+ &:hover),
+    &:hover {
+      background: rgba($color: #fff, $alpha: 0.1);
+      @include border-bottom($color: transparent);
+    }
+    &.selected {
+      background: rgba($color: #fff, $alpha: 0.5);
+      @include border-bottom($color: transparent);
+    }
+  }
+}
+
+.create_new_container {
+  @include flex($direction: column, $gap: 10px);
+  width: 100%;
+  .create_new_title {
+    font-size: rem(20);
+    font-weight: $font-bold;
+  }
+  & > form {
+    width: 100%;
+  }
+}

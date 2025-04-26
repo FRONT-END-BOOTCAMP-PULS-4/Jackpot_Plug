@@ -7,26 +7,28 @@ import React, { useCallback, useState } from "react";
 export interface IListItemProps {
   title?: string;
   artist?: string;
+  thumbnailSrc?: string;
   mode?: string;
-  isAdd?: boolean;
+  isSelected?: boolean;
   isLogin?: boolean;
-  onAction?: () => void;
+  onSelectToggle?: () => void;
 }
 
 export default function ListItem({
   title,
   artist,
+  thumbnailSrc,
   mode,
-  isAdd,
+  isSelected,
   isLogin,
-  onAction,
+  onSelectToggle,
 }: IListItemProps) {
   // mode : edit, extract, playlist
   const isEdit = mode === "edit";
   const isExtractMode = mode === "extract";
 
-  const handleAdd = useCallback(() => {
-    onAction?.();
+  const handleSelect = useCallback(() => {
+    onSelectToggle?.();
   }, []);
 
   return (
@@ -36,7 +38,7 @@ export default function ListItem({
           {!isExtractMode && (
             <Image
               className={styles.album_img}
-              src={"/images/sample-image.png"}
+              src={thumbnailSrc ?? "/images/sample-image.png"}
               alt="album_img"
               width={72}
               height={72}
@@ -52,9 +54,17 @@ export default function ListItem({
         {((isExtractMode && isLogin) || isEdit) && (
           <div>
             <IconBtn
-              icon={isAdd ? "minus" : "add"}
+              icon={
+                isExtractMode
+                  ? isSelected
+                    ? "minus"
+                    : "add"
+                  : isSelected
+                  ? "add"
+                  : "minus"
+              }
               size="sm"
-              onClick={handleAdd}
+              onClick={handleSelect}
             />
           </div>
         )}

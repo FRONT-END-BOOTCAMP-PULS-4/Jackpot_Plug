@@ -17,7 +17,7 @@
   }
   .inner_container {
     padding: 20px;
-    @include flex($justify: space-between, $align: center);
+    @include flex($justify: space-between, $align: center, $gap: 8px);
     @include border-bottom;
     transition: border-bottom 0.3s;
     .container_leftside {
@@ -31,6 +31,12 @@
         @include flex($direction: column, $gap: 8px, $align: flex-start);
         .title {
           font-size: rem(20);
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
         .artist {

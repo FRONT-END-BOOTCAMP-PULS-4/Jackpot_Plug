@@ -123,10 +123,7 @@ export default function JoinForm() {
             onClick={handleSubmit}
             setIsVerified={setIsVerified}
           />
-          <PasswordInput
-            setPass={setPassword}
-            setPassCheck={setPassCheck}
-          />
+          <PasswordInput setPass={setPassword} setPassCheck={setPassCheck} />
           <RoundBtn
             text="다음"
             size="lg"
@@ -157,7 +154,7 @@ export default function JoinForm() {
           <TextInput
             placeholder="닉네임을 2~10자 이내로 입력해주세요."
             label="닉네임"
-            setProfileName={setProfileName}
+            setChangeText={setProfileName}
           />
           <RoundBtn
             text="시작하기"
