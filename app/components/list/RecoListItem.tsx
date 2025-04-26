@@ -6,25 +6,24 @@ import { IListItemProps } from "./ListItem";
 import { IconBtn } from "../button/Buttons";
 
 interface IRecoListItemProps extends IListItemProps {
-  duration: string;
-  index: number;
+  duration?: string;
+  albumImage?: string;
 }
 
 export default function RecoListItem({
-  title,
+  name: title,
   artist,
   duration,
-  index,
+  albumImage,
 }: IRecoListItemProps) {
-
   return (
-    <li className={styles.reco_item_container} >
+    <li className={styles.reco_item_container}>
       <div className={styles.inner_container}>
         <div className={styles.container_leftside}>
           <IconBtn icon="reco-search-icon" size="md" />
           <Image
             className={styles.album_img}
-            src={"/images/sample-image.png"}
+            src={albumImage ?? "/images/sample-image.png"}
             alt="album_img"
             width={50}
             height={50}
