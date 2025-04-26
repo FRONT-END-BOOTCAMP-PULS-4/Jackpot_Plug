@@ -5,13 +5,11 @@ export const stepConfig: Record<
   {
     title: string;
     buttonTitle: string;
-    // size: "sm" | "lg";
   }
 > = {
   review: {
     title: "플레이리스트 확인",
     buttonTitle: "리스트 저장하기",
-    // size:
   },
   select: {
     title: "플레이리스트에 담기",

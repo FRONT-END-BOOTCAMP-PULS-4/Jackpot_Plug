@@ -1,4 +1,4 @@
-import TextInput from "@/app/components/input/TextInput"; // 너 쓰는 TextInput 컴포넌트에 맞게
+import TextInput from "@/app/components/input/TextInput";
 
 import styles from "./styles.module.scss";
 

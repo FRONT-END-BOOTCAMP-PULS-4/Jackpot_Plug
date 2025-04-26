@@ -36,33 +36,11 @@ export default function usePlaylistSaveFunnel(
 
   const handleAction = () => {
     if (step === "review") {
-      //   const sorted = sortByOriginalOrder(initialSelection, newSelection);
-      //   const filteredTrackList = sorted
-      //     .map((isrc) => trackList.find((track) => track.isrc === isrc))
-      //     .filter((t): t is MusicDto => !!t);
-
-      //   setTrackList(filteredTrackList);
-
-      //   if (filteredTrackList.length === 0) {
-      //     alert("추가할 곡이 없습니다.");
-      //     resetFunnel();
-      //     return;
-      //   }
-
-      //   setStep("select");
-      console.log("플리 확인 오키");
-
-      console.log("4. selectedMusicList", newSelection);
-
       const sorted = sortByOriginalOrder(initialSelection, newSelection);
-
-      console.log("5. sorted", sorted);
-
       const filteredTrackList = sorted
         .map((isrc) => trackList.find((track) => track.isrc === isrc))
         .filter((t): t is MusicDto => !!t);
 
-      console.log("6. ----filteredTrackList----", filteredTrackList);
       setTrackList(filteredTrackList);
 
       if (filteredTrackList.length === 0) {

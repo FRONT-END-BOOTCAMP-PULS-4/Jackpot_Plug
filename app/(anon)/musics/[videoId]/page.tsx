@@ -61,14 +61,10 @@ export default function MusicPage() {
   };
 
   const handleSearchMusic = async (selectedMusicList: string[]) => {
-    console.log("selectedMusicList", selectedMusicList);
-
     const sortedSelectMusiclist = sortByOriginalOrder(
       data!.musicList,
       selectedMusicList
     );
-
-    console.log("sortedSelectMusiclist", sortedSelectMusiclist);
 
     try {
       const { data } = await axios.get(`/api/musics/search`, {
@@ -76,8 +72,6 @@ export default function MusicPage() {
           lists: sortedSelectMusiclist.join(","),
         },
       });
-
-      console.log("data", data);
 
       setSaveTrackList(data);
       playlistSaveModal.open();
