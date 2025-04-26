@@ -1,3 +1,4 @@
+// app\(anon)\mypage\components\ProfileInfo.tsx
 import { useRef, useMemo } from "react";
 import InputField from "../../../components/input/InputField";
 import {
@@ -8,6 +9,7 @@ import {
 import styles from "../page.module.scss";
 import { useToast } from "@/hooks/useToast";
 import { UserData } from "../page";
+import axios from "axios";
 
 interface ProfileInfoProps {
   userData: UserData;
@@ -91,16 +93,13 @@ export default function ProfileInfo({
       if (isNameChanged) formData.append("profileName", newName);
       if (isImageChanged) formData.append("profileImage", newImage);
 
-      const response = await fetch("/api/update-profile", {
-        method: "POST",
-        body: formData,
+      const response = await axios.post("/api/update-profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "프로필 업데이트 실패");
-      }
+      const data = response.data;
 
       setUserData((prev) => ({
         ...prev,
@@ -116,9 +115,11 @@ export default function ProfileInfo({
 
       localStorage.setItem("auth-storage", JSON.stringify(parsed));
       showToast("프로필이 성공적으로 수정되었습니다!", 2000);
-    } catch (error) {
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || error.message || "프로필 수정에 실패했습니다.";
       console.error("프로필 업데이트 오류:", error);
-      showToast("프로필 수정에 실패했습니다.", 2000);
+      showToast(message, 2000);
     }
   };
 

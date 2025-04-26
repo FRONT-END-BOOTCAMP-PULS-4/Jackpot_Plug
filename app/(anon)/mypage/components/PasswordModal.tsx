@@ -1,8 +1,10 @@
+// app\(anon)\mypage\components\PasswordModal.tsx
 import { useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import PasswordInput from "../../../components/input/PasswordInput";
 import { useToast } from "@/hooks/useToast";
 import styles from "../page.module.scss";
+import axios from "axios";
 
 interface PasswordModalProps {
   isOpen: boolean;
@@ -32,23 +34,11 @@ export default function PasswordModal({
     }
 
     try {
-      const response = await fetch("/api/change-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId,
-          currentPassword: password,
-          newPassword,
-        }),
+      const response = await axios.post("/api/change-password", {
+        userId,
+        currentPassword: password,
+        newPassword,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "비밀번호 변경 실패");
-      }
 
       setPassword("");
       setNewPassword("");
@@ -56,7 +46,9 @@ export default function PasswordModal({
       onClose();
       showToast("비밀번호가 성공적으로 변경되었습니다.", 2000);
     } catch (error: any) {
-      showToast(error.message || "비밀번호 변경에 실패했습니다.", 2000);
+      const message =
+        error.response?.data?.message || error.message || "비밀번호 변경에 실패했습니다.";
+      showToast(message, 2000);
     }
   };
 

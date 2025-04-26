@@ -1,5 +1,7 @@
+// app\(anon)\mypage\components\DeleteAccountModal.tsx
 import Modal from "../../../components/modal/Modal";
 import { useToast } from "@/hooks/useToast";
+import axios from "axios";
 
 interface DeleteAccountModalProps {
   isOpen: boolean;
@@ -18,26 +20,19 @@ export default function DeleteAccountModal({
 
   const handleDeleteAccount = async () => {
     try {
-      const response = await fetch("/api/delete-account", {
-        method: "DELETE",
+      const response = await axios.delete("/api/delete-account", {
+        data: { userId },
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userId,
-        }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "회원 탈퇴 실패");
-      }
 
       // 탈퇴 후 로그아웃 및 페이지 리다이렉트
       onDeleteSuccess();
     } catch (error: any) {
-      showToast(error.message || "회원 탈퇴에 실패했습니다.", 2000);
+      const message =
+        error.response?.data?.message || error.message || "회원 탈퇴에 실패했습니다.";
+      showToast(message, 2000);
     }
   };
 
