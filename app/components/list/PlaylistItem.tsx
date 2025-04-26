@@ -19,18 +19,9 @@ export default function PlaylistItem({
   onClick,
   onDelete,
 }: PlaylistItemProps) {
-  const handleDeleteClick = () => {
-    if (onDelete) {
-      onDelete(id);
-    }
-  };
-
   return (
     <li className={styles.playlist_item} onClick={onClick}>
-      <div
-        className={styles.thumbnail_container}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className={styles.thumbnail_container} onClick={onClick}>
         <Image
           className={styles.thumbnail_img}
           src={src}
@@ -43,7 +34,12 @@ export default function PlaylistItem({
             icon="delete-playlist"
             size="xs"
             hoverToWhite={true}
-            onClick={handleDeleteClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onDelete) {
+                onDelete(id);
+              }
+            }}
           />
         </div>
       </div>

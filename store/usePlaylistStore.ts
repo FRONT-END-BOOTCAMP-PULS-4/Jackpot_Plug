@@ -17,7 +17,7 @@ interface PlaylistState {
   resetPlaylists: () => void;
 }
 
-export const usePlaylistStore = create<PlaylistState>((set, get) => ({
+export const usePlaylistStore = create<PlaylistState>((set) => ({
   playlists: [],
   loading: false,
   error: null,

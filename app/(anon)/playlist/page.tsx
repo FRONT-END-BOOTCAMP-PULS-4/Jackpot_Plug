@@ -72,6 +72,7 @@ export default function Page() {
                     id={playlist.id}
                     title={playlist.title}
                     src={playlist.thumbnail || undefined}
+                    onClick={() => router.push(`/playlist/${playlist.id}`)}
                     onDelete={() => handleDeleteClick(playlist.id)}
                   />
                 ))}

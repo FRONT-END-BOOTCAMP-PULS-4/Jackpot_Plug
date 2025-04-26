@@ -5,10 +5,10 @@ import { DeletePlaylistUseCase } from "@/application/usecases/playlist/DeletePla
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { playlistId: string } }
+  { params }: { params: Promise<{ playlistId: string }> }
 ) {
   try {
-    const playlistId = params.playlistId;
+    const { playlistId } = await params;
 
     if (!playlistId) {
       return NextResponse.json(

@@ -57,7 +57,7 @@ export function ProfileImgBtn({ image, onClick }: ProfileImgBtnProps) {
 interface IconBtnProps {
   icon: string; // 예: "plug", "add", "eye-close"
   size: "xl" | "lg" | "md" | "sm" | "xs" | "xxs";
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   customClassName?: string;
   type?: "button" | "submit" | "reset";
   hoverToWhite?: boolean;
