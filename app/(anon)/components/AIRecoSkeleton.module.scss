@@ -1,0 +1,47 @@
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton_element {
+  background: linear-gradient(90deg, #333 25%, #444 37%, #333 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+}
+
+.icon_button {
+  @extend .skeleton_element;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.album_img {
+  @extend .skeleton_element;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.title {
+  @extend .skeleton_element;
+  width: 120px;
+  height: 16px;
+}
+
+.artist {
+  @extend .skeleton_element;
+  width: 80px;
+  height: 12px;
+}
+
+.duration {
+  @extend .skeleton_element;
+  width: 30px;
+  height: 14px;
+}

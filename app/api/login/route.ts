@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { LoginUseCase } from "@/application/usecase/members/LoginUseCase";
-import { LoginRequestDto } from "@/application/usecase/members/dto/LoginRequest.dto";
+import { LoginUseCase } from "@/application/usecases/members/LoginUseCase";
+import { LoginRequestDto } from "@/application/usecases/members/dto/LoginRequest.dto";
 
 export async function POST(req: Request) {
   try {

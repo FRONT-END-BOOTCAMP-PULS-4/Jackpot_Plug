@@ -3,8 +3,13 @@
 import Link from "next/link";
 import React from "react";
 import styles from "./RootAside.module.scss";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/authStore";
 
 export default function RootAside() {
+  const { logout } = useAuth();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   return (
     <aside className={styles.root_aside}>
       <h1>
@@ -29,9 +34,23 @@ export default function RootAside() {
           </li>
           <li>
             <Link
-              href="/mypage"
+              href={isAuthenticated ? "/mypage" : "/login"}
               className={`${styles.icon} ${styles.user}`}
             ></Link>
+          </li>
+          <li>
+            <div className={styles.logout_button}>
+              {isAuthenticated && (
+                <button
+                  onClick={() => {
+                    logout();
+                    window.location.reload();
+                  }}
+                >
+                  LOGOUT
+                </button>
+              )}
+            </div>
           </li>
         </ul>
       </nav>

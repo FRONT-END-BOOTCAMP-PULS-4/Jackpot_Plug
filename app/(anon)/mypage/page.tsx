@@ -1,250 +1,92 @@
 "use client";
 
-import { useState, useRef, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence } from "motion/react";
-
-import InputField from "../../components/input/InputField";
-import {
-  IconBtn,
-  RoundBtn,
-  ProfileImgBtn,
-} from "../../components/button/Buttons";
-import PasswordInput from "../../components/input/PasswordInput";
-import Modal from "../../components/modal/Modal";
-
 import useModal from "@/hooks/useModal";
 import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/useToast";
-import { supabase } from "../../../lib/supabase";
+import { useAuthStore } from "@/store/authStore";
+import { useRouter } from "next/navigation";
+import styles from "./page.module.scss";
+
+import ProfileInfo from "./components/ProfileInfo";
+import PasswordModal from "./components/PasswordModal";
+import DeleteAccountModal from "./components/DeleteAccountModal";
+import { getInitialAuthState } from "./utils/authUtils";
+
+// UserData 타입을 정의하여 재사용
+export interface UserData {
+  id: string;
+  email: string;
+  profileName: string;
+  profileImage: string | File | null;
+}
 
 export default function Page() {
-  const [userData, setUserData] = useState<{
-    id: string;
-    email: string;
-    profileName: string;
-    profileImage: string | File | null;
-  }>({
+  const [userData, setUserData] = useState<UserData>({
     id: "",
     email: "",
     profileName: "",
     profileImage: null,
   });
 
-  const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [passCheck, setPassCheck] = useState("");
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { showToast } = useToast();
   const { logout } = useAuth();
-  const titleModal = useModal();
-  const TitleModal = Modal;
+  const passwordModal = useModal();
+  const deleteAccountModal = useModal();
 
-  const parseJwt = (token: string) => {
-    try {
-      if (!token || typeof token !== "string" || !token.includes(".")) {
-        throw new Error("유효하지 않은 토큰 형식");
-      }
-      const base64Payload = token.split(".")[1];
-      const payload = atob(base64Payload);
-      return JSON.parse(payload);
-    } catch (e) {
-      console.error("토큰 파싱 오류:", e);
-      return null;
-    }
-  };
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const getInitialAuthState = () => {
-      const tokenString = localStorage.getItem("auth-storage");
-      if (!tokenString)
-        return { id: "", email: "", profileName: "", profileImage: null };
+    setMounted(true);
+  }, []);
 
-      try {
-        const parsed = JSON.parse(tokenString);
-        const jwt = parsed?.state?.token;
-        const user = parsed?.state?.user;
-        const payload = jwt && jwt.includes(".") ? parseJwt(jwt) : null;
+  useEffect(() => {
+    if (mounted && !isAuthenticated) {
+      router.push("/");
+    }
+  }, [mounted, isAuthenticated, router]);
 
-        return {
-          id: user?.id ?? payload?.id ?? "",
-          email: user?.email ?? payload?.email ?? "",
-          profileName: user?.profile_name ?? "",
-          profileImage: user?.profile_pic ?? null,
-        };
-      } catch (e) {
-        console.error("auth-storage 파싱 실패", e);
-        return { id: "", email: "", profileName: "", profileImage: null };
-      }
-    };
-
+  useEffect(() => {
+    // 사용자 데이터 로드
     const initialState = getInitialAuthState();
     setUserData(initialState);
   }, []);
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setUserData((prev) => ({ ...prev, profileImage: file }));
-    }
-  };
-
-  const handleProfileImgBtnClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const memoizedProfileImgBtn = useMemo(
-    () => (
-      <ProfileImgBtn
-        image={
-          typeof userData.profileImage === "string"
-            ? userData.profileImage
-            : userData.profileImage
-            ? URL.createObjectURL(userData.profileImage)
-            : undefined
-        }
-        onClick={handleProfileImgBtnClick}
-      />
-    ),
-    [userData.profileImage]
-  );
-
-  const handleUpdateProfile = async () => {
-    if (!userData.profileName && !userData.profileImage) {
-      showToast("수정할 항목이 없습니다.");
-      return;
-    }
-
-    const updates: any = {
-      profile_name: userData.profileName,
-    };
-
-    // 이미지가 새로 업로드된 경우에만 처리
-    if (userData.profileImage instanceof File) {
-      const fileExt = userData.profileImage.name.split(".").pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `profile/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("images")
-        .upload(filePath, userData.profileImage);
-
-      if (uploadError) {
-        console.error("이미지 업로드 실패:", uploadError.message);
-        showToast("이미지 업로드에 실패했습니다.");
-        return;
-      }
-
-      const { data: urlData } = supabase.storage
-        .from("images")
-        .getPublicUrl(filePath);
-
-      updates.profile_pic = urlData.publicUrl;
-    }
-
-    const { error } = await supabase
-      .from("member")
-      .update(updates)
-      .eq("id", userData.id);
-
-    if (error) {
-      console.error("업데이트 실패:", error.message);
-      showToast("프로필 수정에 실패했습니다.");
-      return;
-    }
-
-    // ✅ 상태 업데이트
-    setUserData((prev) => ({
-      ...prev,
-      profileName: updates.profile_name ?? prev.profileName,
-      profileImage: updates.profile_pic ?? prev.profileImage,
-    }));
-
-    // ✅ 로컬스토리지의 auth-storage 갱신
-    const tokenString = localStorage.getItem("auth-storage");
-    if (tokenString) {
-      try {
-        const parsed = JSON.parse(tokenString);
-        if (updates.profile_name)
-          parsed.state.user.profile_name = updates.profile_name;
-        if (updates.profile_pic)
-          parsed.state.user.profile_pic = updates.profile_pic;
-        localStorage.setItem("auth-storage", JSON.stringify(parsed));
-      } catch (e) {
-        console.error("로컬스토리지 갱신 실패", e);
-      }
-    }
-
-    showToast("프로필이 성공적으로 수정되었습니다!");
-  };
+  if (!mounted) return null;
 
   return (
-    <div>
-      {memoizedProfileImgBtn}
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        onChange={handleImageSelect}
+    <div className={styles.div_container}>
+      <ProfileInfo
+        userData={userData}
+        setUserData={setUserData}
+        openPasswordModal={passwordModal.open}
       />
-      <InputField
-        name="email"
-        type="email"
-        value={userData.email}
-        onChangeAction={() => {}}
-      />
-      <div onClick={titleModal.open}>
-        <InputField
-          name="password"
-          type="password"
-          value={"************"}
-          onChangeAction={() => {}}
-          showButton={true}
-          buttonContent={
-            <IconBtn icon="edit" size="xs" customClassName="verify" />
-          }
-        />
-      </div>
-      <InputField
-        name="profile_name"
-        type="text"
-        value={userData.profileName}
-        onChangeAction={(e) =>
-          setUserData((prev) => ({ ...prev, profileName: e.target.value }))
-        }
-        showButton={true}
-        buttonContent={
-          <IconBtn icon="edit" size="xs" customClassName="verify" />
-        }
-      />
-      <RoundBtn
-        text="변경하기"
-        size="lg"
-        color="accent"
-        onClick={handleUpdateProfile}
-      />
-      <RoundBtn text="로그아웃" size="lg" color="accent" onClick={logout} />
+      <div className={styles.div_gap_46} />
+      <button onClick={deleteAccountModal.open} className={styles.delete_account}>
+        내 계정 삭제
+      </button>
       <AnimatePresence mode="wait">
-        {titleModal.isOpen && (
-          <TitleModal
-            isOpen={titleModal.isOpen}
-            onClose={titleModal.close}
-            buttonTitle="비밀번호 변경하기"
-            onAction={() => {
-              alert("확인 버튼 클릭");
-              titleModal.close();
+        {passwordModal.isOpen && (
+          <PasswordModal
+            isOpen={passwordModal.isOpen}
+            onClose={passwordModal.close}
+            userId={userData.id}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence mode="wait">
+        {deleteAccountModal.isOpen && (
+          <DeleteAccountModal
+            isOpen={deleteAccountModal.isOpen}
+            onClose={deleteAccountModal.close}
+            userId={userData.id}
+            onDeleteSuccess={() => {
+              deleteAccountModal.close();
+              logout();
+              window.location.reload();
             }}
-            size="lg"
-            title="비밀번호 변경"
-          >
-            <p>현재 비밀번호</p>
-            <PasswordInput setPass={setPassword} />
-            <p>새 비밀번호</p>
-            <PasswordInput setPass={setNewPassword} />
-            <p>새 비밀번호 확인</p>
-            <PasswordInput setPass={setPassCheck} />
-          </TitleModal>
+          />
         )}
       </AnimatePresence>
     </div>

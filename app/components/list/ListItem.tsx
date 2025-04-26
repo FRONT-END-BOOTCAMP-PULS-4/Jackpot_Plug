@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useCallback, useState } from "react";
 
 export interface IListItemProps {
-  title?: string;
+title?: string;
   artist?: string;
   mode?: string;
   isLogin?: boolean;
