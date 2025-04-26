@@ -14,7 +14,7 @@ export class YouTubeApiRepository implements YouTubeRepository {
           order: "relevance",
           type: "video",
           videoEmbeddable: "true",
-          maxResults: 1,
+          maxResults: isrcCodes.length,
           q: isrcQuery,
         },
       });
@@ -31,7 +31,6 @@ export class YouTubeApiRepository implements YouTubeRepository {
                 description: item.snippet.description,
                 channelTitle: item.snippet.channelTitle,
                 thumbnails: item.snippet.thumbnails,
-                publishedAt: item.snippet.publishedAt,
               }
             )
         );

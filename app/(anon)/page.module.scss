@@ -4,6 +4,11 @@
 .section_container {
   height: 100%;
   @include flex($direction: column, $gap: 85px);
+
+  & > form {
+    @include flex();
+    width: 100%;
+  }
 }
 
 .reco_section {

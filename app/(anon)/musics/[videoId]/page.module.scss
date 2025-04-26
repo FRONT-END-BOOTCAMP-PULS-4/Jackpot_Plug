@@ -31,15 +31,15 @@
 }
 
 .animation {
-  @keyframes poke {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(8px);
-    }
-  }
-
   animation: poke 0.8s infinite;
+}
+
+@keyframes poke {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(8px);
+  }
 }

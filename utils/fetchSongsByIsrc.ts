@@ -20,7 +20,6 @@ interface YouTubeSearchResult {
   title: string;
   channelTitle: string;
   thumbnailUrl: string;
-  publishedAt: string;
 }
 
 interface YouTubeSearchResponse {
