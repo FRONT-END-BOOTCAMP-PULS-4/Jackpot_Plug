@@ -12,6 +12,12 @@
   }
 }
 
-.div_join{
+.div_join {
   @include flex();
+}
+
+.sign_footer {
+  text-align: center;
+  font-size: 16px;
+  color: #aaaaaa;
 }
