@@ -2,6 +2,76 @@
 @use "../../../public/styles/variable" as *;
 
 .playlist {
+  height: calc(100vh - 86px);
+  @include flex($direction: column, $gap: 50px);
+  padding-bottom: 86px;
+
+  .playlist_title {
+    width: 100%;
+    @include flex($justify: flex-start, $gap: 60px);
+
+    h2 {
+      font-size: rem(40);
+    }
+
+    span {
+      font-size: rem(20);
+      color: $color-o-w5;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        @include icon(
+          $width: 20px,
+          $height: 20px,
+          $url: "/assets/icons/playlists.svg",
+          $size: cover
+        );
+      }
+    }
+  }
+  .playlist_container {
+    width: 100%;
+    @include flex;
+    flex: 1;
+    overflow: hidden;
+
+    .loading,
+    .error,
+    .no_playlist {
+      @include flex;
+      text-align: center;
+    }
+
+    .playlist_grid {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(clamp(250px, 20vw, 320px), 1fr)
+      );
+      row-gap: clamp(30px, 3vw, 50px);
+      column-gap: clamp(20px, 2vw, 30px);
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      align-content: start;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+  }
+}
+@use "../../../public/styles/mixin" as *;
+@use "../../../public/styles/variable" as *;
+
+.playlist {
   .playlist_title {
     @include flex($justify: left, $gap: 60px);
     h2 {

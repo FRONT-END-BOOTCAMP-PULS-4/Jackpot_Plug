@@ -8,6 +8,7 @@ interface RouteModalProps {
   message: string;
   buttonText: string;
   targetRoute: string;
+  onAction?: () => void;
 }
 
 export default function RouteModal({
@@ -16,6 +17,7 @@ export default function RouteModal({
   message,
   buttonText,
   targetRoute,
+  onAction,
 }: RouteModalProps) {
   const router = useRouter();
   return (
@@ -26,7 +28,11 @@ export default function RouteModal({
           onClose={onClose}
           onAction={() => {
             onClose();
-            router.push(targetRoute);
+            if (onAction) {
+              onAction();
+            } else if (targetRoute) {
+              router.push(targetRoute);
+            }
           }}
           size="sm"
           buttonTitle={buttonText}

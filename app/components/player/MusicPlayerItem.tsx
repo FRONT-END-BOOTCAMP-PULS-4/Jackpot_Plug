@@ -76,7 +76,7 @@ export default function MusicPlayerItem({
   const decodedArtist = artist ? decodeHtmlEntities(artist) : "아이유 IU";
 
   return (
-    <li className={`${styles.music_player} ${selected ? styles.selected : ""}`}>
+    <li className={styles.music_player}>
       <div className={styles.player_container}>
         <MusicPlayer
           videoId={videoId}
