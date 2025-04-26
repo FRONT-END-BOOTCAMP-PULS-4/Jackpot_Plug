@@ -2,15 +2,29 @@
 import PlaylistItem from "@/app/components/list/PlaylistItem";
 import styles from "./page.module.scss";
 import { useRouter } from "next/navigation";
-import { usePlaylists, Playlist } from "./hooks/usePlaylists";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RouteModal from "@/app/components/modal/RouteModal";
+import { usePlaylistStore } from "@/store/usePlaylistStore";
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
-  const { playlists, loading, error, deletePlaylist } = usePlaylists();
+  const { playlists, loading, error, fetchPlaylists, deletePlaylist } =
+    usePlaylistStore();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [playlistToDelete, setPlaylistToDelete] = useState<string | null>(null);
+
+  useEffect(() => {
+    // localStorage에서 사용자 정보 가져오기
+    const authStorage = localStorage.getItem("auth-storage");
+    if (authStorage) {
+      const authData = JSON.parse(authStorage);
+      const userId = authData.state.user?.id;
+
+      if (userId) {
+        fetchPlaylists(userId);
+      }
+    }
+  }, [fetchPlaylists]);
 
   const handleDeleteClick = (playlistId: string) => {
     setPlaylistToDelete(playlistId);
@@ -43,18 +57,16 @@ export default function page() {
 
       <div className={styles.playlist_container}>
         {loading ? (
-          <span>플레이리스트를 불러오는 중...</span>
+          <p>플레이리스트를 불러오는 중...</p>
         ) : error ? (
           <span className={styles.error}>{error}</span>
         ) : (
           <>
             {playlists.length === 0 ? (
-              <span className={styles.no_playlist}>
-                플레이리스트가 없습니다.
-              </span>
+              <p className={styles.no_playlist}>플레이리스트가 없습니다.</p>
             ) : (
               <ul className={styles.playlist_grid}>
-                {playlists.map((playlist: Playlist) => (
+                {playlists.map((playlist) => (
                   <PlaylistItem
                     key={playlist.id}
                     id={playlist.id}
