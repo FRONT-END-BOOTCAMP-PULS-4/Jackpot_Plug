@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./page.module.scss";
 
+import { useAuthStore } from "@/store/authStore";
 import { MusicDto } from "@/application/usecases/musics/dto/Music.dto";
 import { sortByOriginalOrder, toggleSelection } from "@/utils/musicUtils";
 
@@ -27,10 +28,11 @@ interface VideoData {
 }
 
 export default function MusicPage() {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [isLogin, setIsLogin] = useState(isAuthenticated);
   const { videoId } = useParams() as { videoId: string };
   const [data, setData] = useState<VideoData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isLogin, setIsLogin] = useState(true);
   const { extract, routeModal, modalMessage } = useVideoExtract();
 
   const [selectedMusicList, setSelectedMusicList] = useState<string[]>([]);
@@ -61,7 +63,10 @@ export default function MusicPage() {
   const handleSearchMusic = async (selectedMusicList: string[]) => {
     console.log("selectedMusicList", selectedMusicList);
 
-    const sortedSelectMusiclist = sortByOriginalOrder(data!.musicList, selectedMusicList);
+    const sortedSelectMusiclist = sortByOriginalOrder(
+      data!.musicList,
+      selectedMusicList
+    );
 
     console.log("sortedSelectMusiclist", sortedSelectMusiclist);
 
