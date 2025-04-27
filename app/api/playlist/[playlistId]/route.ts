@@ -1,6 +1,6 @@
 // app/api/playlist/[playlistId]/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { SupabasePlaylistRepository } from "@/infra/repositories/playlist/SupabasePlaylistRepository";
+import { SupabasePlaylistRepository } from "@/infra/repositories/supabase/SupabasePlaylistRepository";
 import { DeletePlaylistUseCase } from "@/application/usecases/playlist/DeletePlaylistUseCase";
 
 export async function DELETE(

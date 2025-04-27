@@ -49,6 +49,13 @@ export class SearchMusicListUseCase {
         isrcCodes
       );
 
+      youtubeResults.forEach((item) => {
+        item.snippet.channelTitle = item.snippet.channelTitle.replace(
+          " - Topic",
+          ""
+        );
+      });
+
       // 매칭 함수 적용
       const matchedResults = spotifyTracks.map((tracks) =>
         matchTracks(youtubeResults, tracks)

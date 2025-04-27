@@ -1,4 +1,4 @@
-import { SupabasePlaylistRepository } from "@/infra/repositories/playlist/SupabasePlaylistRepository";
+import { SupabasePlaylistRepository } from "@/infra/repositories/supabase/SupabasePlaylistRepository";
 import { CreatePlaylistInput } from "./dto/CreatePlaylist.dto";
 
 export class CreatePlaylistUseCase {
