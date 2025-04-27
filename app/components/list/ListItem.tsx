@@ -10,6 +10,7 @@ export interface IListItemProps {
   thumbnailSrc?: string;
   mode?: string;
   isSelected?: boolean;
+  isPlaylistSelected?: boolean;
   isLogin?: boolean;
   isPlaying?: boolean;
   isCurrentlyPlaying?: boolean;
@@ -25,6 +26,7 @@ export default function ListItem({
   thumbnailSrc,
   mode,
   isSelected,
+  isPlaylistSelected,
   isLogin,
   isPlaying,
   isCurrentlyPlaying,
@@ -36,7 +38,7 @@ export default function ListItem({
   // mode : edit, extract, playlist
   const isEdit = mode === "edit";
   const isExtractMode = mode === "extract";
-  const isPlaylist = mode === "playlist";
+  const isPlaylistMusic = mode === "playlistMusic";
 
   const [isHover, setIsHover] = useState(false);
 
@@ -63,19 +65,17 @@ export default function ListItem({
   return (
     <li
       className={`${styles.item_container} ${
-        isPlaylist ? styles.playlist_mode : ""
-      } ${isSelected ? styles.selected : ""} ${
-        isCurrentlyPlaying ? styles.currently_playing : ""
-      }`}
+        isPlaylistMusic ? styles.playlist_mode : ""
+      } ${isCurrentlyPlaying ? styles.currently_playing : ""}`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onClick={handleItemClick}
     >
       <div className={styles.inner_container}>
         <div className={styles.container_leftside}>
-          {isPlaylist && (
+          {isPlaylistMusic && (
             <div className={styles.index_or_play_btn}>
-              {isHover || isCurrentlyPlaying || isSelected ? (
+              {isHover || isCurrentlyPlaying || isPlaylistSelected ? (
                 <IconBtn
                   icon={
                     isCurrentlyPlaying && isPlaying

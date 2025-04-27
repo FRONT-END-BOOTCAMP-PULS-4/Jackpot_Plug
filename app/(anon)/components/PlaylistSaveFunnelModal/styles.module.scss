@@ -5,6 +5,12 @@
 .playlists_container {
   max-height: 600px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE and Edge
 }
 
 .track_list_container {

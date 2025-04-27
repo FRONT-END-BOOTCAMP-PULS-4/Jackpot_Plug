@@ -10,6 +10,7 @@ import SelectStepContent from "./SelectStepContent";
 import CreateNewStepContent from "./CreatNewStepContent";
 import { usePlaylistStore } from "@/store/usePlaylistStore";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 interface PlaylistSaveFunnelModalProps {
   isOpen: boolean;
@@ -35,7 +36,11 @@ export default function PlaylistSaveFunnelModal({
     onClose,
     router
   );
-  const playlists = usePlaylistStore((state) => state.playlists);
+  const { playlists, fetchPlaylists } = usePlaylistStore();
+
+  useEffect(() => {
+    fetchPlaylists(userId);
+  }, [userId]);
 
   return (
     <AnimatePresence mode="wait">

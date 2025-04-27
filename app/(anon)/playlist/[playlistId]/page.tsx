@@ -147,9 +147,9 @@ export default function Page() {
                 artist={music.musics.channel_id}
                 thumbnailSrc={music.musics.thumbnail}
                 onPlayPauseClick={() => handlePlayPause(index)}
-                mode="playlist"
+                mode="playlistMusic"
                 index={index}
-                isSelected={currentIndex === index && !isPlaying}
+                isPlaylistSelected={currentIndex === index && !isPlaying}
                 isPlaying={isPlaying}
                 isCurrentlyPlaying={currentIndex === index}
                 onItemClick={handleItemSelect}

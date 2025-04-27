@@ -2,19 +2,12 @@
 @use "../../../public/styles/variable" as *;
 
 .item_container {
-  border-radius: 10px;
   transition: all 0.3s;
-  &:has(+ &:hover) {
-    .inner_container {
-      @include border-bottom($color: transparent);
-    }
-  }
+
   &:hover {
     background: rgba($color: #fff, $alpha: 0.1);
-    .inner_container {
-      @include border-bottom($color: transparent);
-    }
   }
+
   .inner_container {
     padding: 20px;
     @include flex($justify: space-between, $align: center, $gap: 8px);
@@ -54,10 +47,6 @@
 
   &:hover {
     border-radius: 0;
-  }
-
-  &.selected {
-    background-color: $color-o-w1;
   }
 
   &.currently_playing {

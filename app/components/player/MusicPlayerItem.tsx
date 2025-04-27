@@ -19,7 +19,7 @@ interface IVideoListItemProps extends IListItemProps {
   onVideoEnded?: () => void;
   onPlayPause?: () => void;
   mode?: "player" | "list";
-  onPlaylistAddAction: () => void;
+  onPlaylistAddAction?: () => void;
 }
 
 export default function MusicPlayerItem({
@@ -77,8 +77,8 @@ export default function MusicPlayerItem({
     }
   };
 
-  const decodedTitle = title ? decodeHtmlEntities(title) : "Meaning of you";
-  const decodedArtist = artist ? decodeHtmlEntities(artist) : "아이유 IU";
+  const decodedTitle = title ? decodeHtmlEntities(title) : "Title";
+  const decodedArtist = artist ? decodeHtmlEntities(artist) : "Artist";
 
   return (
     <li
@@ -119,7 +119,7 @@ export default function MusicPlayerItem({
             <IconBtn
               icon="search-add-playlist"
               size="md"
-              onClick={() => onPlaylistAddAction()}
+              onClick={() => onPlaylistAddAction?.()}
             />
           </div>
         )}

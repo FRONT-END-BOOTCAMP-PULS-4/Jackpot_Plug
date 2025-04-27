@@ -23,6 +23,12 @@
   width: 100%;
   max-height: 770px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE and Edge
 }
 
 .button_container {
