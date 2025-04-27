@@ -5,10 +5,14 @@ import React from "react";
 import styles from "./RootAside.module.scss";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/store/authStore";
+import { usePlaylistStore } from "@/store/usePlaylistStore";
+import { useRouter } from "next/navigation";
 
 export default function RootAside() {
   const { logout } = useAuth();
+  const { resetPlaylists } = usePlaylistStore();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const router = useRouter();
 
   return (
     <aside className={styles.root_aside}>
@@ -28,7 +32,7 @@ export default function RootAside() {
           </li>
           <li>
             <Link
-              href="/playlist"
+              href={isAuthenticated ? "/playlist" : "/login"}
               className={`${styles.icon} ${styles.playlist}`}
             ></Link>
           </li>
@@ -38,20 +42,19 @@ export default function RootAside() {
               className={`${styles.icon} ${styles.user}`}
             ></Link>
           </li>
-          <li>
-            <div className={styles.logout_button}>
-              {isAuthenticated && (
-                <button
-                  className={`${styles.icon} ${styles.logout}`}
-                  onClick={() => {
-                    logout();
-                    window.location.reload();
-                  }}
-                />
-              )}
-            </div>
-          </li>
         </ul>
+        <div className={styles.logout_button}>
+          {isAuthenticated && (
+            <button
+              className={`${styles.icon} ${styles.logout}`}
+              onClick={() => {
+                logout();
+                resetPlaylists();
+                router.push("/login");
+              }}
+            />
+          )}
+        </div>
       </nav>
     </aside>
   );
