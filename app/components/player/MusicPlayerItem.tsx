@@ -19,6 +19,7 @@ interface IVideoListItemProps extends IListItemProps {
   onVideoEnded?: () => void;
   onPlayPause?: () => void;
   mode?: "player" | "list";
+  onPlaylistAddAction: () => void;
 }
 
 export default function MusicPlayerItem({
@@ -32,6 +33,8 @@ export default function MusicPlayerItem({
   onVideoEnded,
   onPlayPause,
   mode = "player",
+  isCertified,
+  onPlaylistAddAction,
 }: IVideoListItemProps) {
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [showProgressBar, setShowProgressBar] = useState(false);
@@ -111,9 +114,15 @@ export default function MusicPlayerItem({
           <span className={styles.artist}>{decodedArtist}</span>
           <div className={styles.certified}></div>
         </div>
-        <div className={styles.add_playlist_btn}>
-          <IconBtn icon="search-add-playlist" size="md" />
-        </div>
+        {isCertified && (
+          <div className={styles.add_playlist_btn}>
+            <IconBtn
+              icon="search-add-playlist"
+              size="md"
+              onClick={() => onPlaylistAddAction()}
+            />
+          </div>
+        )}
       </div>
     </li>
   );

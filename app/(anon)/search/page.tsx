@@ -8,8 +8,17 @@ import MusicPlayerItem from "@/app/components/player/MusicPlayerItem";
 
 import { useSearch } from "./hooks/useSearch";
 import { useVideoPlayer } from "./hooks/useVideoPlayer";
+import PlaylistSaveFunnelModal from "../components/PlaylistSaveFunnelModal/PlaylistSaveFunnelModal";
+import useModal from "@/hooks/useModal";
+import { useAuthStore } from "@/store/authStore";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const playlistSaveModal = useModal();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const userId = useAuthStore((state) => state.user?.id);
+  const router = useRouter();
+
   const {
     query,
     searchResults,
@@ -82,14 +91,15 @@ export default function Page() {
                 }
                 title={result.snippet.title}
                 artist={result.snippet.channelTitle}
-                isCertified={true}
-                mode="thumbnail"
+                isCertified={isAuthenticated}
+                // mode="thumbnail"
                 videoId={result.id.videoId}
                 selected={selectedVideoId === result.id.videoId}
                 onClick={() => handleVideoSelect(result.id.videoId)}
                 isPlaying={selectedVideoId === result.id.videoId && isPlaying}
                 onVideoEnded={handleVideoEnded}
                 onPlayPause={handlePlayPause}
+                onPlaylistAddAction={() => playlistSaveModal.open()}
               />
             ))}
           </ul>
@@ -104,6 +114,14 @@ export default function Page() {
             </span>
           )}
       </span>
+      <PlaylistSaveFunnelModal
+        isOpen={playlistSaveModal.isOpen}
+        onClose={playlistSaveModal.close}
+        mode="select"
+        initialTracks={searchResults}
+        userId={userId ?? ""}
+        router={router}
+      />
     </section>
   );
 }

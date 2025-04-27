@@ -38,7 +38,7 @@ export default function usePlaylistSaveFunnel(
   }, [initialTracks, initialSelection]);
 
   const resetFunnel = () => {
-    setStep("review");
+    setStep(mode === "extract" ? "review" : "select");
     setTrackList(initialTracks);
     setNewSelection(initialSelection);
     setIsSelect(false);
