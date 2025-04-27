@@ -17,7 +17,9 @@ export default function RootAside() {
   return (
     <aside className={styles.root_aside}>
       <h1>
-        <Link href="/">PLUG</Link>
+        <Link href="/" className={styles.plug_logo}>
+          <span className="blind">PLUG</span>
+        </Link>
       </h1>
       <nav className={styles.nav}>
         <ul>

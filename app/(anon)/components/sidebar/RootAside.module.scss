@@ -9,6 +9,16 @@
   padding: 50px 0;
   @include flex($justify: flex-start, $gap: 132px, $direction: column);
 
+  .plug_logo {
+    display: block;
+    @include icon(
+      $width: 68px,
+      $height: 68px,
+      $url: "/assets/icons/plug-logo.svg",
+      $size: contain
+    );
+  }
+
   .nav {
     @include flex($direction: column, $justify: space-between);
     height: 100%;
