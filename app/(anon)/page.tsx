@@ -28,14 +28,16 @@ export default function Home() {
 
         음악. 이제 경험의 영역입니다.`}
       ></Title>
-      <VideoExtractor />
       <div className={styles.reco_section}>
-        <h4 className={styles.reco_header}>AI 추천을 해드릴게요.</h4>
+        <VideoExtractor />
         <div className={styles.reco_list_container}>
           {isLoading ? (
             <AIRecoSkeleton hideTitle={true} />
           ) : isLogin ? (
-            <AIReco hideTitle={true} />
+            <>
+              <div className={styles.reco_header}>🪄 이런 음악은 어때요?</div>
+              <AIReco hideTitle={true} />
+            </>
           ) : (
             <Link className={styles.go_login_text} href="/login">
               Ai 추천은 로그인이 필요해요. ✨

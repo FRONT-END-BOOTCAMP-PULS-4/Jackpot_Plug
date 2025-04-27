@@ -6,11 +6,15 @@
   width: 132px;
   height: 100vh;
   border-right: 1px solid $color-o-w3;
-  padding-top: 50px;
+  padding: 50px 0;
   @include flex($justify: flex-start, $gap: 132px, $direction: column);
 
-  .nav > ul {
-    @include flex($gap: 50px, $direction: column);
+  .nav {
+    @include flex($direction: column, $justify: space-between);
+    height: 100%;
+    & > ul {
+      @include flex($gap: 50px, $direction: column);
+    }
   }
 
   .icon {

@@ -3,7 +3,7 @@
 
 .section_container {
   height: 100%;
-  @include flex($direction: column, $gap: 85px);
+  @include flex($direction: column);
 
   & > form {
     @include flex();
@@ -13,11 +13,12 @@
 
 .reco_section {
   width: 70%;
-  margin-top: 40px;
+  margin-top: 80px;
 }
 
 .reco_header {
   text-align: center;
+  margin-top: 70px;
   margin-bottom: 20px;
 }
 
