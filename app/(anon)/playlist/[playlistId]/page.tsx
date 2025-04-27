@@ -27,6 +27,7 @@ export default function Page() {
   const [playlistTitle, setPlaylistTitle] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const currentMusic =
     currentIndex !== null ? playlistMusics[currentIndex] : null;
@@ -85,6 +86,7 @@ export default function Page() {
 
   const handleItemSelect = (index: number) => {
     setCurrentIndex(index);
+    setSelectedIndex(index);
     setIsPlaying(true);
   };
 
@@ -94,6 +96,7 @@ export default function Page() {
         setIsPlaying(!isPlaying);
       } else {
         setCurrentIndex(index);
+        setSelectedIndex(index);
         setIsPlaying(true);
       }
     } else {
@@ -149,9 +152,9 @@ export default function Page() {
                 onPlayPauseClick={() => handlePlayPause(index)}
                 mode="playlistMusic"
                 index={index}
-                isPlaylistSelected={currentIndex === index && !isPlaying}
+                isPlaylistSelected={selectedIndex === index && !isPlaying}
                 isPlaying={isPlaying}
-                isCurrentlyPlaying={currentIndex === index}
+                isCurrentlyPlaying={selectedIndex === index}
                 onItemClick={handleItemSelect}
               />
             ))}
