@@ -12,9 +12,11 @@ export interface IListItemProps {
   isSelected?: boolean;
   isLogin?: boolean;
   isPlaying?: boolean;
+  isCurrentlyPlaying?: boolean;
   onSelectToggle?: () => void;
   index?: number;
   onItemClick?: (index: number) => void;
+  onPlayPauseClick?: () => void;
 }
 
 export default function ListItem({
@@ -25,9 +27,11 @@ export default function ListItem({
   isSelected,
   isLogin,
   isPlaying,
+  isCurrentlyPlaying,
   onSelectToggle,
   index,
   onItemClick,
+  onPlayPauseClick,
 }: IListItemProps) {
   // mode : edit, extract, playlist
   const isEdit = mode === "edit";
@@ -42,10 +46,10 @@ export default function ListItem({
 
   const handlePlayPauseClick = useCallback(
     (e: React.MouseEvent) => {
-      e.stopPropagation(); // 부모 클릭 이벤트 방지
-      onSelectToggle?.();
+      e.stopPropagation();
+      onPlayPauseClick?.();
     },
-    [onSelectToggle]
+    [onPlayPauseClick]
   );
 
   const handleItemClick = useCallback(() => {
@@ -58,7 +62,9 @@ export default function ListItem({
     <li
       className={`${styles.item_container} ${
         isPlaylist ? styles.playlist_mode : ""
-      } ${isSelected ? styles.selected : ""}`}
+      } ${isSelected ? styles.selected : ""} ${
+        isCurrentlyPlaying ? styles.currently_playing : ""
+      }`}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onClick={handleItemClick}
@@ -67,10 +73,12 @@ export default function ListItem({
         <div className={styles.container_leftside}>
           {isPlaylist && (
             <div className={styles.index_or_play_btn}>
-              {isHover || isSelected ? (
+              {isHover || isCurrentlyPlaying || isSelected ? (
                 <IconBtn
                   icon={
-                    isSelected && isPlaying ? "playlist-pause" : "playlist-play"
+                    isCurrentlyPlaying && isPlaying
+                      ? "playlist-pause"
+                      : "playlist-play"
                   }
                   size="xxs"
                   onClick={handlePlayPauseClick}

@@ -32,6 +32,8 @@ export default function Page() {
   const [playlistTitle, setPlaylistTitle] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
+  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+  const [playingMusic, setPlayingMusic] = useState<PlaylistMusic | null>(null);
 
   useEffect(() => {
     const fetchPlaylistMusics = async () => {
@@ -63,8 +65,13 @@ export default function Page() {
         const data = await res.json();
         setPlaylistMusics(data);
 
-        setSelectedMusic(data[0]);
-        setSelectedIndex(null);
+        if (data.length > 0) {
+          setSelectedMusic(data[0]);
+          setSelectedIndex(0);
+          setPlayingIndex(0);
+          setPlayingMusic(data[0]);
+          setCurrentVideoId(data[0].musics.video_id);
+        }
       } catch (err) {
         console.error("플레이리스트 상세 조회 오류:", err);
         setError("플레이리스트 음악을 불러오는데 실패했습니다.");
@@ -88,32 +95,36 @@ export default function Page() {
   const handleMusicSelect = (index: number) => {
     setSelectedMusic(playlistMusics[index]);
     setSelectedIndex(index);
+  };
 
-    if (playlistMusics[index].musics.video_id) {
-      setCurrentVideoId(playlistMusics[index].musics.video_id);
-    }
-    if (isPlaying) {
+  const handleVideoEnded = () => {
+    if (selectedIndex !== null && selectedIndex < playlistMusics.length - 1) {
+      const nextIndex = selectedIndex + 1;
+      const nextMusic = playlistMusics[nextIndex];
+
+      setSelectedMusic(nextMusic);
+      setSelectedIndex(nextIndex);
+      setPlayingIndex(nextIndex);
+      setPlayingMusic(nextMusic);
+      setCurrentVideoId(nextMusic.musics.video_id);
+      setIsPlaying(true);
+    } else {
       setIsPlaying(false);
     }
   };
 
-  const handlePlayToggle = (index: number) => {
-    if (selectedIndex === index) {
-      // 같은 곡이면 재생/일시정지 토글
+  const handlePlayPauseClick = (index: number) => {
+    if (playingIndex === index) {
       setIsPlaying(!isPlaying);
     } else {
-      // 다른 곡이면 선택하고 재생
+      const music = playlistMusics[index];
       setSelectedMusic(playlistMusics[index]);
       setSelectedIndex(index);
-      if (playlistMusics[index].musics.video_id) {
-        setCurrentVideoId(playlistMusics[index].musics.video_id);
-      }
+      setPlayingIndex(index);
+      setPlayingMusic(music);
+      setCurrentVideoId(playlistMusics[index].musics.video_id);
       setIsPlaying(true);
     }
-  };
-
-  const handleVideoEnded = () => {
-    setIsPlaying(false);
   };
 
   const handlePlayPause = () => {
@@ -130,17 +141,18 @@ export default function Page() {
 
       <div className={styles.content_container}>
         <div className={styles.music_player}>
-          {selectedMusic && (
+          {playingMusic && (
             <MusicPlayerItem
-              title={selectedMusic.musics.video_title}
-              artist={selectedMusic.musics.channel_id}
-              src={selectedMusic.musics.thumbnail}
-              videoId={currentVideoId || selectedMusic.musics.video_id}
+              title={playingMusic.musics.video_title}
+              artist={playingMusic.musics.channel_id}
+              src={playingMusic.musics.thumbnail}
+              videoId={currentVideoId || playingMusic.musics.video_id}
               isCertified={true}
               mode="list"
               isPlaying={isPlaying}
               onVideoEnded={handleVideoEnded}
               onPlayPause={handlePlayPause}
+              selected={true}
             />
           )}
         </div>
@@ -153,11 +165,12 @@ export default function Page() {
                 title={music.musics.video_title}
                 artist={music.musics.channel_id}
                 thumbnailSrc={music.musics.thumbnail}
-                onSelectToggle={() => handlePlayToggle(index)}
+                onPlayPauseClick={() => handlePlayPauseClick(index)}
                 mode="playlist"
                 index={index}
-                isSelected={selectedIndex === index}
-                isPlaying={selectedIndex === index && isPlaying}
+                isSelected={selectedIndex === index && playingIndex !== index}
+                isPlaying={isPlaying}
+                isCurrentlyPlaying={playingIndex === index}
                 onItemClick={handleMusicSelect}
               />
             ))}

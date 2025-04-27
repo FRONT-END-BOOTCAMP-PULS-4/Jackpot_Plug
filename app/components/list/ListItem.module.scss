@@ -47,6 +47,7 @@
     }
   }
 
+  // playlist_mode style
   &.playlist_mode {
     border-radius: 0;
   }
@@ -56,6 +57,10 @@
   }
 
   &.selected {
+    background-color: $color-o-w1;
+  }
+
+  &.currently_playing {
     background-color: $color-o-w3;
   }
 
