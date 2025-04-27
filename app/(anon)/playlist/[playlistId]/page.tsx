@@ -23,22 +23,18 @@ export default function Page() {
   const playlistId = params.playlistId as string;
   const { fetchPlaylists, playlists } = usePlaylistStore();
   const [playlistMusics, setPlaylistMusics] = useState<PlaylistMusic[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedMusic, setSelectedMusic] = useState<PlaylistMusic | null>(
-    null
-  );
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [playlistTitle, setPlaylistTitle] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
-  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
-  const [playingMusic, setPlayingMusic] = useState<PlaylistMusic | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+
+  const currentMusic =
+    currentIndex !== null ? playlistMusics[currentIndex] : null;
+  const currentVideoId = currentMusic?.musics.video_id || null;
 
   useEffect(() => {
     const fetchPlaylistMusics = async () => {
       try {
-        setLoading(true);
         setError(null);
 
         // 플레이리스트 목록이 없으면 먼저 가져오기
@@ -66,17 +62,12 @@ export default function Page() {
         setPlaylistMusics(data);
 
         if (data.length > 0) {
-          setSelectedMusic(data[0]);
-          setSelectedIndex(0);
-          setPlayingIndex(0);
-          setPlayingMusic(data[0]);
-          setCurrentVideoId(data[0].musics.video_id);
+          setCurrentIndex(0);
+          setIsPlaying(false);
         }
       } catch (err) {
         console.error("플레이리스트 상세 조회 오류:", err);
         setError("플레이리스트 음악을 불러오는데 실패했습니다.");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -92,43 +83,31 @@ export default function Page() {
     }
   }, [playlists, playlistId]);
 
-  const handleMusicSelect = (index: number) => {
-    setSelectedMusic(playlistMusics[index]);
-    setSelectedIndex(index);
+  const handleItemSelect = (index: number) => {
+    setCurrentIndex(index);
+    setIsPlaying(true);
+  };
+
+  const handlePlayPause = (index?: number) => {
+    if (index !== undefined) {
+      if (currentIndex === index) {
+        setIsPlaying(!isPlaying);
+      } else {
+        setCurrentIndex(index);
+        setIsPlaying(true);
+      }
+    } else {
+      setIsPlaying((prev) => !prev);
+    }
   };
 
   const handleVideoEnded = () => {
-    if (selectedIndex !== null && selectedIndex < playlistMusics.length - 1) {
-      const nextIndex = selectedIndex + 1;
-      const nextMusic = playlistMusics[nextIndex];
-
-      setSelectedMusic(nextMusic);
-      setSelectedIndex(nextIndex);
-      setPlayingIndex(nextIndex);
-      setPlayingMusic(nextMusic);
-      setCurrentVideoId(nextMusic.musics.video_id);
+    if (currentIndex !== null && currentIndex < playlistMusics.length - 1) {
+      setCurrentIndex(currentIndex + 1);
       setIsPlaying(true);
     } else {
       setIsPlaying(false);
     }
-  };
-
-  const handlePlayPauseClick = (index: number) => {
-    if (playingIndex === index) {
-      setIsPlaying(!isPlaying);
-    } else {
-      const music = playlistMusics[index];
-      setSelectedMusic(playlistMusics[index]);
-      setSelectedIndex(index);
-      setPlayingIndex(index);
-      setPlayingMusic(music);
-      setCurrentVideoId(playlistMusics[index].musics.video_id);
-      setIsPlaying(true);
-    }
-  };
-
-  const handlePlayPause = () => {
-    setIsPlaying((prev) => !prev);
   };
 
   return (
@@ -139,19 +118,21 @@ export default function Page() {
       >{`Playlists`}</button>
       <h2 className={styles.playlist_title}>{playlistTitle}</h2>
 
+      {error && <div className={styles.error_message}>{error}</div>}
+
       <div className={styles.content_container}>
         <div className={styles.music_player}>
-          {playingMusic && (
+          {currentMusic && (
             <MusicPlayerItem
-              title={playingMusic.musics.video_title}
-              artist={playingMusic.musics.channel_id}
-              src={playingMusic.musics.thumbnail}
-              videoId={currentVideoId || playingMusic.musics.video_id}
+              title={currentMusic.musics.video_title}
+              artist={currentMusic.musics.channel_id}
+              src={currentMusic.musics.thumbnail}
+              videoId={currentVideoId || ""}
               isCertified={true}
               mode="list"
               isPlaying={isPlaying}
               onVideoEnded={handleVideoEnded}
-              onPlayPause={handlePlayPause}
+              onPlayPause={() => handlePlayPause()}
               selected={true}
             />
           )}
@@ -165,13 +146,13 @@ export default function Page() {
                 title={music.musics.video_title}
                 artist={music.musics.channel_id}
                 thumbnailSrc={music.musics.thumbnail}
-                onPlayPauseClick={() => handlePlayPauseClick(index)}
+                onPlayPauseClick={() => handlePlayPause(index)}
                 mode="playlist"
                 index={index}
-                isSelected={selectedIndex === index && playingIndex !== index}
+                isSelected={currentIndex === index && !isPlaying}
                 isPlaying={isPlaying}
-                isCurrentlyPlaying={playingIndex === index}
-                onItemClick={handleMusicSelect}
+                isCurrentlyPlaying={currentIndex === index}
+                onItemClick={handleItemSelect}
               />
             ))}
           </ul>

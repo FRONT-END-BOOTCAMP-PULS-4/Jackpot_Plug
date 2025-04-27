@@ -47,7 +47,9 @@ export default function ListItem({
   const handlePlayPauseClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
-      onPlayPauseClick?.();
+      if (onPlayPauseClick) {
+        onPlayPauseClick();
+      }
     },
     [onPlayPauseClick]
   );

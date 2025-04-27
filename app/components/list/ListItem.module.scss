@@ -61,7 +61,7 @@
   }
 
   &.currently_playing {
-    background-color: $color-o-w3;
+    background-color: rgba($color: #fff, $alpha: 0.25);
   }
 
   .inner_container {
