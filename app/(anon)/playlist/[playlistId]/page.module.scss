@@ -39,9 +39,17 @@
     display: flex;
     gap: 90px;
     margin-top: 40px;
+    height: calc(100vh - 362px);
 
     .music_list {
       flex: 1;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      scrollbar-width: none; // Firefox
+      -ms-overflow-style: none; // IE and Edge
     }
   }
 }

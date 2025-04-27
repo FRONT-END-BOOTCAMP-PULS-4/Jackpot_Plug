@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         `
         id, 
         ISRC,
-        musics!inner(video_title, channel_id, thumbnail)
+        musics!inner(video_id, video_title, channel_id, thumbnail)
       `
       )
       .eq("playlist_id", playlistId);
