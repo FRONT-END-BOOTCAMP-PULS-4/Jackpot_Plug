@@ -1,27 +1,114 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import styles from "./page.module.scss";
 import MusicPlayerItem from "@/app/components/player/MusicPlayerItem";
 import ListItem from "@/app/components/list/ListItem";
+import { useEffect, useState } from "react";
+import { usePlaylistStore } from "@/store/usePlaylistStore";
+
+interface PlaylistMusic {
+  id: string;
+  ISRC: string;
+  musics: {
+    video_id: string;
+    video_title: string;
+    channel_id: string;
+    thumbnail?: string;
+  };
+}
 
 export default function Page() {
   const router = useRouter();
+  const params = useParams();
+  const playlistId = params.playlistId as string;
+  const { fetchPlaylists, playlists } = usePlaylistStore();
+  const [playlistMusics, setPlaylistMusics] = useState<PlaylistMusic[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [playlistTitle, setPlaylistTitle] = useState<string>("");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
-  // 임시 데이터
-  const currentMusic = {
-    id: "1",
-    title: "Meaning of you (너의 의미 (feat. 김창완))",
-    artist: "NewJeans",
-    thumbnail: "/images/sample-image.png",
-    videoId: "a3ICNMQW7Ok",
+  const currentMusic =
+    currentIndex !== null ? playlistMusics[currentIndex] : null;
+  const currentVideoId = currentMusic?.musics.video_id || null;
+
+  useEffect(() => {
+    const fetchPlaylistMusics = async () => {
+      try {
+        setError(null);
+
+        // 플레이리스트 목록이 없으면 먼저 가져오기
+        if (playlists.length === 0) {
+          const authStorage = localStorage.getItem("auth-storage");
+          if (authStorage) {
+            const authData = JSON.parse(authStorage);
+            const userId = authData.state.user?.id;
+
+            if (userId) {
+              await fetchPlaylists(userId);
+            }
+          }
+        }
+
+        const res = await fetch(
+          `/api/playlist-videos?playlistId=${playlistId}`
+        );
+
+        if (!res.ok) {
+          throw new Error("플레이리스트 비디오를 불러오는데 실패했습니다.");
+        }
+
+        const data = await res.json();
+        setPlaylistMusics(data);
+
+        if (data.length > 0) {
+          setCurrentIndex(0);
+          setIsPlaying(false);
+        }
+      } catch (err) {
+        console.error("플레이리스트 상세 조회 오류:", err);
+        setError("플레이리스트 음악을 불러오는데 실패했습니다.");
+      }
+    };
+
+    if (playlistId) {
+      fetchPlaylistMusics();
+    }
+  }, [playlistId, fetchPlaylists, playlists.length]);
+
+  useEffect(() => {
+    const playlist = playlists.find((pl) => pl.id === playlistId);
+    if (playlist) {
+      setPlaylistTitle(playlist.title);
+    }
+  }, [playlists, playlistId]);
+
+  const handleItemSelect = (index: number) => {
+    setCurrentIndex(index);
+    setIsPlaying(true);
   };
 
-  // 임시 음악 데이터
-  const musicList = [
-    { id: "1", title: "Ditto", artist: "NewJeans" },
-    { id: "2", title: "Hype Boy", artist: "NewJeans" },
-    { id: "3", title: "OMG", artist: "NewJeans" },
-  ];
+  const handlePlayPause = (index?: number) => {
+    if (index !== undefined) {
+      if (currentIndex === index) {
+        setIsPlaying(!isPlaying);
+      } else {
+        setCurrentIndex(index);
+        setIsPlaying(true);
+      }
+    } else {
+      setIsPlaying((prev) => !prev);
+    }
+  };
+
+  const handleVideoEnded = () => {
+    if (currentIndex !== null && currentIndex < playlistMusics.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(false);
+    }
+  };
 
   return (
     <section className={styles.playlist_detail}>
@@ -29,29 +116,43 @@ export default function Page() {
         className={styles.back_btn}
         onClick={() => router.back()}
       >{`Playlists`}</button>
-      <h2 className={styles.playlist_title}>
-        Playlist 하루 끝, 봄바람과 함께 듣기 좋은 노래 모음
-      </h2>
+      <h2 className={styles.playlist_title}>{playlistTitle}</h2>
+
+      {error && <div className={styles.error_message}>{error}</div>}
 
       <div className={styles.content_container}>
         <div className={styles.music_player}>
-          <MusicPlayerItem
-            title={currentMusic.title}
-            artist={currentMusic.artist}
-            src={currentMusic.thumbnail}
-            videoId={currentMusic.videoId}
-            isCertified={true}
-            mode="list"
-          />
+          {currentMusic && (
+            <MusicPlayerItem
+              title={currentMusic.musics.video_title}
+              artist={currentMusic.musics.channel_id}
+              src={currentMusic.musics.thumbnail}
+              videoId={currentVideoId || ""}
+              isCertified={true}
+              mode="list"
+              isPlaying={isPlaying}
+              onVideoEnded={handleVideoEnded}
+              onPlayPause={() => handlePlayPause()}
+              selected={true}
+            />
+          )}
         </div>
 
         <div className={styles.music_list}>
           <ul>
-            {musicList.map((music) => (
+            {playlistMusics.map((music, index) => (
               <ListItem
                 key={music.id}
-                title={music.title}
-                artist={music.artist}
+                title={music.musics.video_title}
+                artist={music.musics.channel_id}
+                thumbnailSrc={music.musics.thumbnail}
+                onPlayPauseClick={() => handlePlayPause(index)}
+                mode="playlist"
+                index={index}
+                isSelected={currentIndex === index && !isPlaying}
+                isPlaying={isPlaying}
+                isCurrentlyPlaying={currentIndex === index}
+                onItemClick={handleItemSelect}
               />
             ))}
           </ul>
