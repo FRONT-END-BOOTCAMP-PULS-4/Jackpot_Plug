@@ -92,9 +92,9 @@ export default function ListItem({
             </div>
           )}
           <p className={styles.desc_container}>
-            <span className={styles.title}>{title ?? "Meaning of you"}</span>
+            <span className={styles.title}>{title ?? "Title"}</span>
             {!isExtractMode && (
-              <span className={styles.artist}>{artist ?? "아이유 IU"}</span>
+              <span className={styles.artist}>{artist ?? "Artist"}</span>
             )}
           </p>
         </div>

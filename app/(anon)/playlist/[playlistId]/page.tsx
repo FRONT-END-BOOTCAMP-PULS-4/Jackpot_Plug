@@ -10,6 +10,7 @@ interface PlaylistMusic {
   id: string;
   ISRC: string;
   musics: {
+    video_id: string;
     video_title: string;
     channel_id: string;
     thumbnail?: string;
@@ -30,6 +31,7 @@ export default function Page() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [playlistTitle, setPlaylistTitle] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPlaylistMusics = async () => {
@@ -86,6 +88,10 @@ export default function Page() {
   const handleMusicSelect = (index: number) => {
     setSelectedMusic(playlistMusics[index]);
     setSelectedIndex(index);
+
+    if (playlistMusics[index].musics.video_id) {
+      setCurrentVideoId(playlistMusics[index].musics.video_id);
+    }
     if (isPlaying) {
       setIsPlaying(false);
     }
@@ -99,6 +105,9 @@ export default function Page() {
       // 다른 곡이면 선택하고 재생
       setSelectedMusic(playlistMusics[index]);
       setSelectedIndex(index);
+      if (playlistMusics[index].musics.video_id) {
+        setCurrentVideoId(playlistMusics[index].musics.video_id);
+      }
       setIsPlaying(true);
     }
   };
@@ -126,7 +135,7 @@ export default function Page() {
               title={selectedMusic.musics.video_title}
               artist={selectedMusic.musics.channel_id}
               src={selectedMusic.musics.thumbnail}
-              videoId={selectedMusic.id}
+              videoId={currentVideoId || selectedMusic.musics.video_id}
               isCertified={true}
               mode="list"
               isPlaying={isPlaying}
