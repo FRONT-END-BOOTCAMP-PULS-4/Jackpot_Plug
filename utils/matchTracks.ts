@@ -58,7 +58,7 @@ export function matchTracks(
 
       return matched
         ? { ...matched, matchedTrack: track }
-        : "매칭 결과가 없어요";
+        : { errorMassage: "매칭되는 노래가 없어요", matchedTrack: track };
     })
     .filter(Boolean) as MatchedYoutubeItem[]; // null 제거
 }

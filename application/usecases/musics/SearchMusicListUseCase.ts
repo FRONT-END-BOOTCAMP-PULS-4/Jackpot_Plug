@@ -44,7 +44,7 @@ export class SearchMusicListUseCase {
         throw new Error("NoISRC");
       }
 
-      // 3. ISRC 코드로 YouTube 검색 - 서버 저장된 코드 검색 수 없으면 진행 _ 추가 예정
+      // 3. ISRC 코드로 YouTube 검색 - TODO : 서버 저장된 코드 검색 수 없으면 진행
       const youtubeResults = await this.youtubeIsrcSearchUseCase.execute(
         isrcCodes
       );
@@ -54,8 +54,7 @@ export class SearchMusicListUseCase {
         matchTracks(youtubeResults, tracks)
       );
 
-      console.log("matchedResults:", matchedResults);
-
+      // TODO : 매칭 안된 케이스 표시하기
       return matchedResults.flat().map((item) => ({
         videoId: item.id?.videoId,
         title: item.snippet?.title,

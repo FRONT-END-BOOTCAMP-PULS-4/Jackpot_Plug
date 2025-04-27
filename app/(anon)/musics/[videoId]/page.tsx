@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./page.module.scss";
@@ -28,8 +28,12 @@ interface VideoData {
 }
 
 export default function MusicPage() {
+  const router = useRouter();
+
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const userId = useAuthStore((state) => state.user?.id);
   const [isLogin, setIsLogin] = useState(isAuthenticated);
+
   const { videoId } = useParams() as { videoId: string };
   const [data, setData] = useState<VideoData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,6 +42,10 @@ export default function MusicPage() {
   const [selectedMusicList, setSelectedMusicList] = useState<string[]>([]);
   const [saveTrackList, setSaveTrackList] = useState<MusicDto[]>([]);
   const playlistSaveModal = useModal();
+
+  useEffect(() => {
+    setIsLogin(isAuthenticated);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const cached = sessionStorage.getItem(videoId);
@@ -111,7 +119,10 @@ export default function MusicPage() {
               </ul>
               <div className={styles.button_container}>
                 {!isLogin && (
-                  <div className={styles.animation}>
+                  <div
+                    className={styles.animation}
+                    onClick={() => router.push("/login")}
+                  >
                     로그인 하면 사용할 수 있어요! 👉
                   </div>
                 )}
@@ -132,6 +143,8 @@ export default function MusicPage() {
             onClose={playlistSaveModal.close}
             mode="extract"
             initialTracks={saveTrackList}
+            userId={userId ?? ""}
+            router={router}
           />
         </div>
       )}
