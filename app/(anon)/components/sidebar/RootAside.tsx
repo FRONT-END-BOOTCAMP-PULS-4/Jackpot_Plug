@@ -50,7 +50,7 @@ export default function RootAside() {
               onClick={() => {
                 logout();
                 resetPlaylists();
-                router.push("/login");
+                router.push("/");
               }}
             />
           )}

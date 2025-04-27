@@ -31,13 +31,15 @@ export default function Home() {
       <div className={styles.reco_section}>
         <VideoExtractor />
         <div className={styles.reco_list_container}>
-          {isLoading ? (
-            <AIRecoSkeleton hideTitle={true} />
-          ) : isLogin ? (
-            <>
-              <div className={styles.reco_header}>🪄 이런 음악은 어때요?</div>
-              <AIReco hideTitle={true} />
-            </>
+          {isLogin ? (
+            isLoading ? (
+              <AIRecoSkeleton hideTitle={true} />
+            ) : (
+              <>
+                <div className={styles.reco_header}>🪄 이런 음악은 어때요?</div>
+                <AIReco hideTitle={true} />
+              </>
+            )
           ) : (
             <Link className={styles.go_login_text} href="/login">
               Ai 추천은 로그인이 필요해요. ✨
