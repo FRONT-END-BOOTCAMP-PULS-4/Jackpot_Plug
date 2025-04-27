@@ -1,6 +1,12 @@
 @use "../../../../public/styles/variable" as *;
 @use "../../../../public/styles/mixin" as *;
 
+.track_list_container,
+.playlists_container {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
 .track_list_container {
   width: 686px;
 }

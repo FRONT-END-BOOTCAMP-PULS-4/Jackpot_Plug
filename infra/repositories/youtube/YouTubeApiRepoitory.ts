@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { YouTubeRepository } from "@/domain/repositories/YouTubeRepository";
 import { YouTubeVideo } from "@/domain/entities/YouTubeVideo";
 import { axiosInstance } from "./ApiClient";
+import { decode } from "html-entities";
 
 export class YouTubeApiRepository implements YouTubeRepository {
   async searchByIsrc(isrcCodes: string[]): Promise<YouTubeVideo[]> {
@@ -19,7 +20,6 @@ export class YouTubeApiRepository implements YouTubeRepository {
         },
       });
 
-      console.log("유튜브데이터:", data);
       return data.items
         .filter((item: any) => item.id && item.id.videoId)
         .map(
@@ -27,9 +27,9 @@ export class YouTubeApiRepository implements YouTubeRepository {
             new YouTubeVideo(
               { videoId: item.id.videoId },
               {
-                title: item.snippet.title,
+                title: decode(item.snippet.title),
                 description: item.snippet.description,
-                channelTitle: item.snippet.channelTitle,
+                channelTitle: decode(item.snippet.channelTitle),
                 thumbnails: item.snippet.thumbnails,
               }
             )

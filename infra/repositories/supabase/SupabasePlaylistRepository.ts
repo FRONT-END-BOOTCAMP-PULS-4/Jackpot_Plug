@@ -3,6 +3,45 @@ import { Playlist } from "@/domain/entities/Playlist";
 import { supabase } from "@/lib/supabase";
 
 export class SupabasePlaylistRepository implements PlaylistRepository {
+  async createPlaylist(
+    userId: string,
+    playlistName: string
+  ): Promise<string | null> {
+    const { data, error } = await supabase
+      .from("playlist")
+      .insert({ member_id: userId, title: playlistName })
+      .select()
+      .single();
+
+    if (error || !data) {
+      console.error("Create playlist error:", error);
+      return null;
+    }
+
+    return data.id;
+  }
+
+  async insertPlaylistVideos(
+    playlistId: string,
+    isrcList: string[]
+  ): Promise<boolean> {
+    const playlistVideos = isrcList.map((isrc, index) => ({
+      playlist_id: playlistId,
+      ISRC: isrc,
+      index: index + 1,
+    }));
+
+    const { error } = await supabase
+      .from("playlist_videos")
+      .insert(playlistVideos);
+
+    if (error) {
+      console.error("Insert playlist_videos error:", error);
+      return false;
+    }
+    return true;
+  }
+
   async getUserPlaylists(userId: string): Promise<Playlist[]> {
     const { data, error } = await supabase
       .from("playlist")

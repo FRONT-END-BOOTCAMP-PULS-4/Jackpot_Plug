@@ -20,6 +20,12 @@ export default function ToastPage() {
         color="gray"
         onClick={() => showToast("에러 토스트", 2000, "error")}
       />
+      <RoundBtn
+        text="성공 보라 토스트 얍!"
+        size="md"
+        color="gray"
+        onClick={() => showToast("예쁜 보라색 어때요", 2000, "success")}
+      />
     </div>
   );
 }

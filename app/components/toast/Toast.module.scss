@@ -18,6 +18,9 @@
     font-size: rem(16);
     padding: 20px 30px;
 
+    &.success {
+      background-color: $color-purple;
+    }
     &.error {
       background-color: $color-red;
     }

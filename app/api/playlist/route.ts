@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { SupabasePlaylistRepository } from "@/infra/repositories/playlist/SupabasePlaylistRepository";
+import { SupabasePlaylistRepository } from "@/infra/repositories/supabase/SupabasePlaylistRepository";
 import { GetUserPlaylistsUseCase } from "@/application/usecases/playlist/GetUserPlaylistsUseCase";
 
 export async function GET(request: NextRequest) {

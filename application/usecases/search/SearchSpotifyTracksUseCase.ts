@@ -16,8 +16,8 @@ export class SearchSpotifyTracksUseCase {
           track.id,
           track.name,
           track.artist,
-          track.album,
           track.isrc,
+          track.album,
           track.imageUrl
         )
     );
