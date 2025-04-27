@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { GetPlaylistMusicsUseCase } from "@/application/usecases/playlist/GetPlaylistMusicsUseCase";
+import { SupabasePlaylistMusicRepository } from "@/infra/repositories/supabase/SupabasePlaylistMusicRepository";
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,28 +14,23 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { data, error } = await supabase
-      .from("playlist_videos")
-      .select(
-        `
-        id, 
-        ISRC,
-        musics!inner(video_id, video_title, channel_id, thumbnail)
-      `
-      )
-      .eq("playlist_id", playlistId);
+    const playlistMusicRepository = new SupabasePlaylistMusicRepository();
+    const getPlaylistMusicsUseCase = new GetPlaylistMusicsUseCase(
+      playlistMusicRepository
+    );
 
-    if (error) {
-      console.error("Supabase error:", error);
-      return NextResponse.json(
-        { error: "플레이리스트 비디오 조회 실패" },
-        { status: 500 }
-      );
-    }
+    const playlistMusics = await getPlaylistMusicsUseCase.execute(playlistId);
 
-    return NextResponse.json(data || []);
+    return NextResponse.json(playlistMusics);
   } catch (err) {
-    console.error("Unexpected error:", err);
-    return NextResponse.json({ error: "서버 내부 오류" }, { status: 500 });
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "서버 내부 오류" },
+      {
+        status:
+          err instanceof Error && err.message === "Playlist ID is required"
+            ? 400
+            : 500,
+      }
+    );
   }
 }
