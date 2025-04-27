@@ -53,4 +53,5 @@ export interface SearchInputProps {
   buttonIcon?: ReactNode;
   size?: "default" | "small";
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  animated?: boolean;
 }

@@ -8,9 +8,14 @@ export default function SearchInput({
   buttonIcon,
   onChange,
   size = "default",
+  animated = false,
 }: SearchInputProps) {
   return (
-    <div className={`${styles.search_field} ${styles[`${size}`]}`}>
+    <div
+      className={`${styles.search_field} ${styles[`${size}`]} ${
+        animated ? styles.animated : ""
+      }`}
+    >
       <label htmlFor="search_input" className="blind">
         검색
       </label>

@@ -47,81 +47,84 @@ export default function Page() {
 
   return (
     <section
-      className={`${styles.search} ${isAnimating ? styles.searching : ""}`}
+      className={`${styles.search} ${isAnimating ? styles.searching : ""} `}
       ref={searchContainerRef}
     >
-      <div className={styles.title_container}>
-        <Title
-          titleText="검색 그 이상. 필요한 것과의 진짜 연결."
-          descriptionText={`당신이 찾는 정보는 단순한 결과가 아닙니다.
+      <div className={styles.inner_wrapper}>
+        <div className={styles.title_container}>
+          <Title
+            titleText="검색 그 이상. 필요한 것과의 진짜 연결."
+            descriptionText={`당신이 찾는 정보는 단순한 결과가 아닙니다.
           우리는 방대한 데이터 속에서 가장 의미 있는 연결을 찾아, 당신을 위한 연결이 자연스럽게 완성됩니다.`}
-        />
-      </div>
+          />
+        </div>
 
-      <form
-        className={styles.search_form}
-        onSubmit={handleSearch}
-        ref={formRef}
-      >
-        <SearchInput
-          placeholder="'아티스트명-곡명' 형식으로 입력해 주세요. ex) Gdragon-power"
-          buttonIcon={<IconBtn icon="search" size="lg" type="submit" />}
-          value={query}
-          onChange={handleQueryChange}
-        />
-      </form>
+        <form
+          className={styles.search_form}
+          onSubmit={handleSearch}
+          ref={formRef}
+        >
+          <SearchInput
+            placeholder="'아티스트명-곡명' 형식으로 입력해 주세요. ex) Gdragon-power"
+            buttonIcon={<IconBtn icon="search" size="lg" type="submit" />}
+            value={query}
+            onChange={handleQueryChange}
+            animated={true}
+          />
+        </form>
 
-      {errorMessage && (
-        <span className={`${styles.error_message}`}>{errorMessage}</span>
-      )}
-
-      <span className={styles.result_container}>
-        {isSearching && <div className={styles.loading}>검색 중...</div>}
-
-        {searchResults.length > 0 && (
-          <ul className={styles.result_music}>
-            {searchResults.map((result, idx) => (
-              <MusicPlayerItem
-                key={result.id.videoId || idx}
-                src={
-                  result.snippet.thumbnails.maxres?.url ||
-                  result.snippet.thumbnails.high?.url ||
-                  result.snippet.thumbnails.medium?.url ||
-                  result.snippet.thumbnails.default?.url
-                }
-                title={result.snippet.title}
-                artist={result.snippet.channelTitle}
-                isCertified={isAuthenticated}
-                // mode="thumbnail"
-                videoId={result.id.videoId}
-                selected={selectedVideoId === result.id.videoId}
-                onClick={() => handleVideoSelect(result.id.videoId)}
-                isPlaying={selectedVideoId === result.id.videoId && isPlaying}
-                onVideoEnded={handleVideoEnded}
-                onPlayPause={handlePlayPause}
-                onPlaylistAddAction={() => playlistSaveModal.open()}
-              />
-            ))}
-          </ul>
+        {errorMessage && (
+          <span className={`${styles.error_message}`}>{errorMessage}</span>
         )}
 
-        {isAnimating &&
-          searchResults.length === 0 &&
-          !isSearching &&
-          !errorMessage && (
-            <span className={styles.no_results}>
-              찾으시는 음원은 없어요. 😢
-            </span>
+        <span className={styles.result_container}>
+          {isSearching && <div className={styles.loading}>검색 중...</div>}
+
+          {searchResults.length > 0 && (
+            <ul className={styles.result_music}>
+              {searchResults.map((result, idx) => (
+                <MusicPlayerItem
+                  key={result.id.videoId || idx}
+                  src={
+                    result.snippet.thumbnails.maxres?.url ||
+                    result.snippet.thumbnails.high?.url ||
+                    result.snippet.thumbnails.medium?.url ||
+                    result.snippet.thumbnails.default?.url
+                  }
+                  title={result.snippet.title}
+                  artist={result.snippet.channelTitle}
+                  isCertified={isAuthenticated}
+                  // mode="thumbnail"
+                  videoId={result.id.videoId}
+                  selected={selectedVideoId === result.id.videoId}
+                  onClick={() => handleVideoSelect(result.id.videoId)}
+                  isPlaying={selectedVideoId === result.id.videoId && isPlaying}
+                  onVideoEnded={handleVideoEnded}
+                  onPlayPause={handlePlayPause}
+                  onPlaylistAddAction={() => playlistSaveModal.open()}
+                />
+              ))}
+            </ul>
           )}
-      </span>
-      <PlaylistSaveFunnelModal
-        isOpen={playlistSaveModal.isOpen}
-        onClose={playlistSaveModal.close}
-        mode="select"
-        initialTracks={searchResults}
-        userId={userId ?? ""}
-        router={router}
-      />
+
+          {isAnimating &&
+            searchResults.length === 0 &&
+            !isSearching &&
+            !errorMessage && (
+              <span className={styles.no_results}>
+                찾으시는 음원은 없어요. 😢
+              </span>
+            )}
+        </span>
+        <PlaylistSaveFunnelModal
+          isOpen={playlistSaveModal.isOpen}
+          onClose={playlistSaveModal.close}
+          mode="select"
+          initialTracks={searchResults}
+          userId={userId ?? ""}
+          router={router}
+        />
+      </div>
     </section>
   );
 }

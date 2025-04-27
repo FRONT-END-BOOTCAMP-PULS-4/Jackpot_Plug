@@ -8,7 +8,7 @@ import { usePlaylistStore } from "@/store/usePlaylistStore";
 
 export default function Page() {
   const router = useRouter();
-  const { playlists, loading, error, fetchPlaylists, deletePlaylist } =
+  const { playlists, error, fetchPlaylists, deletePlaylist } =
     usePlaylistStore();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [playlistToDelete, setPlaylistToDelete] = useState<string | null>(null);
@@ -59,9 +59,7 @@ export default function Page() {
       </div>
 
       <div className={styles.playlist_container}>
-        {loading ? (
-          <p>플레이리스트를 불러오는 중...</p>
-        ) : error ? (
+        {error ? (
           <span className={styles.error}>{error}</span>
         ) : (
           <>

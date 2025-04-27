@@ -46,6 +46,7 @@ export default function VideoExtractor({
               type="submit"
             />
           }
+          animated={true}
         />
       </form>
       <RouteModal

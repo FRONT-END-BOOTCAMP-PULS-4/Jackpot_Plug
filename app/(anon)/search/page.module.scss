@@ -8,7 +8,12 @@
   transition: padding 0.6s ease-in-out;
 
   &.searching {
-    padding-top: 20px;
+    .inner_wrapper {
+      width: 100%;
+      @include flex($direction: column);
+      transition: transform 0.6s ease-in-out;
+    }
+    padding-top: 30px;
     justify-content: flex-start;
 
     .title_container {

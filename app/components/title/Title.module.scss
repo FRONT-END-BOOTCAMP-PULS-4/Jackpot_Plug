@@ -5,13 +5,27 @@
 
   .title {
     font-size: rem(68);
-    margin-bottom: 36px;
+    margin-bottom: 34px;
   }
 
   .description {
     font-size: rem(18);
     white-space: pre-line;
     line-height: 1.5;
+  }
+
+  &:not(.small) {
+    .title {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideDown 0.8s ease-out forwards;
+    }
+
+    .description {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideDown 0.8s ease-out 0.3s forwards;
+    }
   }
 
   &.small {
@@ -24,5 +38,16 @@
       font-size: rem(16);
       margin-bottom: 16px;
     }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

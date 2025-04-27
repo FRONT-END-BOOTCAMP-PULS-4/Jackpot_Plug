@@ -38,4 +38,21 @@
       opacity: 0;
     }
   }
+
+  &.animated {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideDown 0.8s ease-out 0.6s forwards;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
