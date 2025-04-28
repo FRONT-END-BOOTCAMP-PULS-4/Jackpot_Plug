@@ -50,7 +50,7 @@
     .playlist_grid {
       display: grid;
       grid-template-columns: repeat(
-        auto-fit,
+        auto-fill,
         minmax(clamp(250px, 20vw, 320px), 1fr)
       );
       row-gap: clamp(30px, 3vw, 50px);
