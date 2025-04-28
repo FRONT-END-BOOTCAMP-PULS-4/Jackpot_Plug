@@ -4,6 +4,7 @@
 .dropdown {
   position: relative;
   width: 100%;
+  max-width: 140px;
 
   &_right {
     .dropdown_button_wrapper {

@@ -3,6 +3,7 @@ import styles from "./page.module.scss";
 import MusicPlayerItem from "@/app/components/player/MusicPlayerItem";
 import ListItem from "@/app/components/list/ListItem";
 import { usePlaylistDetail } from "./hooks/usePlaylistDetail";
+import Dropdown, { DropdownOption } from "@/app/components/dropdown/Dropdown";
 
 export default function Page() {
   const {
@@ -19,13 +20,33 @@ export default function Page() {
     handleVideoEnded,
   } = usePlaylistDetail();
 
+  const dropdownOptions: DropdownOption[] = [
+    {
+      id: "title edit",
+      label: "제목 수정",
+      onClick: () => {
+        console.log("Title Edit playlist");
+      },
+    },
+    {
+      id: "list edit",
+      label: "리스트 수정",
+      onClick: () => {
+        console.log("List Edit playlist");
+      },
+    },
+  ];
+
   return (
     <section className={styles.playlist_detail}>
       <button
         className={styles.back_btn}
         onClick={() => router.back()}
       >{`Playlists`}</button>
-      <h2 className={styles.playlist_title}>{playlistTitle}</h2>
+      <div className={styles.playlist_header}>
+        <h2 className={styles.playlist_title}>{playlistTitle}</h2>
+        <Dropdown options={dropdownOptions} align="right" />
+      </div>
 
       {error && <div className={styles.error_message}>{error}</div>}
 

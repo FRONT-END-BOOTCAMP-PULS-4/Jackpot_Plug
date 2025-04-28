@@ -28,12 +28,20 @@
       opacity: 1;
     }
   }
-  .playlist_title {
-    font-size: rem(28);
-    font-weight: $font-medium;
+
+  .playlist_header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 30px;
     padding: 20px 0;
     @include border-bottom;
+    .playlist_title {
+      font-size: rem(28);
+      font-weight: $font-medium;
+      width: 100%;
+    }
   }
   .content_container {
     display: flex;
