@@ -10,6 +10,20 @@
 
 <br/>
 
+
+### 🎰 Team JackPot
+
+|  이름  | 역할                                                                      |
+| :---- | :------------------------------------------------------------------------ |
+|  송하 [@poan1221](https://github.com/poan1221)  | 아이디어 발의 / 기획 / 메인 페이지 음원 추출, 플레이리스트 저장 기능 개발 |
+|  김별 [@lbyul](https://github.com/lbyul)  | 디자인 / 검색 페이지, 플레이리스트 조회, 재생 기능 개발                   |
+| 임희건 [@HeekunLim](https://github.com/HeekunLim) | 회원가입, 로그인, 회원정보 수정 기능 개발                                 |
+| 전진우 [@GiToon10100011](https://github.com/GiToon10100011) | 로그인 상태관리, 음원 ai 추천 기능 개발                                   |
+
+👉 [Team Convention](https://github.com/FRONT-END-BOOTCAMP-PLUS-4/Jackpot_Plug/wiki/Team-Convention)
+
+<br/>
+
 ## 🛠️ 프로젝트 소개
 
 **"타임라인에서 내가 좋아하는 노래만 골라, 나만의 플레이리스트로!"**  
@@ -56,9 +70,9 @@
 - 이메일 인증과 유효성 검사를 통과한 사용자만 가입 가능
 - 가입 후 로그인, 개인정보 수정(이메일 제외), 회원 탈퇴 기능 제공
 
-<!-- ![회원가입 기능 이미지](./images/signup-login.png) -->
+<img width="800" alt="이메일 인증 img" src="https://github.com/user-attachments/assets/35bf7471-fbf4-42a3-9ed3-10c123d35c5d" />
 
-<br/>
+<br/><br/>
 
 ## 🔥 기술 스택
 
@@ -69,6 +83,13 @@
   ![spotify](https://img.shields.io/badge/spotify.api-1ED760.svg?style=for-the-badge&logo=spotify&logoColor=white) ![youtubeAPI](https://img.shields.io/badge/youtube.API-FF0000.svg?style=for-the-badge&logo=youtube&logoColor=white)
 - **Collabo**:
   ![figma](https://img.shields.io/badge/figma-F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) ![jira](https://img.shields.io/badge/jira-0052CC.svg?style=for-the-badge&logo=jira&logoColor=white) ![discord](https://img.shields.io/badge/discord-5865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
+
+<br/>
+
+## 🗓️ 프로젝트 관리
+<img width="800" alt="지라 기획 이미지" src="https://github.com/user-attachments/assets/dedab5ab-9568-46d3-a8a1-e316d179849a" />
+<br/>
+- 이슈 추적 및 일정 관리를 위한 툴로 지라 사용
 
 <br/>
 
@@ -101,13 +122,35 @@
 
 <br/>
 
-### 🎰 Team JackPot
+## 📂 ERD
+<img width="800" alt="Image" src="https://github.com/user-attachments/assets/049b7d9f-babd-4da2-adca-635a714398a9" />
 
-|  이름  | 역할                                                                      |
-| :----: | :------------------------------------------------------------------------ |
-|  송하  | 아이디어 발의 / 기획 / 메인 페이지 음원 추출, 플레이리스트 저장 기능 개발 |
-|  김별  | 디자인 / 검색 페이지, 플레이리스트 조회, 재생 기능 개발                   |
-| 임희건 | 회원가입, 로그인, 회원정보 수정 기능 개발                                 |
-| 전진우 | 로그인 상태관리, 음원 ai 추천 기능 개발                                   |
+<br/><br/>
 
+## 🔫 트러블슈팅
+### 1. YouTube 검색 API 는 짠돌이야..
+<img width="500" alt="youtube api Image" src="https://github.com/user-attachments/assets/d4ccb267-331e-4bbd-a2d6-6d7a2375ffc7" /><br/>
+- 문제점: 잘만 되던 검색 기능이 갑자기 api 오류로 진행되지 않는다면?
+- 원인: 검색 api 의 사용 가능 하루 할당량이 너무 작음 ( 1검색 100 쿼터 / 1일 총 10,000 쿼터)
+- 해결방안:
+
+    <img width="500" alt="solution Image" src="https://github.com/user-attachments/assets/b538e4ca-143b-4073-8800-31b3f0b924d4" /> <br/>
+  - Youtube 검색api 를 최소한으로 사용하기 위해, search-query 방안 등을 고려하였으나 법적 문제를 저지르지 않기 위해 할당량이 풍부한 다른 대체 api 와의 혼용을 고안.
+  - Spotify api 에서 **ISRC 코드**를 얻어, 여러 번 검색할 필요 없이 **OR 연산자를 통해 Youtube 검색api에서는 동시 검색**
+  - musics table 을 추가하여 한번 검색/플레이리스트 저장된 항목은 다시 진행하지 않고 db data를 검색할 수 있는 방향로 ERD 변경
+
+### 2. 너는 바보야, spotify.. 검색 정확도가 이게 뭐야
+- 문제점: BTS 의 Butter 를 검색헀는데, Butter-fly 가 나오는 등의 잘못된 검색 현상이 발생
+- 원인: 검색어 유사도와 일치 단어를 기준으로 결과가 나옴
+- 해결방안:
+
+    <img width="500" alt="Image" src="https://github.com/user-attachments/assets/5c5eb7f9-b1c0-4fcd-bca1-7c2af6668e3e" /> <br/>
+  - 명확한 검색어 유도를 통해 문제 최소화
+ 
 <br/>
+
+## 💫 개발 예정 기능
+- 🎚️ 볼륨 조절 기능 추가
+- 🔍 검색 방식 개선 (더 빠르고 정확하게)
+- 📢 내가 만든 플레이리스트를 유튜브에도 공유 가능!
+
