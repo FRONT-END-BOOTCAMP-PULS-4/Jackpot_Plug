@@ -1,4 +1,4 @@
-# <img src="https://github.com/user-attachments/assets/d2688209-98a3-4547-bbc4-838b78a9a088" width="100">
+# <img width="1920" alt="plug-readme" src="https://github.com/user-attachments/assets/2aa23b1c-1e19-4cff-a56e-9d7be2045f8a" />
 
 > **PLUG (플러그) - 플레이리스트 생성 재생 플랫폼**
 
